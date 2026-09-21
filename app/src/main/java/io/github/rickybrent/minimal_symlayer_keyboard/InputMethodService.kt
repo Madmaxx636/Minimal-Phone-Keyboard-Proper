@@ -963,8 +963,8 @@ class InputMethodService : AndroidInputMethodService() {
 		if (!symMapEnabled || !isInputViewActive || !sym.get()) return
 		val accents = if (multipress.ignoreFirstLevel) null else multipress.substitutions[0]
 		val extras = AdditionalCharacters.build(multipress.substitutions[1], accents) { AltKeyMappings.getAltKeyChar(it, false) }
-		val symbols = SymbolMap.build({ AltKeyMappings.getAltKeyChar(it, false) }, { SymKeyMappings.getMapping(it, deviceType) })
-		pickerManager?.showCharacterMap(symbols, extras)
+		val keys = KeyboardMap.build({ AltKeyMappings.getAltKeyChar(it, false) }, { SymKeyMappings.getMapping(it, deviceType) })
+		pickerManager?.showCharacterMap(keys, extras)
 	}
 
 	/** Cancel the map of additional characters, or hide it if it is showing. */

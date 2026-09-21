@@ -13,20 +13,19 @@ import android.widget.TextView
 
 /**
  * The popup that opens when Sym is pressed and left alone for a moment. It has two pages that a tap on the tabs
- * switches between: the symbols that Alt and Sym type, laid out like the symbols page of a touch keyboard with the
- * key that types each one written under it (and a tap on a symbol types it), and a map of the keyboard with the
+ * switches between: a map of the keyboard as it sits on the phone, with what Alt types written in the top left
+ * corner of every key like the printed symbols, and what Sym does in the bottom right corner, and a map of the
  * additional characters of every key.
- * @param onSymbol Called with what to type when a symbol is tapped.
  */
-class SymMapView(context: Context, private val onSymbol: (String) -> Unit) : LinearLayout(context) {
+class SymMapView(context: Context) : LinearLayout(context) {
 	private val density = resources.displayMetrics.density
 	private val ink = themeColor(android.R.attr.textColorPrimary, Color.BLACK)
 
-	private var symbols: List<SymbolRow> = emptyList()
+	private var keys: List<MapRow> = emptyList()
 	private var extras: List<CharacterRow> = emptyList()
-	private var showsSymbols = true
+	private var showsKeys = true
 
-	private val symbolsTab = tab("Symbols") { show(true) }
+	private val keysTab = tab("Keys") { show(true) }
 	private val extrasTab = tab("Extras") { show(false) }
 	private val page = FrameLayout(context)
 
@@ -36,7 +35,7 @@ class SymMapView(context: Context, private val onSymbol: (String) -> Unit) : Lin
 		setPadding(dp(6), dp(4), dp(6), dp(4))
 		val tabs = LinearLayout(context)
 		tabs.orientation = HORIZONTAL
-		tabs.addView(symbolsTab, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply { setMargins(0, 0, dp(6), dp(3)) })
+		tabs.addView(keysTab, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply { setMargins(0, 0, dp(6), dp(3)) })
 		tabs.addView(extrasTab, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply { setMargins(0, 0, dp(6), dp(3)) })
 		addView(tabs)
 		addView(page)
@@ -50,15 +49,15 @@ class SymMapView(context: Context, private val onSymbol: (String) -> Unit) : Lin
 		return if (value.resourceId != 0) context.getColor(value.resourceId) else value.data
 	}
 
-	/** Show these symbols and extra characters. Call it again to show something else. The page shown stays. */
-	fun setContent(symbols: List<SymbolRow>, extras: List<CharacterRow>) {
-		this.symbols = symbols
+	/** Show these keys and extra characters. Call it again to show something else. The page shown stays. */
+	fun setContent(keys: List<MapRow>, extras: List<CharacterRow>) {
+		this.keys = keys
 		this.extras = extras
 		render()
 	}
 
-	private fun show(symbolsPage: Boolean) {
-		showsSymbols = symbolsPage
+	private fun show(keysPage: Boolean) {
+		showsKeys = keysPage
 		render()
 	}
 
@@ -81,10 +80,10 @@ class SymMapView(context: Context, private val onSymbol: (String) -> Unit) : Lin
 	}
 
 	private fun render() {
-		styleTab(symbolsTab, showsSymbols)
-		styleTab(extrasTab, !showsSymbols)
+		styleTab(keysTab, showsKeys)
+		styleTab(extrasTab, !showsKeys)
 		page.removeAllViews()
-		page.addView(if (showsSymbols) symbolsPage() else extrasPage())
+		page.addView(if (showsKeys) keysPage() else extrasPage())
 	}
 
 	private fun note(text: String) = TextView(context).apply {
@@ -107,39 +106,41 @@ class SymMapView(context: Context, private val onSymbol: (String) -> Unit) : Lin
 		return row
 	}
 
-	private fun keyView(vararg lines: Triple<String, Float, Int>): LinearLayout {
+	private fun text(text: String, size: Float, style: Int = Typeface.NORMAL) = TextView(context).apply {
+		this.text = text
+		textSize = size
+		setTypeface(null, style)
+		setTextColor(Color.BLACK)
+	}
+
+	// --- Keys ---
+
+	private fun keysPage(): View {
 		val view = LinearLayout(context)
 		view.orientation = VERTICAL
-		view.gravity = Gravity.CENTER
-		view.setBackgroundResource(R.drawable.kbd_key_background)
-		view.setPadding(dp(2), dp(2), dp(2), dp(2))
-		for ((text, size, style) in lines) {
-			if (text.isEmpty()) continue
-			view.addView(TextView(context).apply {
-				this.text = text
-				textSize = size
-				setTypeface(null, style)
-				setTextColor(Color.BLACK)
-				gravity = Gravity.CENTER_HORIZONTAL
-			})
-		}
+		view.addView(note("Top left: what Alt and the key type. Bottom right: what Sym and the key do. Hold a key for more, see Extras."))
+		for (row in keys) view.addView(rowView(row.margin, row.keys.map { mapKeyView(it) to it.weight }))
 		return view
 	}
 
-	// --- Symbols ---
-
-	private fun symbolsPage(): View {
-		val view = LinearLayout(context)
-		view.orientation = VERTICAL
-		view.addView(note("Tap a symbol to type it, or use its keys: Alt O is Alt and then O (or hold O), Sym I is Sym and then I."))
-		for (row in symbols) {
-			val cells = row.cells.map { cell ->
-				val key = keyView(Triple(cell.text, 18f, Typeface.BOLD), Triple(cell.hint, 9f, Typeface.NORMAL))
-				key.setOnClickListener { onSymbol(cell.text) }
-				key to 1f
-			}
-			view.addView(rowView(row.margin, cells))
+	private fun mapKeyView(key: MapKey): View {
+		val view = FrameLayout(context)
+		view.setBackgroundResource(R.drawable.kbd_key_background)
+		view.minimumHeight = dp(42)
+		fun corner(text: String, gravity: Int) {
+			if (text.isEmpty()) return
+			view.addView(text(text, 10f), FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, gravity).apply {
+				setMargins(dp(3), dp(1), dp(3), dp(1))
+			})
 		}
+		corner(key.alt, Gravity.TOP or Gravity.START)
+		corner(key.sym, Gravity.BOTTOM or Gravity.END)
+		// A letter or a symbol is big, a word like "space" is not.
+		val word = key.label.length > 1
+		view.addView(
+			text(key.label, if (word) 12f else 16f, if (word) Typeface.NORMAL else Typeface.BOLD),
+			FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER)
+		)
 		return view
 	}
 
@@ -155,11 +156,19 @@ class SymMapView(context: Context, private val onSymbol: (String) -> Unit) : Lin
 		))
 		for (row in extras) {
 			val cells = row.cells.map { cell ->
-				keyView(
-					Triple(cell.label, 13f, Typeface.BOLD),
-					Triple(cell.extras.joinToString(" "), 12f, Typeface.NORMAL),
-					Triple(cell.accents.joinToString(" "), 12f, Typeface.ITALIC)
-				) to cell.weight
+				val key = LinearLayout(context)
+				key.orientation = VERTICAL
+				key.gravity = Gravity.CENTER_HORIZONTAL
+				key.setBackgroundResource(R.drawable.kbd_key_background)
+				key.setPadding(dp(2), dp(2), dp(2), dp(2))
+				fun line(text: String, size: Float, style: Int) {
+					if (text.isEmpty()) return
+					key.addView(text(text, size, style).apply { gravity = Gravity.CENTER_HORIZONTAL })
+				}
+				line(cell.label, 13f, Typeface.BOLD)
+				line(cell.extras.joinToString(" "), 12f, Typeface.NORMAL)
+				line(cell.accents.joinToString(" "), 12f, Typeface.ITALIC)
+				key to cell.weight
 			}
 			view.addView(rowView(row.margin, cells))
 		}
