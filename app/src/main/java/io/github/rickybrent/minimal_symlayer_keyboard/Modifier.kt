@@ -246,3 +246,240 @@ class TripleModifier {
 		return preventKeyUp;
 	}
 }
+
+/**
+ * A modifier that manages the Cyrillic layout layer.
+ * Activated by long pressing the right shift key.
+ * Provides Cyrillic character input while maintaining access to modifier keys.
+ */
+class CyrillicLayerModifier {
+	/**
+	 * Whether the Cyrillic layer is currently active
+	 */
+	private var isActive = false
+	
+	/**
+	 * Whether the right shift key is currently pressed
+	 */
+	private var rightShiftPressed = false
+	
+	/**
+	 * Time threshold for long press detection (in milliseconds)
+	 */
+	private val longPressThreshold = 500L
+	
+	/**
+	 * Time when right shift was first pressed
+	 */
+	private var rightShiftPressTime = 0L
+
+	/**
+	 * When true, the next right-shift key up will not trigger a long-press toggle.
+	 */
+	private var suppressNextUp = false
+	
+	/**
+	 * Returns true if the Cyrillic layer is currently active
+	 */
+	fun isActive(): Boolean = isActive
+	
+	/**
+	 * Returns true if the right shift key is currently pressed
+	 */
+	fun isRightShiftPressed(): Boolean = rightShiftPressed
+	
+	/**
+	 * Handle right shift key press
+	 */
+	fun onRightShiftDown() {
+		rightShiftPressed = true
+		rightShiftPressTime = System.currentTimeMillis()
+	}
+	
+	/**
+	 * Handle right shift key release
+	 */
+	fun onRightShiftUp() {
+		val pressDuration = System.currentTimeMillis() - rightShiftPressTime
+		if (suppressNextUp) {
+			// Skip long-press evaluation because we already toggled via a combo.
+			suppressNextUp = false
+			rightShiftPressed = false
+			rightShiftPressTime = 0L
+			return
+		}
+		
+		if (pressDuration >= longPressThreshold) {
+			// Long press detected - toggle Cyrillic layer
+			isActive = !isActive
+			wasJustToggled = true
+		}
+		
+		rightShiftPressed = false
+	}
+	
+	/**
+	 * Check if the layer was just toggled in the last call
+	 */
+	private var wasJustToggled = false
+	
+	/**
+	 * Returns true if the layer was just toggled and resets the flag
+	 */
+	fun wasJustToggled(): Boolean {
+		val result = wasJustToggled
+		wasJustToggled = false
+		return result
+	}
+	
+	/**
+	 * Reset the Cyrillic layer state
+	 */
+	fun reset() {
+		isActive = false
+		rightShiftPressed = false
+		rightShiftPressTime = 0L
+		suppressNextUp = false
+	}
+	
+	/**
+	 * Force activate the Cyrillic layer
+	 */
+	fun activate() {
+		isActive = true
+	}
+	
+	/**
+	 * Force deactivate the Cyrillic layer
+	 */
+	fun deactivate() {
+		isActive = false
+	}
+
+	/**
+	 * Instantly toggle the Cyrillic layer (e.g., when using a combo like Right Shift + Space)
+	 * and ensure the next right-shift key up does not also toggle.
+	 */
+	fun instantToggle() {
+		isActive = !isActive
+		wasJustToggled = true
+		// Prevent a subsequent key-up from also toggling
+		suppressNextUp = true
+	}
+}
+
+/**
+ * A modifier that manages the Korean (Hangul) input mode.
+ * Activated by long pressing the right shift key.
+ * Architecturally mirrors CyrillicLayerModifier for consistency.
+ */
+class KoreanInputModifier {
+	/**
+	 * Whether Korean input is currently active
+	 */
+	private var isActive = false
+
+	/**
+	 * Whether the right shift key is currently pressed
+	 */
+	private var rightShiftPressed = false
+
+	/**
+	 * Time threshold for long press detection (in milliseconds)
+	 */
+	private val longPressThreshold = 500L
+
+	/**
+	 * Time when right shift was first pressed
+	 */
+	private var rightShiftPressTime = 0L
+
+	/**
+	 * When true, the next right-shift key up will not trigger a long-press toggle.
+	 */
+	private var suppressNextUp = false
+
+	/**
+	 * Returns true if Korean input is currently active
+	 */
+	fun isActive(): Boolean = isActive
+
+	/**
+	 * Returns true if the right shift key is currently pressed
+	 */
+	fun isRightShiftPressed(): Boolean = rightShiftPressed
+
+	/**
+	 * Handle right shift key press
+	 */
+	fun onRightShiftDown() {
+		rightShiftPressed = true
+		rightShiftPressTime = System.currentTimeMillis()
+	}
+
+	/**
+	 * Handle right shift key release
+	 */
+	fun onRightShiftUp() {
+		val pressDuration = System.currentTimeMillis() - rightShiftPressTime
+		if (suppressNextUp) {
+			// Skip long-press evaluation because we already toggled via a combo.
+			suppressNextUp = false
+			rightShiftPressed = false
+			rightShiftPressTime = 0L
+			return
+		}
+		if (pressDuration >= longPressThreshold) {
+			// Long press detected - toggle Korean input
+			isActive = !isActive
+			wasJustToggled = true
+		}
+		rightShiftPressed = false
+	}
+
+	/**
+	 * Check if the mode was just toggled in the last call
+	 */
+	private var wasJustToggled = false
+
+	/**
+	 * Returns true if the mode was just toggled and resets the flag
+	 */
+	fun wasJustToggled(): Boolean {
+		val result = wasJustToggled
+		wasJustToggled = false
+		return result
+	}
+
+	/**
+	 * Reset state
+	 */
+	fun reset() {
+		isActive = false
+		rightShiftPressed = false
+		rightShiftPressTime = 0L
+		wasJustToggled = false
+		suppressNextUp = false
+	}
+
+	/**
+	 * Force activate the Korean input
+	 */
+	fun activate() { isActive = true }
+
+	/**
+	 * Force deactivate the Korean input
+	 */
+	fun deactivate() { isActive = false }
+
+	/**
+	 * Instantly toggle the Korean input mode (e.g., when using a combo like Right Shift + Space)
+	 * and ensure the next right-shift key up does not also toggle.
+	 */
+	fun instantToggle() {
+		isActive = !isActive
+		wasJustToggled = true
+		// Prevent a subsequent key-up from also toggling
+		suppressNextUp = true
+	}
+}

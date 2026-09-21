@@ -51,7 +51,7 @@ This fork builds upon the original's solid foundation with several new features 
             * **Long Press & Release**: Inserts a 0 (also triggered by pressing while holding Alt).
 * **Sym layer updated for the MP01**: The keys on the sym layer have been updated and changed to avoid duplicating any of the alt-keys already available, and to make it possible to enter certain common keys missing from the MP01's alt layer (such as parenthesis.)
 
-Accented characters by multipress, from the original project, are kept for Spanish and French (see [Additional Characters (Multipress)](#additional-characters-multipress)). The **All languages** version keeps all of the original's languages, the Cyrillic layer and Korean input.
+This is the **All languages** version. Accented characters by multipress, from the original project, are kept for all of its languages, and so are the Cyrillic layer and Korean input (see [Additional Characters (Multipress)](#additional-characters-multipress)). The limited version, the `main` branch, has French and Spanish only.
 
 
 ## Installation
@@ -66,7 +66,7 @@ There are two versions, from the same source, with the same settings and everyth
 3. Go to `Settings` > `System` > `Languages & input` > `Virtual keyboard` > `Manage keyboards` and enable `Minimal Keyboard Proper`.
 4. Select `Minimal Keyboard Proper` as your default input method.
 
-The source of the limited version is the `main` branch, and of the all languages version the `all-languages` branch.
+The source of the limited version is the `main` branch, and of this all languages version the `all-languages` branch.
 
 
 ## Core Features from the original project
@@ -98,7 +98,8 @@ The layouts below are from the original project. **Note that the Sym-layer mappi
 
 ### Additional Characters (Multipress)
 
-Off by default. Under `Settings` > `Additional characters`, turn on `Enable accented characters`, choose `French`, `Spanish` or `French and Spanish`, and press a vowel again straight away to put an accent on it: `e` twice for `é`, three times for `è`. English needs none. The time allowed between presses is the Multipress threshold under Timing. While it is on, quick double letters such as `ee` and `oo` are read as an accent, so words like "meet" and "book" get accents.
+You can enable multipress and select a language-specific template for characters accessed via multiple quick presses.
+
 
 #### French
 
@@ -122,30 +123,125 @@ Off by default. Under `Settings` > `Additional characters`, turn on `Enable acce
 | `o` | `ó` |
 | `u` | `ú` |
 
-#### French and Spanish
+#### German
 
 | Key | Multipress |
 | --- | --- |
-| `a` | `à`, `â`, `á`, `æ` |
-| `e` | `é`, `è`, `ê`, `ë` |
-| `i` | `í`, `î`, `ï` |
-| `o` | `ó`, `ô`, `œ` |
-| `u` | `ú`, `ù`, `û`, `ü` |
-| `y` | `ÿ` |
+| `a` | `ä` |
+| `o` | `ö` |
+| `u` | `ü` |
+| `s` | `ß` |
+
+#### Portuguese
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `á`, `â`, `à`, `ã` |
+| `e` | `é`, `ê` |
+| `i` | `í` |
+| `o` | `ó`, `ô`, `õ` |
+| `u` | `ú` |
 | `c` | `ç` |
 
-#### Ligatures
+#### Hungarian-German
 
-With `Enable ligatures` on, typing `ae` or `oe` gives the ligature.
+| Key | Multipress |
+|---|---|
+| `a` | `á`, `ä` |
+| `e` | `é` |
+| `i` | `í` |
+| `o` | `ó`, `ö`, `ő` |
+| `u` | `ú`, `ü`, `ű` |
+| `s` | `ß` |
+
+#### Polish
+
+| Key | Multipress |
+|---|---|
+| `a` | `ą` |
+| `e` | `ę` |
+| `l` | `ł` |
+| `o` | `ó` |
+| `c` | `ć` |
+| `n` | `ń` |
+| `s` | `ś` |
+| `z` | `ż` |
+| `x` | `ź` |
+
+#### Danish-Norwegian
+
+| Key | Multipress |
+|-----| --- |
+| `a` | `å`, `æ` |
+| `o` | `ø`, `ö` |
+| `s` | `ß` |
+
+#### Swedish-Finnish
+
+| Key | Multipress    |
+| --- |---------------|
+| `a` | `ä`, `å`, `æ` |
+| `o` | `ö`, `ø`,     |
+| `s` | `ß`           |
+
+#### French + ES/DE/PT (default)
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `à`, `â`, `á`, `ä`, `ã` |
+| `e` | `é`, `è`, `ê`, `ë` |
+| `i` | `î`, `í`, `ï`, `ì` |
+| `o` | `ô`, `ó`, `ò`, `ö`, `õ` |
+| `u` | `ù`, `û`, `ú`, `ü` |
+| `c` | `ç` |
+
+#### Romanian
+
+| Key | Multipress |
+|---|---|
+| `a` | `ă`, `â` |
+| `i` | `î` |
+| `s` | `ș` |
+| `t` | `ț` |
+
+#### áàâäã
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `á`, `à`, `â`, `ä`, `ã` |
+| `e` | `é`, `è`, `ê`, `ë`, `ẽ` |
+| `i` | `í`, `ì`, `î`, `ï`, `ĩ` |
+| `o` | `ó`, `ò`, `ô`, `ö`, `õ` |
+| `u` | `ú`, `ù`, `û`, `ü`, `ũ` |
+
+#### àáâäã
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `à`, `á`, `â`, `ä`, `ã` |
+| `e` | `è`, `é`, `ê`, `ë`, `ẽ` |
+| `i` | `ì`, `í`, `î`, `ï`, `ĩ` |
+| `o` | `ò`, `ó`, `ô`, `ö`, `õ` |
+| `u` | `ù`, `ú`, `û`, `ü`, `ũ` |
+
+#### Ligatures
 
 | Key  | Multipress   |
 |------|--------------|
 | `ae` | `æ` |
 | `oe` | `œ`     |
 
-#### Not in this version
+#### Cyrillic Layer
 
-The accents of other languages (German, Portuguese, Hungarian, Polish, Danish and Norwegian, Swedish and Finnish, Romanian, Lithuanian), the Cyrillic layer and Korean input are in the **All languages** version. Two other switches of the original settings are gone from both versions and their behaviour is fixed: the phone's own alt key map is always replaced by this keyboard's, and the Sym layer's navigation keys always use the default layout.
+A set of [Cyrillic Layers](readme-symbehavior-mp01-cyrillic.png) based on the Gemini PDA layout can enabled and set up to toggle by long-pressing right shift or pressing right shift + space.
+
+#### Korean Input
+
+Alternatively, [Korean input](readme-symbehavior-mp01-korean.png) can also be enabled and set up to toggle by long-pressing right shift or pressing right shift + space.
+
+This is the **All languages** version, which keeps everything the original project had. The limited version (the `main` branch) only has French and Spanish.
+
+Two other switches of the original settings are gone from both versions and their behaviour is fixed: the phone's own alt key map is always replaced by this keyboard's, and the Sym layer's navigation keys always use the default layout.
 
 ### Additional Characters (after Long Press)
 
@@ -223,7 +319,7 @@ Modified in September 2026 from Minimal SymLayer Keyboard. The changes are:
 * Voice typing through Google voice typing, or the system speech dialog when it is not turned on.
 * Emoji picker: a skin tone setting, and duplicate emoji removed.
 * Clipboard history: records from when the keyboard starts, a clear button, a size limit, expiry, skipping sensitive items, and a fix for removing pinned items.
-* Accented characters by multipress are limited to Spanish and French (English needs none), with an All languages version that keeps the original's accents, Cyrillic layer and Korean input. The switches for the alt key map override and the right handed navigation cluster were removed. Support for other keyboards than the MP01 was removed. The timing settings now say in detail what each one does.
+* This All languages version keeps the original's accents for all its languages, the Cyrillic layer and Korean input (the `main` branch is limited to Spanish and French). The switches for the alt key map override and the right handed navigation cluster were removed. Support for other keyboards than the MP01 was removed. The timing settings now say in detail what each one does.
 * Tests for the new code.
 
 The original project's own history and authors are on its GitHub page, linked under [Credits](#credits).

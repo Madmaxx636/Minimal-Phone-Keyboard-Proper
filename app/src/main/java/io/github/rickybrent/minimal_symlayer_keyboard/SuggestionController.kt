@@ -33,6 +33,10 @@ import java.util.Locale
  */
 class SuggestionController(
 	private val service: InputMethodService,
+	/** @return true if suggestions make no sense right now, e.g. while composing Hangul. */
+	private val isSuppressed: () -> Boolean,
+	/** @return true if the spell checker can't be trusted right now, e.g. on a layer for another language. */
+	private val autoCorrectBlocked: () -> Boolean,
 	/** Called after a suggestion is applied. */
 	private val onApplied: () -> Unit
 ) {
@@ -259,7 +263,7 @@ class SuggestionController(
 		refresh(-1)
 	}
 
-	private fun isActive() = (enabled || fixesText()) && editorAllows
+	private fun isActive() = (enabled || fixesText()) && editorAllows && !isSuppressed()
 
 	/** @return true if anything is turned on that changes what was typed. */
 	private fun fixesText() = autoCorrectLevel != AutoCorrectLevel.OFF || grammarLevel != GrammarLevel.OFF ||
@@ -413,7 +417,7 @@ class SuggestionController(
 	): Boolean {
 		val text = if (boundaryTyped) textBefore.substring(0, textBefore.length - 1) else textBefore
 		val typo = spell?.isTypo == true && !isKnownWord(word)
-		val fixed = if (boundary !in FIX_BOUNDARIES) {
+		val fixed = if (autoCorrectBlocked() || boundary !in FIX_BOUNDARIES) {
 			null
 		} else {
 			fixer.fix(settings(), text, boundary, word, spell, systemSaysFine = fromSystem && spell?.isTypo == false, typo = typo, neverAfter = NEVER_FIX_AFTER)
@@ -447,7 +451,7 @@ class SuggestionController(
 
 	/** A comma, full stop, question mark or exclamation mark typed after a space that follows a word takes that space away. */
 	private fun removeSpaceBeforePunctuation(ic: InputConnection, before: CharSequence) {
-		if (grammarLevel == GrammarLevel.OFF || before.length < 3) return
+		if (grammarLevel == GrammarLevel.OFF || autoCorrectBlocked() || before.length < 3) return
 		val mark = before.last()
 		if (mark !in SPACELESS_MARKS || before[before.length - 2] != ' ' || !before[before.length - 3].isLetterOrDigit()) return
 		val original = " $mark"

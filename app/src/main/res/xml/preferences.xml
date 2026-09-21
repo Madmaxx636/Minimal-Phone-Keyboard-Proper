@@ -188,12 +188,12 @@
 			android:key="UseFirstLevel"
 			android:defaultValue="false"
 			android:title="Enable accented characters"
-			android:summary="Press a vowel again straight away to put an accent on it: press e twice for é, three times for è. English needs none, so this is off until you want it. It takes over quick double letters like ee and oo, so words like meet and book get accents while it is on. The time allowed between presses is the Multipress threshold under Timing."
+			android:summary="Press a vowel again straight away to put an accent on it: press e twice for é, three times for è. This is off until you want it. It takes over quick double letters like ee and oo, so words like meet and book get accents while it is on. The time allowed between presses is the Multipress threshold under Timing."
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>
 		<ListPreference
 			android:key="FirstLevelTemplate"
-			android:defaultValue="fr-es"
+			android:defaultValue="fr-ext"
 			android:title="Accents"
 			app:useSimpleSummaryProvider="true"
 			android:entries="@array/first_level_template"
@@ -203,13 +203,27 @@
 			android:key="FirstLevelOnlyVowels"
 			android:defaultValue="false"
 			android:title="Only vowels"
-			android:summary="Leave out the consonants (the ç on the C key) and only accent vowels"
+			android:summary="Disable multipress for consonants (like ç or ß) and only accent vowels"
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>
 		<SwitchPreference
 			android:key="pref_enable_ligatures"
 			android:title="Enable ligatures"
 			android:summary="Type ae or oe and get the ligature æ or œ, as in the French œuvre"
+			android:defaultValue="false"
+			app:widgetLayout="@layout/settings_widget_switch"
+			/>
+		<SwitchPreference
+			android:key="pref_enable_cyrillic_layer"
+			android:title="Enable Cyrillic Layer"
+			android:summary="Long press right-shift to toggle Cyrillic layer"
+			android:defaultValue="false"
+			app:widgetLayout="@layout/settings_widget_switch"
+			/>
+		<SwitchPreference
+			android:key="pref_enable_korean_input"
+			android:title="Enable Korean Input"
+			android:summary="Long press right-shift to toggle Korean Input"
 			android:defaultValue="false"
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>

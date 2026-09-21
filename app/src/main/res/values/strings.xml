@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Minimal Keyboard Proper</string>
-    <string name="ime_label">Minimal Keyboard Proper</string>
+    <string name="app_name">Minimal Keyboard Proper (All languages)</string>
+    <string name="ime_label">Minimal Keyboard Proper (All languages)</string>
     <string name="ime_settings">Minimal Keyboard Proper Settings</string>
 </resources>
