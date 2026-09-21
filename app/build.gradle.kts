@@ -11,7 +11,7 @@ android {
 		applicationId = "io.github.rickybrent.minimal_symlayer_keyboard"
 		minSdk = 29
 		targetSdk = 33
-		versionCode = 14
+		versionCode = 15
 		versionName = "0.91-all"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
