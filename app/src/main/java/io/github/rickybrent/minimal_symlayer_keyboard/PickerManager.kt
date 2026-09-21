@@ -30,7 +30,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
 
     private var inlineViewContainer: FrameLayout? = null
     private val pickerView: View
-    private var characterMap: CharacterMapView? = null
+    private var characterMap: SymMapView? = null
 
     private lateinit var contentArea: FrameLayout
     private lateinit var titleArea: TextView
@@ -78,22 +78,22 @@ class PickerManager(private val context: Context, private val service: InputMeth
         inlineViewContainer?.addView(pickerView)
         // The map of additional characters sits in the same place as the pickers, but only when there is no picker.
         characterMap?.let { (it.parent as? ViewGroup)?.removeView(it) }
-        characterMap = CharacterMapView(context).also {
+        characterMap = SymMapView(context) { text -> service.currentInputConnection?.commitText(text, 1) }.also {
             it.visibility = View.GONE
             inlineViewContainer?.addView(it, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         }
     }
 
     /**
-     * Show a map of the additional characters of every key, in the space of the pickers. Unlike a picker it does
+     * Show the map of symbols and additional characters, in the space of the pickers. Unlike a picker it does
      * not take the key presses: they go on as usual, and it is up to the caller to hide it again.
      * @return false if it can't be shown right now, because a picker is showing or there is nowhere to show it.
      */
-    fun showCharacterMap(rows: List<CharacterRow>): Boolean {
+    fun showCharacterMap(symbols: List<SymbolRow>, extras: List<CharacterRow>): Boolean {
         val container = inlineViewContainer ?: return false
         val map = characterMap ?: return false
         if (isShowing()) return false
-        map.setRows(rows)
+        map.setContent(symbols, extras)
         map.visibility = View.VISIBLE
         pickerView.visibility = View.GONE
         container.layoutParams = container.layoutParams.also { it.height = ViewGroup.LayoutParams.WRAP_CONTENT }
