@@ -39,6 +39,7 @@ This fork builds upon the original's solid foundation with several new features 
     * To give it a head start, use `Import text to learn from` in the settings with a text file of your own writing (notes, exported chats, emails) or a book. The list of common words is derived from [FrequencyWords](https://github.com/hermitdave/FrequencyWords) by Hermit Dave (CC BY-SA 4.0), see `About` > `Third-Party Licenses`.
 * **Voice Typing**: The Mic/Period key, and the toolbar's microphone button, switch to Google voice typing when it is turned on as a keyboard (`Manage keyboards`). Otherwise the system speech dialog (from the Google app) is shown and what you say is typed in afterwards. The settings can prefer any other voice keyboard, or always use the speech dialog.
 * **Sym-Layer Preview**: A visual preview of the Sym layer mappings, making it easy to discover and learn.
+* **Map of additional characters**: press `Sym` and leave it for a moment, and a map of the keyboard appears with the additional characters of every key: what holding the key gives first, what pressing it again gives next, and the accents in italics when they are turned on. It is built from the same tables the keys type with, it goes away when you press a key or let go of `Sym`, and it can be turned off under `Additional characters` in the settings.
 * **Advanced Key Support for MP01**: Added support for the Minimal Phone's key layout, adding additional functionality over the factory keyboard:
     * **Three-Way Modifier Keys**: The Mic/Period and Emoji/0 keys act as multi-function modifiers:
         * **Mic/Period Key**:
@@ -220,6 +221,7 @@ Modified in September 2026 from Minimal SymLayer Keyboard. The changes are:
 * A stronger auto-correct that weighs the spell checker's suggestions, the common words and your own words by how likely each slip is and how common each word is, fixes the last word when Enter is pressed, and leaves slang, laughter and stretched words alone.
 * Auto-space: a space after punctuation typed into the next word, and words that ran together split apart (`lovehahaha` → `love hahaha`).
 * Text shortcuts and a personal word list (`omw = on my way`).
+* A map of the additional characters that appears when `Sym` is pressed and left for a moment.
 * Voice typing through Google voice typing, or the system speech dialog when it is not turned on.
 * Emoji picker: a skin tone setting, and duplicate emoji removed.
 * Clipboard history: records from when the keyboard starts, a clear button, a size limit, expiry, skipping sensitive items, and a fix for removing pinned items.

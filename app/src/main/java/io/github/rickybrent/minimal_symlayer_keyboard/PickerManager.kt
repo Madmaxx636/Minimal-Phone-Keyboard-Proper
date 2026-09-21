@@ -30,6 +30,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
 
     private var inlineViewContainer: FrameLayout? = null
     private val pickerView: View
+    private var characterMap: CharacterMapView? = null
 
     private lateinit var contentArea: FrameLayout
     private lateinit var titleArea: TextView
@@ -75,7 +76,40 @@ class PickerManager(private val context: Context, private val service: InputMeth
         // Ensure pickerView is not attached to a different parent
         (pickerView.parent as? ViewGroup)?.removeView(pickerView)
         inlineViewContainer?.addView(pickerView)
+        // The map of additional characters sits in the same place as the pickers, but only when there is no picker.
+        characterMap?.let { (it.parent as? ViewGroup)?.removeView(it) }
+        characterMap = CharacterMapView(context).also {
+            it.visibility = View.GONE
+            inlineViewContainer?.addView(it)
+        }
     }
+
+    /**
+     * Show a map of the additional characters of every key, in the space of the pickers. Unlike a picker it does
+     * not take the key presses: they go on as usual, and it is up to the caller to hide it again.
+     * @return false if it can't be shown right now, because a picker is showing or there is nowhere to show it.
+     */
+    fun showCharacterMap(rows: List<CharacterRow>): Boolean {
+        val container = inlineViewContainer ?: return false
+        val map = characterMap ?: return false
+        if (isShowing()) return false
+        map.setRows(rows)
+        map.visibility = View.VISIBLE
+        pickerView.visibility = View.GONE
+        container.layoutParams = container.layoutParams.also { it.height = ViewGroup.LayoutParams.WRAP_CONTENT }
+        container.visibility = View.VISIBLE
+        return true
+    }
+
+    /** Hide the map of additional characters, if it is showing. */
+    fun hideCharacterMap() {
+        if (!isCharacterMapShowing()) return
+        characterMap?.visibility = View.GONE
+        pickerView.visibility = View.VISIBLE
+        inlineViewContainer?.visibility = View.GONE
+    }
+
+    fun isCharacterMapShowing(): Boolean = characterMap?.visibility == View.VISIBLE
 
     fun handleKeyEvent(event: KeyEvent): Boolean {
         val keyCode = event.keyCode
@@ -192,6 +226,9 @@ class PickerManager(private val context: Context, private val service: InputMeth
 
 
     fun show(startingView: ViewType = ViewType.EMOJI) {
+        // A picker takes the place of the map of additional characters.
+        characterMap?.visibility = View.GONE
+        pickerView.visibility = View.VISIBLE
         initialPressComplete = false
         popupShownTime = System.currentTimeMillis()
         if (!::contentArea.isInitialized) {
@@ -213,6 +250,8 @@ class PickerManager(private val context: Context, private val service: InputMeth
     }
 
     fun hide() {
+        characterMap?.visibility = View.GONE
+        pickerView.visibility = View.VISIBLE
         inlineViewContainer?.visibility = View.GONE
         // Ensure we exit any emoji meta shortcut mode used to open the picker
         service.resetEmojiMeta()
@@ -323,8 +362,9 @@ class PickerManager(private val context: Context, private val service: InputMeth
         }
     }
 
+    /** @return true if a picker is showing (and so takes the key presses). The map of additional characters is not one. */
     fun isShowing(): Boolean {
-        return inlineViewContainer?.visibility == View.VISIBLE
+        return inlineViewContainer?.visibility == View.VISIBLE && !isCharacterMapShowing()
     }
 
 }
