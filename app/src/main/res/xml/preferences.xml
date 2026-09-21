@@ -183,6 +183,37 @@
 			android:entries="@array/voice_engine_entries"
 			android:entryValues="@array/voice_engine_values" />
 	</PreferenceCategory>
+	<PreferenceCategory android:title="Additional characters">
+		<SwitchPreference
+			android:key="UseFirstLevel"
+			android:defaultValue="false"
+			android:title="Enable accented characters"
+			android:summary="Press a vowel again straight away to put an accent on it: press e twice for é, three times for è. English needs none, so this is off until you want it. It takes over quick double letters like ee and oo, so words like meet and book get accents while it is on. The time allowed between presses is the Multipress threshold under Timing."
+			app:widgetLayout="@layout/settings_widget_switch"
+			/>
+		<ListPreference
+			android:key="FirstLevelTemplate"
+			android:defaultValue="fr-es"
+			android:title="Accents"
+			app:useSimpleSummaryProvider="true"
+			android:entries="@array/first_level_template"
+			android:entryValues="@array/first_level_template_values"
+			/>
+		<SwitchPreference
+			android:key="FirstLevelOnlyVowels"
+			android:defaultValue="false"
+			android:title="Only vowels"
+			android:summary="Leave out the consonants (the ç on the C key) and only accent vowels"
+			app:widgetLayout="@layout/settings_widget_switch"
+			/>
+		<SwitchPreference
+			android:key="pref_enable_ligatures"
+			android:title="Enable ligatures"
+			android:summary="Type ae or oe and get the ligature æ or œ, as in the French œuvre"
+			android:defaultValue="false"
+			app:widgetLayout="@layout/settings_widget_switch"
+			/>
+	</PreferenceCategory>
 	<PreferenceCategory android:title="Timing">
 		<Preference
 			android:summary="These decide how the keyboard reads a key press. All are in milliseconds (1000 ms is one second). Change them if a double tap locks Shift when you only meant a tap, or the other way round, or if the double-space period or holding a key for its symbol is unreliable."

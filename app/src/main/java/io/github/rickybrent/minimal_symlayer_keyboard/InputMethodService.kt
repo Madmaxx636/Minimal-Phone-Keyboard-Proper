@@ -95,16 +95,6 @@ val templates = hashMapOf(
 		KeyEvent.KEYCODE_C to arrayOf('ç', MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
 	),
-	"fr-ext" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('`', '^', '´', '¨', 'æ', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('´', '`', '^', '¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('^', '´', '¨', '`', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('^', '´', 'œ', '¨', '~', '`', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('`', '^', '´', '¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_Y to arrayOf('¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_C to arrayOf('ç', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
 	"es" to hashMapOf(
 		KeyEvent.KEYCODE_A to arrayOf('´', MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_E to arrayOf('´', MPSUBST_BYPASS),
@@ -113,87 +103,15 @@ val templates = hashMapOf(
 		KeyEvent.KEYCODE_U to arrayOf('´', MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
 	),
-	"de" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('ß', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"pt" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('´', '^', '`', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('´', '^', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('´', '^', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('´', MPSUBST_BYPASS),
+	// French and Spanish together: every accent of either language on the vowels, the most used first.
+	"fr-es" to hashMapOf(
+		KeyEvent.KEYCODE_A to arrayOf('`', '^', '´', 'æ', MPSUBST_BYPASS),
+		KeyEvent.KEYCODE_E to arrayOf('´', '`', '^', '¨', MPSUBST_BYPASS),
+		KeyEvent.KEYCODE_I to arrayOf('´', '^', '¨', MPSUBST_BYPASS),
+		KeyEvent.KEYCODE_O to arrayOf('´', '^', 'œ', MPSUBST_BYPASS),
+		KeyEvent.KEYCODE_U to arrayOf('´', '`', '^', '¨', MPSUBST_BYPASS),
+		KeyEvent.KEYCODE_Y to arrayOf('¨', MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_C to arrayOf('ç', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"hu-de" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('´', '¨', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('´', '¨', 'ő', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('´', '¨', 'ű', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('ß', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"pl" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('ą', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('ę', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_L to arrayOf('ł', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_C to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_N to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('´', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_Z to arrayOf('ż', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_X to arrayOf('ź', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"dk-no" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('å', 'æ', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('ø', 'ö', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('ß', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"se-fi" to hashMapOf(
-		KeyEvent.KEYCODE_Q to arrayOf('å', 'ä', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_A to arrayOf('ä', 'å', 'æ', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('ö', 'ø', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('ß', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"rom" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('ă', 'â', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('î', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('ș', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_T to arrayOf('ț', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"lt" to hashMapOf(
-		KeyEvent.KEYCODE_A to arrayOf('ą', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_C to arrayOf('č', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('ę', 'ė', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('į', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_S to arrayOf('š', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('ų', 'ū', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_Z to arrayOf('ž', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"order1" to hashMapOf( // áàâäã
-		KeyEvent.KEYCODE_A to arrayOf('´', '`', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('´', '`', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('´', '`', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('´', '`', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('´', '`', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
-	),
-	"order2" to hashMapOf( // àáâäã
-		KeyEvent.KEYCODE_A to arrayOf('`', '´', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_E to arrayOf('`', '´', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_I to arrayOf('`', '´', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_O to arrayOf('`', '´', '^', '¨', '~', MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_U to arrayOf('`', '´', '^', '¨', '~', MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_SPACE to arrayOf(MPSUBST_STR_DOTSPACE)
 	)
 )
@@ -211,16 +129,10 @@ class InputMethodService : AndroidInputMethodService() {
 	private val dotCtrl = TripleModifier()
 	private val emojiMeta = TripleModifier()
 	private val caps = Modifier()
-	private val cyrillicLayer = CyrillicLayerModifier()
-	private val hangulComposer = HangulComposer()
-	private val koreanInput = KoreanInputModifier()
-	private var koreanInputToggleEnabled = false
 
 	private val voiceInput = VoiceInput(this)
 	private val suggestionController = SuggestionController(
 		this,
-		isSuppressed = { koreanInput.isActive() },
-		autoCorrectBlocked = { koreanInput.isActive() || cyrillicLayer.isActive() },
 		onApplied = { vibrate() }
 	)
 	// Set when Enter was sent by us after a fix, so that the real key's release is not passed on as well.
@@ -234,26 +146,18 @@ class InputMethodService : AndroidInputMethodService() {
 	private var lastDotCtrl = false
 	private var lastEmojiMeta = false
 	private var lastCaps = false
-	private var lastCyrillicLayer = false
-	private var lastKoreanInput = false
-
-	private var cyrillicLayerToggleEnabled = false
 
 	private var autoCapitalize = false
 	private var showToolbar = false
 	private var isInputViewActive = false
 
 	enum class DeviceType(val source: Int) {
-		TITAN(InputDevice.SOURCE_KEYBOARD),
 		MP01(InputDevice.SOURCE_KEYBOARD)
 	}
-	var lastDeviceId = -1
-		private set
-	var deviceType = DeviceType.TITAN
-		private set
+	val deviceType = DeviceType.MP01
 
 	private val multipress = MultipressController(arrayOf(
-		templates["fr-ext"]!!,
+		templates["fr-es"]!!,
 		hashMapOf(
 			KeyEvent.KEYCODE_Q to arrayOf(MPSUBST_TOGGLE_ALT, '°', MPSUBST_TOGGLE_SHIFT, MPSUBST_BYPASS),
 			KeyEvent.KEYCODE_W to arrayOf(MPSUBST_TOGGLE_ALT, '&', '↑', MPSUBST_TOGGLE_SHIFT, MPSUBST_BYPASS),
@@ -386,9 +290,6 @@ class InputMethodService : AndroidInputMethodService() {
 		updateFromPreferences()
 		suggestionController.onStartInput(attribute)
 
-		// Reset Hangul composer when starting input
-		hangulComposer.reset(currentInputConnection)
-
 		if(!sym.get()) {
 			updateAutoCapitalization()
 		}
@@ -408,8 +309,6 @@ class InputMethodService : AndroidInputMethodService() {
 		isInputViewActive = false
 		shift.reset()
 		caps.reset()
-		// Ensure composer state cleared
-		hangulComposer.reset(currentInputConnection)
 		updateStatusIconIfNeeded()
 		pickerManager?.hide()
 		suggestionController.onFinishInputView()
@@ -451,7 +350,6 @@ class InputMethodService : AndroidInputMethodService() {
 			return true
 		}
 
-		updateDeviceType(event)
 		// Update modifier states
 		if(!event.isLongPress && event.repeatCount == 0) {
 			when(event.keyCode) {
@@ -473,10 +371,6 @@ class InputMethodService : AndroidInputMethodService() {
 					} else {
 						shift.onKeyDown()
 					}
-					if (cyrillicLayerToggleEnabled)
-						cyrillicLayer.onRightShiftDown()
-					if (koreanInputToggleEnabled)
-						koreanInput.onRightShiftDown()
 					updateStatusIconIfNeeded(true)
 				}
 				KeyEvent.KEYCODE_SYM -> {
@@ -509,45 +403,8 @@ class InputMethodService : AndroidInputMethodService() {
 			return onSymKey(event, true)
 		}
 
-		// Instant toggle for language layers when holding Right Shift and pressing Space
-		if (!event.isLongPress && event.repeatCount == 0 && event.keyCode == KeyEvent.KEYCODE_SPACE) {
-			var handled = false
-			// Prefer Korean if both toggles are enabled and both are tracking right-shift
-			if (koreanInputToggleEnabled && koreanInput.isRightShiftPressed()) {
-				koreanInput.instantToggle()
-				// Mutual exclusivity safeguard
-				if (koreanInput.isActive() && cyrillicLayer.isActive()) {
-					cyrillicLayer.deactivate()
-				}
-				// Reset composer whenever Korean mode changes
-				hangulComposer.reset(currentInputConnection)
-				Toast.makeText(this, if (koreanInput.isActive()) "한국" else "ENG", Toast.LENGTH_SHORT).show()
-				vibrate()
-				updateStatusIconIfNeeded(true)
-				handled = true
-			} else if (cyrillicLayerToggleEnabled && cyrillicLayer.isRightShiftPressed()) {
-				cyrillicLayer.instantToggle()
-				// If Cyrillic toggled on, ensure Korean is off
-				if (cyrillicLayer.isActive() && koreanInput.isActive()) {
-					koreanInput.deactivate()
-					// Also reset composer when leaving Korean
-					hangulComposer.reset(currentInputConnection)
-				}
-				Toast.makeText(this, if (cyrillicLayer.isActive()) "РУС" else "ENG", Toast.LENGTH_SHORT).show()
-				vibrate()
-				updateStatusIconIfNeeded(true)
-				handled = true
-			}
-			if (handled) {
-				// Prevent the right-shift key-up from arming a one-shot Shift (capitalizing next char)
-				shift.suppressNextOnKeyUpOnce()
-				// Do not treat this SPACE as input when used for toggling
-				return true
-			}
-		}
-
-		// Apply multipress substitution (disabled in Korean input mode)
-		if(!koreanInput.isActive() && (event.isPrintingKey || event.keyCode == KeyEvent.KEYCODE_SPACE)) {
+		// Apply multipress substitution
+		if(event.isPrintingKey || event.keyCode == KeyEvent.KEYCODE_SPACE) {
 			val char = multipress.process(event, enhancedMetaState(event))
 			if(char != MPSUBST_BYPASS) {
 				if(char != MPSUBST_NOTHING) {
@@ -573,13 +430,6 @@ class InputMethodService : AndroidInputMethodService() {
 				consumeModifierNext()
 				return true
 			}
-			if (koreanInput.isActive() && event.keyCode == KeyEvent.KEYCODE_DEL) {
-				// Let Hangul composer handle backspace first; if it consumed, stop here
-				if (hangulComposer.backspace(currentInputConnection)) {
-					consumeModifierNext()
-					return true
-				}
-			}
 			consumeModifierNext()
 
 			return super.onKeyDown(keyCode, event)
@@ -592,55 +442,12 @@ class InputMethodService : AndroidInputMethodService() {
 
 		// Print something if it is a simple printing key press
 		if((event.isPrintingKey || event.keyCode == KeyEvent.KEYCODE_SPACE || (event.keyCode == KeyEvent.KEYCODE_ENTER && shift.get()))) {
-			if (koreanInput.isActive()) {
-				// In Korean mode, honor Alt overrides before Hangul composition
-				val isShifted = shift.get() || caps.get()
-				if (alt.get() && multipress.overrideAltKeys) {
-					val altChar = AltKeyMappings.getAltKeyChar(event.keyCode, isShifted)
-					if (altChar != null) {
-						hangulComposer.reset(currentInputConnection)
-						currentInputConnection?.commitText(altChar.toString(), 1)
-						consumeModifierNext()
-						return true
-					}
-				}
-				when (event.keyCode) {
-					KeyEvent.KEYCODE_SPACE -> {
-						hangulComposer.handleSpaceOrEnter(currentInputConnection, " ")
-						consumeModifierNext()
-						return true
-					}
-					KeyEvent.KEYCODE_ENTER -> {
-						hangulComposer.handleSpaceOrEnter(currentInputConnection, "\n")
-						consumeModifierNext()
-						return true
-					}
-					else -> {
-						val ch = event.getUnicodeChar(enhancedMetaState(event)).toChar()
-						hangulComposer.inputLatinChar(ch, currentInputConnection)
-						consumeModifierNext()
-						return true
-					}
-				}
-			}
 			val isShifted = shift.get() || caps.get()
-			val str = if (cyrillicLayer.isActive()) {
-				if (alt.get() && CyrillicMappings.hasAltCyrillicMapping(event.keyCode)) {
-					CyrillicMappings.getAltCyrillicChar(event.keyCode, isShifted)?.toString()
-						?: event.getUnicodeChar(enhancedMetaState(event)).toChar().toString()
-				} else if (CyrillicMappings.hasCyrillicMapping(event.keyCode)) {
-					CyrillicMappings.getCyrillicChar(event.keyCode, isShifted)?.toString()
-						?: event.getUnicodeChar(enhancedMetaState(event)).toChar().toString()
-				} else {
-					// No mapping: fall back to default Latin character
-					event.getUnicodeChar(enhancedMetaState(event)).toChar().toString()
-				}
-			} else if (alt.get() && multipress.overrideAltKeys) {
+			val str = if (alt.get() && multipress.overrideAltKeys) {
 				// temporary workaround with the latest software update.
 				AltKeyMappings.getAltKeyChar(event.keyCode, isShifted)?.toString()
 					?: event.getUnicodeChar(enhancedMetaState(event)).toChar().toString()
 			} else {
-				// Cyrillic layer not active: default Latin behavior
 				event.getUnicodeChar(enhancedMetaState(event)).toChar().toString()
 			}
 			currentInputConnection?.commitText(str, 1)
@@ -743,20 +550,6 @@ class InputMethodService : AndroidInputMethodService() {
 			}
 			KeyEvent.KEYCODE_SHIFT_RIGHT -> {
 				shift.onKeyUp()
-				if (cyrillicLayerToggleEnabled)
-					cyrillicLayer.onRightShiftUp()
-				// Check if Cyrillic layer was toggled and provide haptic feedback
-				if (cyrillicLayer.wasJustToggled()) {
-					vibrate()
-				}
-				if (koreanInputToggleEnabled) {
-					koreanInput.onRightShiftUp()
-					if (koreanInput.wasJustToggled()) {
-						hangulComposer.reset(currentInputConnection)
-						Toast.makeText(this, if (koreanInput.isActive()) "한국" else "ENG", Toast.LENGTH_SHORT).show()
-						vibrate()
-					}
-				}
 				updateStatusIconIfNeeded(true)
 			}
 			KeyEvent.KEYCODE_SYM -> {
@@ -815,19 +608,6 @@ class InputMethodService : AndroidInputMethodService() {
 		}
 
 		return false
-	}
-
-	/**
-	 * Update the active device type from a key event so we can reference it later.
-	 */
-	private fun updateDeviceType(event: KeyEvent) {
-		if (event.deviceId == lastDeviceId)
-			return
-		lastDeviceId = event.deviceId
-		val device = InputDevice.getDevice(event.deviceId)
-		if (device?.isVirtual == true)
-			return
-		deviceType = if (device?.name == "aw9523b-key") DeviceType.MP01 else DeviceType.TITAN
 	}
 
 	/**
@@ -1036,9 +816,7 @@ class InputMethodService : AndroidInputMethodService() {
 		val ctrlState = dotCtrl.get()
 		val capsState = caps.get()
 		val metaState = emojiMeta.get()
-		val cyrillicState = cyrillicLayer.isActive()
-		val koreanState = koreanInput.isActive()
-		if(force || symState != lastSym || altState != lastAlt || shiftState != lastShift || capsState != lastCaps || ctrlState != lastDotCtrl || metaState != lastEmojiMeta || cyrillicState != lastCyrillicLayer || koreanState != lastKoreanInput) {
+		if(force || symState != lastSym || altState != lastAlt || shiftState != lastShift || capsState != lastCaps || ctrlState != lastDotCtrl || metaState != lastEmojiMeta) {
 			if(sym.get()) {
 				if (shift.get()) {
 					showStatusIcon(R.drawable.symshift)
@@ -1049,11 +827,6 @@ class InputMethodService : AndroidInputMethodService() {
 				showStatusIcon(R.drawable.meta)
 			} else if (dotCtrl.get()) {
 				showStatusIcon(if (dotCtrl.isLocked()) R.drawable.ctrllock else R.drawable.ctrl)
-			} else if(cyrillicLayer.isActive()) {
-				if(shift.get() || caps.get())
-					showStatusIcon(if (alt.get()) R.drawable.cyrillicshiftalt else R.drawable.cyrillicshift)
-				else
-					showStatusIcon(if (alt.get()) R.drawable.cyrillicalt else R.drawable.cyrillic)
 			} else if(alt.get()) {
 				showStatusIcon(if (alt.isLocked()) R.drawable.altlock else R.drawable.alt)
 			} else if(shift.get()) {
@@ -1071,8 +844,6 @@ class InputMethodService : AndroidInputMethodService() {
 		lastDotCtrl = ctrlState
 		lastCaps = capsState
 		lastEmojiMeta = metaState
-		lastCyrillicLayer = cyrillicState
-		lastKoreanInput = koreanState
 	}
 
 	/**
@@ -1089,13 +860,6 @@ class InputMethodService : AndroidInputMethodService() {
 			row.addView(icon)
 		}
 
-		if (koreanInput.isActive()) {
-			val badge = layoutInflater.inflate(R.layout.toolbar_modifier_text, row, false) as TextView
-			badge.text = "한"
-			badge.contentDescription = "Korean input"
-			row.addView(badge)
-		}
-		if (cyrillicLayer.isActive()) addIcon(R.drawable.cyrillic, "Cyrillic layer")
 		if (sym.get()) addIcon(R.drawable.sym, "Sym")
 		if (emojiMeta.get()) addIcon(R.drawable.meta, "Meta")
 		if (dotCtrl.get()) addIcon(if (dotCtrl.isLocked()) R.drawable.ctrllock else R.drawable.ctrl, "Ctrl")
@@ -1224,23 +988,15 @@ class InputMethodService : AndroidInputMethodService() {
 
 		multipress.multipressThreshold = preferences.getInt("MultipressThreshold", 750)
 		multipress.ignoreDotSpace = !preferences.getBoolean("DotSpace", true)
-		// The settings for accented characters, ligatures and the Cyrillic and Korean layers are not offered, so
-		// those are off whatever an older version saved. The phone's own alt key map is always replaced by ours.
-		multipress.ignoreFirstLevel = true
-		multipress.ignoreConsonantsOnFirstLevel = false
-		multipress.ligaturesEnabled = false
+		multipress.ignoreFirstLevel = !preferences.getBoolean("UseFirstLevel", false)
+		multipress.ignoreConsonantsOnFirstLevel = preferences.getBoolean("FirstLevelOnlyVowels", false)
+		multipress.ligaturesEnabled = preferences.getBoolean("pref_enable_ligatures", false)
+		// The phone's own alt key map is always replaced by ours.
 		multipress.overrideAltKeys = true
-		cyrillicLayerToggleEnabled = false
-		koreanInputToggleEnabled = false
 
-		// If Cyrillic feature disabled, also deactivate runtime layer
-		if (!cyrillicLayerToggleEnabled && cyrillicLayer.isActive()) {
-			cyrillicLayer.deactivate()
-		}
-		// If Korean feature disabled, also deactivate runtime mode and reset composer
-		if (!koreanInputToggleEnabled && koreanInput.isActive()) {
-			koreanInput.deactivate()
-			hangulComposer.reset(currentInputConnection)
+		val templateId = preferences.getString("FirstLevelTemplate", "fr-es")
+		if(templates.containsKey(templateId)) {
+			multipress.substitutions[0] = templates[templateId]!!
 		}
 
 		dotCtrl.shortPressKeyCode = preferenceToKeyCode(preferences.getString("pref_dotctrl_tap", "period"))
@@ -1295,7 +1051,6 @@ class InputMethodService : AndroidInputMethodService() {
 		dotCtrl.reset()
 		emojiMeta.reset()
 		caps.reset()
-		cyrillicLayer.reset()
 		updateStatusIconIfNeeded(true)
 	}
 

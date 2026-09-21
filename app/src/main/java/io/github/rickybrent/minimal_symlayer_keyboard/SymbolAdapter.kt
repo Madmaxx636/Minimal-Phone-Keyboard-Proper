@@ -46,22 +46,6 @@ class SymbolAdapter(
 
     companion object {
         private val symbolKeys: Map<InputMethodService.DeviceType, List<Int>> = mapOf(
-            InputMethodService.DeviceType.TITAN to listOf(
-                KeyEvent.KEYCODE_Q, KeyEvent.KEYCODE_W, KeyEvent.KEYCODE_E,
-                KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_T, KeyEvent.KEYCODE_Y,
-                KeyEvent.KEYCODE_U, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_O,
-                KeyEvent.KEYCODE_P,
-
-                KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_D,
-                KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_G, KeyEvent.KEYCODE_H,
-                KeyEvent.KEYCODE_J, KeyEvent.KEYCODE_K, KeyEvent.KEYCODE_L,
-                KeyEvent.KEYCODE_DEL,
-
-                KeyEvent.KEYCODE_Z, KeyEvent.KEYCODE_X, KeyEvent.KEYCODE_C,
-                KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_SPACE, KeyEvent.KEYCODE_SPACE,
-                KeyEvent.KEYCODE_B, KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_M,
-                KeyEvent.KEYCODE_ENTER
-            ),
             InputMethodService.DeviceType.MP01 to listOf(
                 KeyEvent.KEYCODE_Q, KeyEvent.KEYCODE_W, KeyEvent.KEYCODE_E,
                 KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_T, KeyEvent.KEYCODE_Y,

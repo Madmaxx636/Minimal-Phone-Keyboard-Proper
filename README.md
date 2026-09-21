@@ -3,15 +3,11 @@
 > **This is a modified version of [Minimal SymLayer Keyboard](https://github.com/rickybrent/minimal-symlayer-keyboard) by rickybrent, which is itself a fork of [TitanPocketKeyboard](https://github.com/oin/titanpocketkeyboard) by oin.**
 > The keyboard and most of its code are their work and that of their contributors, see [Credits](#credits). What was changed in this version is listed under [What was changed](#what-was-changed-in-this-version). It is released under the same licence, the GNU General Public License v3.
 
-`Minimal SymLayer Keyboard` is an Android input method for the Minimal Phone MP01, though it may be useful for other devices with built in thumbboards. It does not contain a virtual keyboard but adds a SYM layer for physical keys.
+`Minimal Keyboard Proper` is an Android input method for the Minimal Phone MP01. It does not contain a virtual keyboard but adds a SYM layer for physical keys.
 
-The project is a fork of the excellent  [TitanPocketKeyboard by oin](https://github.com/oin/titanpocketkeyboard), which was originally designed for the Unihertz Titan Pocket, and has no relation to Lersi's [Minimal Phone Keyboard](https://github.com/lersi/minimal_phone_keyboard) or the keyboard that shipped with the Minimal Phone.
+The project is a fork of the excellent [TitanPocketKeyboard by oin](https://github.com/oin/titanpocketkeyboard), by way of rickybrent's Minimal SymLayer Keyboard, and has no relation to Lersi's [Minimal Phone Keyboard](https://github.com/lersi/minimal_phone_keyboard) or the keyboard that shipped with the Minimal Phone.
 
 This fork adds several new features (a keyboard-focused emoji picker, a clipboard history manager, and additional virtual modifier keys) and special handling for the MP01's unique keys and e-ink display.
-
-### A Note for Unihertz Titan Pocket Users
-
-While this project is based on the TitanPocketKeyboard, support for the Unihertz Titan Pocket is **entirely untested** in this fork. Many of the improvements are specific to the Minimal Phone's hardware. However, features like the keyboard-navigable emoji picker and clipboard history might be of interest to Titan Pocket users willing to experiment, and the code has been written with a blind best-effort to support both devices.
 
 
 ## Key Features of this Fork
@@ -55,20 +51,25 @@ This fork builds upon the original's solid foundation with several new features 
             * **Long Press & Release**: Inserts a 0 (also triggered by pressing while holding Alt).
 * **Sym layer updated for the MP01**: The keys on the sym layer have been updated and changed to avoid duplicating any of the alt-keys already available, and to make it possible to enter certain common keys missing from the MP01's alt layer (such as parenthesis.)
 
-The original project's multipress accented characters, ligatures, Cyrillic layer and Korean input are not offered in the settings of this version and are switched off, see [Removed from the settings](#removed-from-the-settings).
+Accented characters by multipress, from the original project, are kept for Spanish and French (see [Additional Characters (Multipress)](#additional-characters-multipress)). The **All languages** version keeps all of the original's languages, the Cyrillic layer and Korean input.
 
 
 ## Installation
 
-1. Download the latest APK from the [releases](https://github.com/rickybrent/minimal-symlayer-keyboard/releases) page.
-2. Install the APK on your Minimal Phone MP01.
+There are two versions, from the same source, with the same settings and everything you have learned:
+
+* **Minimal Keyboard Proper**: accented characters for English (none needed), Spanish and French.
+* **Minimal Keyboard Proper, All languages**: everything the original project had, the accent templates for German, Portuguese, Hungarian, Polish, Scandinavian languages, Romanian, Lithuanian and more, a Cyrillic layer and Korean input.
+
+1. Download the APK of the version you want from the [latest release](https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest). The site at [madmaxx636.github.io/Minimal-Phone-Keyboard-Proper](https://madmaxx636.github.io/Minimal-Phone-Keyboard-Proper/) has the checksums.
+2. Install the APK on your Minimal Phone MP01. To change version later, install the other APK over it.
 3. Go to `Settings` > `System` > `Languages & input` > `Virtual keyboard` > `Manage keyboards` and enable `Minimal Keyboard Proper`.
 4. Select `Minimal Keyboard Proper` as your default input method.
 
+The source of the limited version is the `main` branch, and of the all languages version the `all-languages` branch.
 
 
-
-## Core Features from original TitanPocketKeyboard
+## Core Features from the original project
 
 * **Full Keyboard Layout** with all keys and symbols.
 * No space taken on the screen.
@@ -82,27 +83,69 @@ The original project's multipress accented characters, ligatures, Cyrillic layer
 ## `sym` modifier map and `emoji` shortcuts
 
 Using the `sym` modifier, you can access more keys and symbols.
-For instance, you can use `WASD` (and `HJKL` on the Titan Pocket) to navigate in text.
+For instance, you can use `WASD` to navigate in text.
 
 `sym` modifiers are marked in red; `emoji` modifiers are colored blue (some `emoji` modifiers are not yet implemented):
 
 ![`sym` modifier map MP01](readme-symbehavior-mp01.png)
 
-The Titan Pocket only has a sym layer, though it has more modifier keys available:
-![`sym` modifier map Titan Pocket](readme-symbehavior-titanpocket.png)
-
 The Cut/Copy/Paste actions are only available when no modifier is pressed.
 
 ## Keyboard Layout
 
-The layouts below are from the original TitanPocketKeyboard project. **Note that the Sym-layer mapping and some long-press characters have been changed in this fork to better suit the Minimal Phone MP01.** The new Sym-layer preview feature is the best way to explore the current layout.
+The layouts below are from the original project. **Note that the Sym-layer mapping and some long-press characters have been changed in this fork to better suit the Minimal Phone MP01.** The new Sym-layer preview feature is the best way to explore the current layout.
 
 
-### Removed from the settings
+### Additional Characters (Multipress)
 
-The original project could type accented characters by pressing a key several times quickly (with templates for French, Spanish, German and more), combine `ae` and `oe` into ligatures, and switch to a Cyrillic layer or to Korean input with a long press of right shift. **This version does not offer them in the settings and they are switched off, whatever an older version saved.** The code for them is still in the project, so they can be brought back, and they are described in the [original project's README](https://github.com/rickybrent/minimal-symlayer-keyboard#readme).
+Off by default. Under `Settings` > `Additional characters`, turn on `Enable accented characters`, choose `French`, `Spanish` or `French and Spanish`, and press a vowel again straight away to put an accent on it: `e` twice for `é`, three times for `è`. English needs none. The time allowed between presses is the Multipress threshold under Timing. While it is on, quick double letters such as `ee` and `oo` are read as an accent, so words like "meet" and "book" get accents.
 
-Two more switches were removed and their behaviour fixed: the phone's own alt key map is always replaced by this keyboard's, and the Sym layer's navigation keys always use the default (left hand) layout.
+#### French
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `à`, `â`, `æ` |
+| `e` | `é`, `è`, `ê`, `ë` |
+| `i` | `î`, `ï` |
+| `o` | `ô`, `œ` |
+| `u` | `ù`, `û`, `ü` |
+| `y` | `ÿ` |
+| `c` | `ç` |
+
+#### Spanish
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `á` |
+| `e` | `é` |
+| `i` | `í` |
+| `o` | `ó` |
+| `u` | `ú` |
+
+#### French and Spanish
+
+| Key | Multipress |
+| --- | --- |
+| `a` | `à`, `â`, `á`, `æ` |
+| `e` | `é`, `è`, `ê`, `ë` |
+| `i` | `í`, `î`, `ï` |
+| `o` | `ó`, `ô`, `œ` |
+| `u` | `ú`, `ù`, `û`, `ü` |
+| `y` | `ÿ` |
+| `c` | `ç` |
+
+#### Ligatures
+
+With `Enable ligatures` on, typing `ae` or `oe` gives the ligature.
+
+| Key  | Multipress   |
+|------|--------------|
+| `ae` | `æ` |
+| `oe` | `œ`     |
+
+#### Not in this version
+
+The accents of other languages (German, Portuguese, Hungarian, Polish, Danish and Norwegian, Swedish and Finnish, Romanian, Lithuanian), the Cyrillic layer and Korean input are in the **All languages** version. Two other switches of the original settings are gone from both versions and their behaviour is fixed: the phone's own alt key map is always replaced by this keyboard's, and the Sym layer's navigation keys always use the default layout.
 
 ### Additional Characters (after Long Press)
 
@@ -110,35 +153,35 @@ Two more switches were removed and their behaviour fixed: the phone's own alt ke
 The following table shows the characters that can be accessed with a long press and subsequent multipresses.
 The first column is the character printed on the key 
 
-| Key | Long press (Titan) | Long press (MP01) | Following multipresses            |
-| --- |--------------------|-------------------|-----------------------------------|
-| **`q`** | **`0`**            | `&`               | `°` (degree)                      |
-| **`w`** | **`1`**            | `1`               | `&`, `↑`                          |
-| **`e`** | **`2`**            | `2`               | `€`, `∃`                          |
-| **`r`** | **`3`**            | `3`               | `®`                               |
-| **`t`** | **`(`**            | `_`               | `[`, `{`, `<`, `≤`, `†`, `™`      |
-| **`y`** | **`)`**            | `-`               | `]`, `}`, `>`, `≥`                |
-| **`u`** | **`-`**            | `+`               | `–` (em dash), `–` (en dash), `∪` |
-| **`i`** | **`_`**            | `!`               | `\|`                              |
-| **`o`** | `ô`                | `#`               | `ó`, `ò`, `ö`, `õ`                |
-| **`p`** | **`:`**            | `$`               | `;`, `¶`                          |
-| **`a`** | **`@`**            | `@`               | `æ`, `ª`, `←`                     |
-| **`s`** | **`4`**            | `4`               | `ß`, `§`, `↓`                     |
-| **`d`** | **`5`**            | `5`               | `∂`, `→`, `⇒`                     |
-| **`f`** | **`6`**            | `6`               | `^`                               |
-| **`g`** | **`*`**            | `=`               | `•`, `·`                          |
-| **`h`** | **`#`**            | `:`               | `²`, `♯`                          |
-| **`j`** | **`+`**            | `;`               | `=`, `≠`, `≈`, `±`                |
-| **`k`** | **`"`**            | `'`               | `%`, `‰`, `‱`                     |
-| **`l`** | **`'`**            | `"`               | `` ` ``                           |
-| **`z`** | **`!`**            | `7`               | `¡`, `‽`                          |
-| **`x`** | **`7`**            | `8`               | `×`, `χ`                          |
-| **`c`** | **`8`**            | `9`               | `ç` `©`, `¢`, `⊂`, `⊄`, `⊃`, `⊅`  |
-| **`v`** | **`9`**            | `*`               | `∀`, `√`                          |
-| **` ` (space bar)** | `	` (tab)| ``                | `⇥`     |
-| **`b`** | **`.`**            | `%`               | `…`, `ß`, `∫`, `♭`                |
-| **`n`** | **`,`**            | `?`               | `ñ`, `¬`, `∩`                     |
-| **`m`** | **`?`**            | `,`               | `$`, `€`, `£`, `¿`                |
+| Key | Long press | Following multipresses            |
+| --- |-------------------|-----------------------------------|
+| **`q`** | `&`               | `°` (degree)                      |
+| **`w`** | `1`               | `&`, `↑`                          |
+| **`e`** | `2`               | `€`, `∃`                          |
+| **`r`** | `3`               | `®`                               |
+| **`t`** | `_`               | `[`, `{`, `<`, `≤`, `†`, `™`      |
+| **`y`** | `-`               | `]`, `}`, `>`, `≥`                |
+| **`u`** | `+`               | `–` (em dash), `–` (en dash), `∪` |
+| **`i`** | `!`               | `\|`                              |
+| **`o`** | `#`               | `ó`, `ò`, `ö`, `õ`                |
+| **`p`** | `$`               | `;`, `¶`                          |
+| **`a`** | `@`               | `æ`, `ª`, `←`                     |
+| **`s`** | `4`               | `ß`, `§`, `↓`                     |
+| **`d`** | `5`               | `∂`, `→`, `⇒`                     |
+| **`f`** | `6`               | `^`                               |
+| **`g`** | `=`               | `•`, `·`                          |
+| **`h`** | `:`               | `²`, `♯`                          |
+| **`j`** | `;`               | `=`, `≠`, `≈`, `±`                |
+| **`k`** | `'`               | `%`, `‰`, `‱`                     |
+| **`l`** | `"`               | `` ` ``                           |
+| **`z`** | `7`               | `¡`, `‽`                          |
+| **`x`** | `8`               | `×`, `χ`                          |
+| **`c`** | `9`               | `ç` `©`, `¢`, `⊂`, `⊄`, `⊃`, `⊅`  |
+| **`v`** | `*`               | `∀`, `√`                          |
+| **` ` (space bar)** | ``                | `⇥`     |
+| **`b`** | `%`               | `…`, `ß`, `∫`, `♭`                |
+| **`n`** | `?`               | `ñ`, `¬`, `∩`                     |
+| **`m`** | `,`               | `$`, `€`, `£`, `¿`                |
 
 # Voice Input
 
@@ -153,7 +196,7 @@ Feel free to adjust the layout to your needs by modifying the code and building 
 
 Everything here is built on the work of other people, and full credit goes to them:
 
-* **[oin](https://github.com/oin)**, author of [TitanPocketKeyboard](https://github.com/oin/titanpocketkeyboard), the keyboard that all of this is based on. The core features listed under "Core Features from original TitanPocketKeyboard" above, such as the modifier keys, the sym layer, multipress accents and auto-capitalization, come from that project.
+* **[oin](https://github.com/oin)**, author of [TitanPocketKeyboard](https://github.com/oin/titanpocketkeyboard), the keyboard that all of this is based on. The core features listed under "Core Features from the original project" above, such as the modifier keys, the sym layer, multipress accents and auto-capitalization, come from that project.
 * **[rickybrent](https://github.com/rickybrent)**, author of [Minimal SymLayer Keyboard](https://github.com/rickybrent/minimal-symlayer-keyboard), the fork for the Minimal Phone MP01 that this version is a modification of. It added the emoji picker, the clipboard history, the sym layer preview, the special handling of the MP01's keys, and much more.
 * **[meldavy](https://github.com/meldavy)** and **[csaba-craft](https://github.com/csaba-craft)**, who contributed to Minimal SymLayer Keyboard, and **Mantas Norvaisa** (the Lithuanian multipress mapping) and **danser** (Cyrillic layout layer support with Alt+key combinations), whose changes are in its history.
 
@@ -180,7 +223,7 @@ Modified in September 2026 from Minimal SymLayer Keyboard. The changes are:
 * Voice typing through Google voice typing, or the system speech dialog when it is not turned on.
 * Emoji picker: a skin tone setting, and duplicate emoji removed.
 * Clipboard history: records from when the keyboard starts, a clear button, a size limit, expiry, skipping sensitive items, and a fix for removing pinned items.
-* The settings for accented characters (multipress, ligatures, Cyrillic layer and Korean input), the override of the alt key map and the right handed navigation cluster were removed. The first group is switched off and the alt key override is always on. The timing settings now say in detail what each one does.
+* Accented characters by multipress are limited to Spanish and French (English needs none), with an All languages version that keeps the original's accents, Cyrillic layer and Korean input. The switches for the alt key map override and the right handed navigation cluster were removed. Support for other keyboards than the MP01 was removed. The timing settings now say in detail what each one does.
 * Tests for the new code.
 
 The original project's own history and authors are on its GitHub page, linked under [Credits](#credits).

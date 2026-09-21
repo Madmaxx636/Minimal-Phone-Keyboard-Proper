@@ -1,4 +1,14 @@
 <resources>
+	<string-array name="first_level_template">
+		<item>French</item>
+		<item>Spanish</item>
+		<item>French and Spanish</item>
+	</string-array>
+	<string-array name="first_level_template_values">
+		<item>fr</item>
+		<item>es</item>
+		<item>fr-es</item>
+	</string-array>
 	<string-array name="dotctrl_tap_entries">
 		<item>Period</item>
 		<item>Voice to Text</item>
@@ -62,14 +72,6 @@
 	</string-array>
 	<string-array name="shiftright_tap_values">
 		<item>shift</item>
-	</string-array>
-	<string-array name="shiftright_long_press_entries">
-		<item>—</item>
-		<item>Cyrillic layer (Toggle)</item>
-	</string-array>
-	<string-array name="shiftright_long_press_values">
-		<item>none</item>
-		<item>cyrillic</item>
 	</string-array>
 	<string-array name="shiftright_hold_entries">
 		<item>Shift + [Key]</item>

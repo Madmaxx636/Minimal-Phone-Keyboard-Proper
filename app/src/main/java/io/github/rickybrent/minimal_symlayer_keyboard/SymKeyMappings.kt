@@ -13,33 +13,6 @@ object ShiftPress : SymAction()
 data class KeyMapping(val display: String, val action: SymAction)
 
 object SymKeyMappings {
-    // --- UNIHERTZ TITAN MAPPINGS ---
-    private val titanMap: Map<Int, KeyMapping> = mapOf(
-        KeyEvent.KEYCODE_W to KeyMapping("↑", SendKey(KeyEvent.KEYCODE_DPAD_UP)),
-        KeyEvent.KEYCODE_A to KeyMapping("←", SendKey(KeyEvent.KEYCODE_DPAD_LEFT)),
-        KeyEvent.KEYCODE_S to KeyMapping("↓", SendKey(KeyEvent.KEYCODE_DPAD_DOWN)),
-        KeyEvent.KEYCODE_D to KeyMapping("→", SendKey(KeyEvent.KEYCODE_DPAD_RIGHT)),
-        KeyEvent.KEYCODE_K to KeyMapping("↑", SendKey(KeyEvent.KEYCODE_DPAD_UP)),
-        KeyEvent.KEYCODE_H to KeyMapping("←", SendKey(KeyEvent.KEYCODE_DPAD_LEFT)),
-        KeyEvent.KEYCODE_J to KeyMapping("↓", SendKey(KeyEvent.KEYCODE_DPAD_DOWN)),
-        KeyEvent.KEYCODE_L to KeyMapping("→", SendKey(KeyEvent.KEYCODE_DPAD_RIGHT)),
-        KeyEvent.KEYCODE_Y to KeyMapping("Home", SendKey(KeyEvent.KEYCODE_MOVE_HOME)),
-        KeyEvent.KEYCODE_U to KeyMapping("PgDn", SendKey(KeyEvent.KEYCODE_PAGE_DOWN)),
-        KeyEvent.KEYCODE_I to KeyMapping("PgUp", SendKey(KeyEvent.KEYCODE_PAGE_UP)),
-        KeyEvent.KEYCODE_O to KeyMapping("End", SendKey(KeyEvent.KEYCODE_MOVE_END)),
-        KeyEvent.KEYCODE_P to KeyMapping("Esc", SendKey(KeyEvent.KEYCODE_ESCAPE)),
-        KeyEvent.KEYCODE_X to KeyMapping("Cut", SendKey(KeyEvent.KEYCODE_CUT)),
-        KeyEvent.KEYCODE_C to KeyMapping("Copy", SendKey(KeyEvent.KEYCODE_COPY)),
-        KeyEvent.KEYCODE_V to KeyMapping("Paste", SendKey(KeyEvent.KEYCODE_PASTE)),
-        KeyEvent.KEYCODE_Z to KeyMapping("Tab", SendKey(KeyEvent.KEYCODE_TAB)),
-        KeyEvent.KEYCODE_Q to KeyMapping("Tab", SendKey(KeyEvent.KEYCODE_TAB)),
-        KeyEvent.KEYCODE_B to KeyMapping("$", SendChar("$")),
-        KeyEvent.KEYCODE_N to KeyMapping("=", SendChar("=")),
-        KeyEvent.KEYCODE_E to KeyMapping("€", SendChar("€")),
-        KeyEvent.KEYCODE_M to KeyMapping("%", SendChar("%")),
-        KeyEvent.KEYCODE_SPACE to KeyMapping("⇧", ShiftPress)
-    )
-
     // --- MINIMAL PHONE MP01 MAPPINGS ---
     // Default (original) MP01 mappings
     private val mp01DefaultMap: Map<Int, KeyMapping> = mapOf(
@@ -75,7 +48,6 @@ object SymKeyMappings {
     fun getMapping(keyCode: Int, deviceType: InputMethodService.DeviceType): KeyMapping? {
         return when (deviceType) {
             InputMethodService.DeviceType.MP01 -> mp01DefaultMap[keyCode]
-            InputMethodService.DeviceType.TITAN -> titanMap[keyCode]
         }
     }
 
