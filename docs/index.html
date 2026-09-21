@@ -53,6 +53,8 @@ p { margin: 0 0 12px; }
 	font-weight: 600;
 	text-decoration: none;
 }
+.buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 4px; }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--text); padding: 11px 20px; }
 .button:focus-visible, a:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
 .meta { color: var(--muted); font-size: 0.92rem; margin-top: 14px; }
 code, .hash {
@@ -79,19 +81,26 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line);
 <header>
 	<h1>Minimal Keyboard Proper</h1>
 	<p class="lead">A keyboard for the Minimal Phone (MP01) that types the way you do: a toolbar, word suggestions that learn your habits, auto-correct, grammar fixes, emoji, clipboard history and voice typing.</p>
-	<a class="button" href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest">Download the APK (v0.88)</a>
-	<p class="meta">Android 10 or later &middot; about 10 MB &middot; free software under the GNU GPL v3 &middot; no internet permission</p>
-	<p class="meta">SHA-256 of <code>Minimal-Keyboard-Proper-0.88.apk</code>:<br><span class="hash">2a338dcf98714ad2d8829532b8f00c8e89feee31ab3443ae0a330d518e9b893c</span></p>
+	<p class="buttons">
+		<a class="button" href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest/download/Minimal-Keyboard-Proper.apk">Download: English, Spanish, French</a>
+		<a class="button secondary" href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest/download/Minimal-Keyboard-Proper-All-Languages.apk">Download: All languages</a>
+	</p>
+	<p class="meta">Version 0.89 &middot; Android 10 or later &middot; about 10 MB &middot; free software under the GNU GPL v3 &middot; no internet permission</p>
+	<p class="meta">SHA-256 of <code>Minimal-Keyboard-Proper.apk</code>:<br><span class="hash">291900a3e0a703abd1d76074f215e8a12661a19a72f69761227bc9a7cd15b143</span></p>
+	<p class="meta">SHA-256 of <code>Minimal-Keyboard-Proper-All-Languages.apk</code>:<br><span class="hash">4c6ef0000b768a301edfa710b58779a6a21ab05225c11178e19ab664303314d2</span></p>
 </header>
 
 <h2>Install</h2>
 <ol>
-	<li>Download the APK on your phone from the <a href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest">latest release</a> and open it. Android will ask you to allow installing from that app or browser.</li>
+	<li>Download the APK of the version you want on your phone (see below) and open it. Android will ask you to allow installing from that app or browser.</li>
 	<li>Go to <code>Settings</code> &rsaquo; <code>System</code> &rsaquo; <code>Languages &amp; input</code> &rsaquo; <code>Virtual keyboard</code> &rsaquo; <code>Manage keyboards</code> and turn on <em>Minimal Keyboard Proper</em>.</li>
 	<li>Pick it as your input method.</li>
 	<li>Open its settings and turn on <em>Show toolbar</em> to get suggestions, emoji, clipboard and voice buttons.</li>
 </ol>
-<p class="note">It replaces a keyboard for the phone's physical keys, so there is no on-screen keyboard. It is built for the Minimal Phone MP01. The Unihertz Titan Pocket is untested. Later versions install over the top and keep your settings and learned words.</p>
+<p class="note">It replaces a keyboard for the phone's physical keys, so there is no on-screen keyboard. It is built for the Minimal Phone MP01. Later versions install over the top and keep your settings and learned words.</p>
+
+<h2>Two versions</h2>
+<p><strong>English, Spanish, French</strong> is the everyday one. Its optional accented characters cover Spanish and French, and English needs none. <strong>All languages</strong> adds everything the original project had: the accent sets of German, Portuguese, Hungarian, Polish, the Scandinavian languages, Romanian, Lithuanian and more, a Cyrillic layer and Korean input. Both are the same keyboard otherwise. To switch, install the other APK over the one you have and everything you have learned stays.</p>
 
 <h2>What it does</h2>
 <div class="grid">
@@ -101,6 +110,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line);
 	<div class="card"><h3>Auto-space</h3><p><code>hello.world</code> becomes <code>hello. world</code>, and <code>lovehahaha</code> becomes <code>love hahaha</code>. Web addresses and file names are left alone.</p></div>
 	<div class="card"><h3>Shortcuts and my words</h3><p>Type <code>omw</code> and get &ldquo;on my way&rdquo;. Add names and jargon so they are never fixed.</p></div>
 	<div class="card"><h3>Emoji and clipboard</h3><p>A keyboard-driven emoji picker with a skin tone setting, and a searchable clipboard history that skips what apps mark as sensitive.</p></div>
+	<div class="card"><h3>Accented characters</h3><p>Optional. Press a vowel again straight away for an accent: <code>e</code> twice gives &eacute;. French and Spanish, and in the All languages version many more.</p></div>
 	<div class="card"><h3>Voice typing</h3><p>The Mic key starts Google voice typing, or the system speech dialog if that is not turned on.</p></div>
 	<div class="card"><h3>Sym layer and timings</h3><p>Arrows, page keys and brackets on the Sym layer, and timing settings that are explained in plain words.</p></div>
 </div>
