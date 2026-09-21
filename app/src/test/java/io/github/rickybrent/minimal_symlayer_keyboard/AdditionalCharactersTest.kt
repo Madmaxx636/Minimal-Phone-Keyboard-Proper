@@ -14,112 +14,95 @@ class AdditionalCharactersTest {
 		KeyEvent.KEYCODE_F to arrayOf(MPSUBST_TOGGLE_ALT, MPSUBST_CIRCUMFLEX, MPSUBST_TOGGLE_SHIFT, MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_L to arrayOf(MPSUBST_TOGGLE_ALT, MPSUBST_BACKTICK, MPSUBST_TOGGLE_SHIFT, MPSUBST_BYPASS),
 		KeyEvent.KEYCODE_G to arrayOf(MPSUBST_TOGGLE_ALT, '•', '•', '·', MPSUBST_TOGGLE_SHIFT, MPSUBST_BYPASS),
-		KeyEvent.KEYCODE_SPACE to arrayOf('\t', '⇥', MPSUBST_BYPASS)
+		KeyEvent.KEYCODE_Q to arrayOf(MPSUBST_TOGGLE_ALT, '°', MPSUBST_TOGGLE_SHIFT, MPSUBST_BYPASS),
+		KeyEvent.KEYCODE_SPACE to arrayOf('\t', '⇥', MPSUBST_BYPASS),
+		MP01_KEYCODE_EMOJI_PICKER to arrayOf(MPSUBST_TOGGLE_ALT, MPSUBST_BYPASS)
 	)
 
-	private fun rows(accents: Map<Int, Array<Char>>? = null, alt: (Int) -> Char? = { AltKeyMappings.getAltKeyChar(it, false) }) =
-		AdditionalCharacters.build(longPress, accents, alt)
-
-	private fun cell(rows: List<CharacterRow>, label: String) = rows.flatMap { it.cells }.first { it.label == label }
+	private fun extras(keyCode: Int) = AdditionalCharacters.extras(longPress[keyCode], keyCode)
 
 	@Test
-	fun theRowsFollowTheKeyboard() {
-		val rows = rows()
-		assertEquals(4, rows.size)
-		assertEquals("QWERTYUIOP", rows[0].cells.joinToString("") { it.label })
-		assertEquals("ASDFGHJKL", rows[1].cells.joinToString("") { it.label })
-		assertEquals("ZXCVBNM", rows[2].cells.joinToString("") { it.label })
-		assertEquals(listOf("Space"), rows[3].cells.map { it.label })
-	}
-
-	@Test
-	fun everyRowFillsTheSameWidth() {
-		for (row in rows()) {
-			assertEquals(10f, row.cells.sumOf { it.weight.toDouble() }.toFloat() + 2 * row.margin, 0.0001f)
-		}
-	}
-
-	@Test
-	fun holdingAKeyGivesTheAltCharacterFirst() {
-		assertEquals(listOf("1", "&", "↑"), cell(rows(), "W").extras)
-		assertEquals(listOf("_", "[", "{", "<", "≤", "†", "™"), cell(rows(), "T").extras)
+	fun pressingAgainGivesTheCharactersAfterTheAltCharacter() {
+		// Holding W gives its Alt character, 1, which is not in the list. Pressing it again gives these.
+		assertEquals(listOf("&", "↑"), extras(KeyEvent.KEYCODE_W))
+		assertEquals(listOf("[", "{", "<", "≤", "†", "™"), extras(KeyEvent.KEYCODE_T))
 	}
 
 	@Test
 	fun theMarkersThatAreNotCharactersAreLeftOut() {
-		val all = rows().flatMap { it.cells }.flatMap { it.extras + it.accents }
-		assertTrue(all.none { it.isEmpty() || it[0] in '￰'..'￿' })
+		for (keyCode in longPress.keys) {
+			assertTrue(extras(keyCode).none { it.isEmpty() || it[0] in '￰'..'￿' })
+		}
 	}
 
 	@Test
 	fun anAccentTypedOnItsOwnIsPutOnTheLetterOfItsKey() {
 		// Holding N and pressing it again gives a tilde on the n.
-		assertEquals(listOf("?", "ñ", "¬", "∩"), cell(rows(), "N").extras)
+		assertEquals(listOf("ñ", "¬", "∩"), extras(KeyEvent.KEYCODE_N))
 	}
 
 	@Test
 	fun theCircumflexAndTheBacktickAreShownAsThemselves() {
-		assertEquals(listOf("6", "^"), cell(rows(), "F").extras)
-		assertEquals(listOf("\"", "`"), cell(rows(), "L").extras)
+		assertEquals(listOf("^"), extras(KeyEvent.KEYCODE_F))
+		assertEquals(listOf("`"), extras(KeyEvent.KEYCODE_L))
 	}
 
 	@Test
 	fun aCharacterThatComesTwiceIsShownOnce() {
-		assertEquals(listOf("=", "•", "·"), cell(rows(), "G").extras)
+		assertEquals(listOf("•", "·"), extras(KeyEvent.KEYCODE_G))
 	}
 
 	@Test
 	fun spaceGivesTab() {
-		assertEquals(listOf("⇥"), cell(rows(), "Space").extras)
+		assertEquals(listOf("⇥"), extras(KeyEvent.KEYCODE_SPACE))
 	}
 
 	@Test
-	fun aKeyWithNothingExtraIsStillOnTheMap() {
-		val q = cell(rows(), "Q")
-		assertTrue(q.extras.isEmpty())
-		assertTrue(q.accents.isEmpty())
-	}
-
-	@Test
-	fun aMissingAltCharacterIsSkipped() {
-		assertEquals(listOf("&", "↑"), cell(rows(alt = { null }), "W").extras)
+	fun aKeyWithNothingMoreGivesNothing() {
+		assertEquals(listOf("°"), extras(KeyEvent.KEYCODE_Q))
+		assertTrue(extras(MP01_KEYCODE_EMOJI_PICKER).isEmpty())
+		assertTrue(AdditionalCharacters.extras(null, KeyEvent.KEYCODE_Z).isEmpty())
 	}
 
 	@Test
 	fun accentsAreOnlyThereWhenTheyAreTurnedOn() {
-		assertTrue(rows(accents = null).flatMap { it.cells }.all { it.accents.isEmpty() })
+		assertTrue(AdditionalCharacters.accents(null, KeyEvent.KEYCODE_A).isEmpty())
 	}
 
 	@Test
 	fun frenchAccentsAreComposedFromTheTemplate() {
-		val rows = rows(accents = templates.getValue("fr"))
-		assertEquals(listOf("à", "â", "æ"), cell(rows, "A").accents)
-		assertEquals(listOf("é", "è", "ê", "ë"), cell(rows, "E").accents)
-		assertEquals(listOf("î", "ï"), cell(rows, "I").accents)
-		assertEquals(listOf("ô", "œ"), cell(rows, "O").accents)
-		assertEquals(listOf("ù", "û", "ü"), cell(rows, "U").accents)
-		assertEquals(listOf("ÿ"), cell(rows, "Y").accents)
-		assertEquals(listOf("ç"), cell(rows, "C").accents)
+		val french = templates.getValue("fr")
+		fun accents(keyCode: Int) = AdditionalCharacters.accents(french[keyCode], keyCode)
+		assertEquals(listOf("à", "â", "æ"), accents(KeyEvent.KEYCODE_A))
+		assertEquals(listOf("é", "è", "ê", "ë"), accents(KeyEvent.KEYCODE_E))
+		assertEquals(listOf("î", "ï"), accents(KeyEvent.KEYCODE_I))
+		assertEquals(listOf("ô", "œ"), accents(KeyEvent.KEYCODE_O))
+		assertEquals(listOf("ù", "û", "ü"), accents(KeyEvent.KEYCODE_U))
+		assertEquals(listOf("ÿ"), accents(KeyEvent.KEYCODE_Y))
+		assertEquals(listOf("ç"), accents(KeyEvent.KEYCODE_C))
 		// The space key's entry for the period is not an accent.
-		assertTrue(cell(rows, "Space").accents.isEmpty())
+		assertTrue(accents(KeyEvent.KEYCODE_SPACE).isEmpty())
 	}
 
 	@Test
 	fun spanishAccentsAreComposedFromTheTemplate() {
-		val rows = rows(accents = templates.getValue("es"))
-		assertEquals(listOf("á"), cell(rows, "A").accents)
-		assertEquals(listOf("é"), cell(rows, "E").accents)
-		assertEquals(listOf("í"), cell(rows, "I").accents)
-		assertEquals(listOf("ó"), cell(rows, "O").accents)
-		assertEquals(listOf("ú"), cell(rows, "U").accents)
-		assertTrue(cell(rows, "B").accents.isEmpty())
+		val spanish = templates.getValue("es")
+		fun accents(keyCode: Int) = AdditionalCharacters.accents(spanish[keyCode], keyCode)
+		assertEquals(listOf("á"), accents(KeyEvent.KEYCODE_A))
+		assertEquals(listOf("é"), accents(KeyEvent.KEYCODE_E))
+		assertEquals(listOf("í"), accents(KeyEvent.KEYCODE_I))
+		assertEquals(listOf("ó"), accents(KeyEvent.KEYCODE_O))
+		assertEquals(listOf("ú"), accents(KeyEvent.KEYCODE_U))
+		assertTrue(accents(KeyEvent.KEYCODE_B).isEmpty())
 	}
 
 	@Test
 	fun everyTemplateGivesOnlySingleCharacters() {
 		for ((name, template) in templates) {
-			val all = rows(accents = template).flatMap { it.cells }.flatMap { it.accents }
-			assertTrue("$name has $all", all.all { it.length == 1 })
+			for (keyCode in template.keys) {
+				val all = AdditionalCharacters.accents(template[keyCode], keyCode)
+				assertTrue("$name has $all", all.all { it.length == 1 })
+			}
 		}
 	}
 }

@@ -8,8 +8,17 @@ import android.view.KeyEvent
  * @param alt What Alt and the key type, written in the top left corner like the printed symbols on the keys.
  * @param sym What the Sym layer does with the key, written in the bottom right corner.
  * @param weight How wide the key is, in key widths.
+ * @param extras What pressing the key again after holding it gives, in that order.
+ * @param accents What pressing the key twice quickly gives, if accents are turned on, in that order.
  */
-data class MapKey(val label: String, val alt: String = "", val sym: String = "", val weight: Float = 1f)
+data class MapKey(
+	val label: String,
+	val alt: String = "",
+	val sym: String = "",
+	val weight: Float = 1f,
+	val extras: List<String> = emptyList(),
+	val accents: List<String> = emptyList()
+)
 
 /** A row of keys, with [margin] key widths of empty space on each side. */
 data class MapRow(val keys: List<MapKey>, val margin: Float = 0f)
@@ -37,11 +46,20 @@ object KeyboardMap {
 	/**
 	 * @param alt The character that Alt and a key give, or null if it gives none.
 	 * @param sym What the Sym layer does with a key, or null if nothing.
+	 * @param extras What pressing a key again after holding it gives.
+	 * @param accents What pressing a key twice quickly gives, or nothing if accents are turned off.
 	 * @return The rows of the map, top to bottom, four of them like the keyboard has.
 	 */
-	fun build(alt: (Int) -> Char?, sym: (Int) -> KeyMapping?): List<MapRow> {
-		fun key(keyCode: Int, label: String = letter(keyCode)) =
-			MapKey(label, alt(keyCode)?.toString().orEmpty(), sym(keyCode)?.display.orEmpty())
+	fun build(
+		alt: (Int) -> Char?,
+		sym: (Int) -> KeyMapping?,
+		extras: (Int) -> List<String> = { emptyList() },
+		accents: (Int) -> List<String> = { emptyList() }
+	): List<MapRow> {
+		fun key(keyCode: Int, label: String = letter(keyCode)) = MapKey(
+			label, alt(keyCode)?.toString().orEmpty(), sym(keyCode)?.display.orEmpty(),
+			extras = extras(keyCode), accents = accents(keyCode)
+		)
 
 		val row1 = top.map { key(it) }
 		val row2 = home.map { key(it) } + MapKey("⌫")
@@ -49,7 +67,7 @@ object KeyboardMap {
 		val row4 = listOf(
 			MapKey("⇧"),
 			key(MP01_KEYCODE_EMOJI_PICKER, "☺"),
-			MapKey("space", weight = 4f),
+			MapKey("space", weight = 4f, extras = extras(KeyEvent.KEYCODE_SPACE)),
 			MapKey("sym"),
 			MapKey("⇧")
 		)

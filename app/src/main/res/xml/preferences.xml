@@ -187,8 +187,8 @@
 		<SwitchPreference
 			android:key="pref_sym_map"
 			android:defaultValue="true"
-			android:title="Show a map when I press Sym"
-			android:summary="Press Sym and leave it for a moment, and a popup appears with two pages. Keys is a map of the keyboard: the symbol that Alt types is written in the top left corner of every key, like the printed symbols, and what Sym does with the key in the bottom right corner. Extras is a map with the additional characters of every key: hold a key for the first one and press it again for the next ones, and the accents in italics if they are turned on. The popup goes away when you press a key or let go of Sym."
+			android:title="Show a map of the keyboard when I tap Sym"
+			android:summary="Tap Sym and a map of the keyboard opens, laid out like the phone with one big symbol on each key. Each tap of Sym turns to the next page, and the tap after the last page closes it. The pages are: what Alt types, what Sym does, then the characters you get by holding a key and pressing it again, first time, second time and so on, and the accents if they are turned on. Pressing a key also closes it."
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>
 		<SwitchPreference

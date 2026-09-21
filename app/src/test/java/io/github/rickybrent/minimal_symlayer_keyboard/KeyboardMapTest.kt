@@ -113,4 +113,19 @@ class KeyboardMapTest {
 		assertEquals(4, rows.size)
 		assertTrue(rows.flatMap { it.keys }.all { it.alt.isEmpty() || it.alt == "mic" })
 	}
+
+	@Test
+	fun theExtrasAndAccentsAreOnTheKeysThatGiveThem() {
+		val rows = KeyboardMap.build(
+			{ AltKeyMappings.getAltKeyChar(it, false) },
+			{ SymKeyMappings.getMapping(it, InputMethodService.DeviceType.MP01) },
+			extras = { if (it == KeyEvent.KEYCODE_W || it == KeyEvent.KEYCODE_SPACE) listOf("x", "y") else emptyList() },
+			accents = { if (it == KeyEvent.KEYCODE_E) listOf("\u00e9") else emptyList() }
+		)
+		assertEquals(listOf("x", "y"), key(rows, "W").extras)
+		assertEquals(listOf("x", "y"), key(rows, "space").extras)
+		assertEquals(listOf("\u00e9"), key(rows, "E").accents)
+		assertTrue(key(rows, "Q").extras.isEmpty())
+		assertTrue(key(rows, "sym").extras.isEmpty())
+	}
 }
