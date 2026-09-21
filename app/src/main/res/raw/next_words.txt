@@ -1,0 +1,167 @@
+# Built in guesses at the next word, see NextWordHints. Written by hand.
+# word<TAB>the words that most often follow it, most likely first. ^ = start of a sentence, * = any word.
+
+^	I	The	Hey	Thanks	Yes	No	Ok	What	Can	Do	It's	That's	We	You	So	But	Just	Hi	Hello	Good	How	Let's	Sure	Please	Sorry	Where	When	Why	Yeah	Also	If	This	My	Maybe	Is	Are	Thank	I'm	Great	Awesome	Nice
+*	the	to	and	a	I	you	of	in	it	is	that	for	with	be	on	are	this	was	have	not
+i	am	don't	have	think	will	was	can	just	love	need	want	know	hope	would	like	got	didn't	can't
+i'm	not	going	sorry	so	just	a	on	at	in	here	glad	sure	really	still	good	fine	trying
+i'll	be	see	call	do	let	get	send	try	have	take	check	text	go	make	talk
+i've	been	got	had	seen	never	just	heard	done	made	always	tried	already	to
+i'd	like	love	be	say	rather	better	have	prefer	appreciate	do	go	need
+you	are	can	have	know	want	need	should	will	don't	do	guys	too	mean	like	see	think
+you're	welcome	right	not	going	so	on	all	good	doing	the	a	my	still
+you'll	be	need	see	have	get	want	find	love	like	do	know	never
+we	are	can	have	will	should	need	could	were	did	got	don't	might	had	just
+we're	going	not	all	in	just	on	still	here	at	good	getting	ready	doing
+we'll	be	see	have	do	get	need	talk	let	try	go	find	make
+they	are	have	were	will	can	don't	said	just	want	had	would	did
+he	is	was	has	said	will	would	didn't	can	doesn't	wants	had	just
+she	is	was	has	said	will	would	didn't	can	doesn't	wants	had	just
+it	is	was	will	would	doesn't	might	seems	looks	has	can	takes	works	be	means
+it's	a	not	been	going	just	time	so	good	fine	ok	the	great	like	too
+it'll	be	take	work	get	probably	make	help	show	come	happen
+that	is	was	the	you	I	we	sounds	works	looks	would	will	makes	means	it	he	she
+that's	a	great	fine	good	ok	the	not	what	true	right	awesome	funny	so	all	it
+this	is	morning	week	weekend	one	will	was	time	afternoon	evening	year	month	and	to	isn't
+there	is	are	was	were	will	a	the	you	it	we	if	isn't	aren't	might	must	to
+here	is	are	you	we	it	to	for	in	at	and	comes	goes	now	today	I
+what	is	are	do	does	time	about	happened	the	if	you	kind	else	a	I	we	to
+when	is	are	do	will	you	we	I	can	the	did	does	it	they
+where	is	are	do	did	you	can	the	we	I	should	does	it
+why	is	are	do	did	would	not	don't	the	you	can't	me	it	I
+how	are	is	do	did	was	to	much	many	about	long	can	come	it's	you	I
+who	is	are	was	will	can	did	the	has	would	else	you	I
+which	is	one	are	of	was	the	means	you	I	it	we
+is	it	that	a	the	there	this	not	going	he	she	what	your	my	so	really
+are	you	we	they	the	there	not	going	a	these	those	all	my	your	still	so
+was	a	the	it	that	not	just	going	so	there	he	she	like	really	very
+were	you	we	they	the	there	not	a	going	all	still	just
+be	a	the	there	able	in	so	sure	careful	good	back	right	done	ready	here	at
+been	a	the	to	so	there	working	trying	thinking	busy	in	really	doing	going
+have	a	the	to	you	any	been	some	no	I	an	it	more	fun	plenty	your
+has	a	the	been	to	not	any	no	some	an	it	more	you
+had	a	the	to	been	no	some	any	an	it	so	just	you
+will	be	you	have	the	do	see	need	not	take	get	try	call	let	I
+would	be	you	like	have	love	the	it	not	say	want	that	make	work	I
+can	you	I	we	be	do	the	see	help	not	get	make	have	come	go	it
+could	you	be	I	we	have	not	the	do	see	help	get	make	come	it
+should	I	we	be	you	have	the	not	do	work	probably	get	it
+do	you	not	I	we	the	that	it	they	this	something	anything	what	so	have
+don't	know	have	want	think	worry	forget	be	do	need	like	you	mind	see	get	understand
+didn't	know	have	want	get	see	think	realize	mean	do	understand	say	hear	work
+doesn't	matter	work	look	seem	sound	mean	make	have	know	want	help	need
+can't	wait	believe	do	be	find	make	see	get	go	help	remember	say	stop	log	talk
+won't	be	have	do	work	let	get	take	go	need	know	see	happen	mind
+not	sure	a	the	really	yet	too	going	only	much	just	very	be	so	that	even	in
+get	a	the	it	to	you	some	back	home	out	up	my	that	this	me	in	off	there
+go	to	ahead	home	back	out	on	for	with	get	see	do	over	up	down	away	there
+going	to	on	be	home	back	out	well	for	in	with	there	over	away	down	through
+make	it	a	sure	the	sense	me	you	this	that	some	up	your	my	us	them	him
+take	a	the	it	care	me	you	some	this	that	my	your	out	off	on	us	time	her
+know	what	that	if	how	you	the	I	it	when	where	why	about	any	this	more	him
+think	it	that	I	we	you	so	about	the	maybe	this	of	they	he	she
+want	to	a	the	it	you	some	me	my	this	that	more	us	one	an	your
+need	to	a	the	it	you	some	me	my	this	that	more	help	an	your	us
+like	to	a	the	it	you	that	this	me	I	my	some	an	when	what	he	she
+see	you	the	if	what	it	that	a	how	me	them	us	more	below	him	her
+call	me	you	him	her	them	us	back	it	the	if	now	when	later	today
+send	me	you	it	the	a	him	her	them	us	some	that	this	over	out	back
+tell	me	you	him	her	them	us	the	if	everyone	what	a	my	your
+give	me	you	it	him	her	them	us	a	the	some	that	this	up	my	your	back
+let	me	us	you	him	her	them	it	know	go	see	alone	the
+let's	go	do	see	get	try	talk	meet	make	have	take	just	start	not	figure	hang
+love	you	it	to	that	this	the	and	is	my	your	me	how	when	a	so	them	him	her
+miss	you	it	the	a	my	your	me	that	this	out	him	her	them	us	one
+hope	you	it	to	that	this	the	and	is	my	your	we	I	so	everything	all	he	she
+wait	for	until	a	I	and	to	the	it	you	we	till	no	what	let
+wish	I	you	we	it	the	they	he	she	could	that	there	a	my	luck	well
+thank	you	god	goodness	u	everyone
+thanks	for	again	man	everyone	guys	I	will	you	that
+please	let	don't	send	call	help	be	tell	make	note	do	check	find	take	see
+sorry	for	about	I	to	but	that	if	I'm	again	man	guys	you	it	my
+and	the	I	then	a	it	we	you	that	they	he	she	also	my	so	if	I'll
+but	I	the	it	we	you	that	he	she	they	if	then	also	still	not	maybe	there
+so	I	much	the	it	we	you	that	far	many	long	good	sorry	glad	excited	what	if
+or	the	a	I	you	it	we	not	maybe	something	else	is	are	do	they
+if	you	I	we	it	the	they	he	she	there	not	anyone	that	so	possible	my
+because	I	it	the	you	we	they	he	she	of	that	there	this	my	a	if
+then	I	we	you	it	the	they	he	she	a	there	what	if	when	that	maybe
+also	a	the	I	you	it	we	have	be	can	do	want	need	know	think	has
+just	a	the	to	like	wanted	got	in	let	saw	want	so	need	making	thought	checking	wondering
+still	not	a	the	I	it	we	you	they	waiting	working	have	in	on	there	need	don't
+actually	I	it	that	the	a	you	we	he	she	they	not	is	was	have	do
+maybe	I	we	you	it	the	they	a	he	she	later	tomorrow	next	not	that	some
+probably	a	the	not	I	it	we	you	be	just	should	going	have	will	can	too
+really	good	want	like	need	love	sorry	appreciate	hope	great	don't	is	was	and	nice	do
+very	much	good	well	happy	sorry	important	nice	soon	few	late	close	interesting	helpful
+too	much	many	late	bad	long	early	soon	far	good	big	small	hard	busy	I	but
+much	better	more	as	of	too	to	for	time	easier	worse	harder	longer	love
+more	than	time	people	about	of	information	like	and	or	the	work	so
+than	I	the	you	we	a	it	that	they	he	she	ever	before	expected	usual	what
+again	and	for	soon	to	I	later	in	on	at	tomorrow	next	the	thanks	if	but
+now	I	we	you	the	it	a	they	he	she	that	and	is	or	but	so	if
+well	I	it	that	the	we	you	they	he	she	done	then	said	maybe	and	if	as
+right	now	away	here	there	I	it	the	and	on	at	back	ok	so	then	in	before
+pretty	good	sure	much	well	soon	cool	great	nice	sad	happy	late	bad
+good	morning	night	luck	job	idea	to	one	evening	afternoon	day	news	point	thing	time	work	for
+great	to	job	idea	news	day	thanks	time	work	and	see	that	thing	for
+happy	birthday	to	new	holidays	with	about	for	that	weekend	friday	anniversary	holiday
+sounds	good	great	like	fun	fine	right	interesting	awesome	perfect	amazing	better
+looks	good	great	like	fine	interesting	awesome	amazing	nice	better	so	pretty
+sure	thing	I	that	you	we	it	is	if	why	can	will	sounds	no	thanks	about	don't
+ok	I	so	thanks	thank	sounds	cool	great	let's	then	good	got	see	it	that	we
+okay	I	so	thanks	thank	sounds	cool	great	let's	then	good	got	see	it	that	we
+yes	I	we	please	it	that	sir	of	and	you	they	he	she	sure	definitely	thanks
+yeah	I	it	that	sure	me	so	no	but	we	you	that's	definitely	right	and	for
+no	problem	worries	way	one	idea	thanks	need	more	longer	matter	I	it	we	you	that
+hey	there	man	guys	I	you	how	what	are	did	hi	everyone	so	just	can	thanks
+hi	there	I	how	everyone	guys	all	what	you	my	are	we	thanks
+hello	there	I	everyone	how	again	my	this	all	and	world	sir	thanks
+the	same	best	other	first	only	most	next	one	last	way	day	time	new	world	whole	end	fact	thing	rest
+a	little	lot	few	good	great	bit	new	long	big	couple	moment	minute	second	while	day	way	thing
+an	hour	idea	email	issue	update	example	error	apple	old	easy	other	important	extra	amazing
+to	be	the	do	get	see	go	make	have	take	say	a	me	my	you	your	know	work	help	come	find	use	it
+of	the	a	course	it	my	them	all	this	us	your	that	our	his	her	these	those	what	him	time
+in	the	a	my	your	case	order	fact	time	front	person	touch	some	this	that	our	an	it	about
+on	the	my	a	your	it	this	that	our	time	top	purpose	monday	tuesday	saturday	sunday	friday	her	his
+at	the	a	home	least	all	work	night	once	this	that	some	my	school	first	last	it	your	about
+for	the	a	you	me	my	your	it	now	some	us	him	her	them	all	this	that	sure	example
+with	the	a	you	me	my	your	it	us	him	her	them	some	this	that	all	our	no	his
+about	the	it	a	that	this	you	me	your	my	what	how	us	him	her	them	an	to	time
+from	the	a	my	your	it	this	that	me	you	him	her	them	us	home	work	now	here	there
+by	the	a	my	your	it	this	that	me	you	him	her	them	us	now	then	tomorrow	friday
+as	a	the	I	you	we	it	well	soon	much	long	far	possible	if	they	he	she	always
+up	to	the	a	with	for	in	on	at	and	now	my	your	front	late	early	again	there	here
+out	of	the	a	to	for	in	with	there	here	and	on	at	my	your	loud	tonight	today	what
+back	to	in	home	and	soon	on	at	from	the	later	up	out	with	then	here	there	now
+me	know	a	the	to	and	if	when	in	too	up	about	out	back	some	that	so	it	what
+my	name	friend	mom	dad	phone	life	head	own	best	favorite	way	house	car	wife	husband	brother	sister	day
+your	name	phone	own	best	favorite	way	family	friend	order	email	message	account	help	day	time
+all	the	of	right	day	good	I	you	we	my	that	this	about	over	in	set	done	ready
+some	of	more	time	other	people	one	days	kind	thing	day	help	food	money	water
+any	of	way	time	other	more	chance	questions	idea	problem	help	one	thing	updates	luck
+these	are	days	two	three	guys	people	things	will	were	have	is	ones
+those	are	days	two	three	guys	people	things	will	were	who	ones
+tomorrow	morning	night	at	is	I	we	if	afternoon	evening	will	and	or	then	so	works
+today	is	I	we	at	was	if	the	and	morning	or	so	you	but	I'm
+tonight	is	I	we	at	if	the	and	or	so	you	but	after	will	works
+next	week	time	year	month	day	weekend	one	to	few	morning	monday	friday	step	thing
+last	night	week	time	year	month	day	weekend	one	minute	few	thing	name	but
+morning	everyone	sunshine	I	and	to	is	was	the	for	you	we	it
+night	before	out	I	and	to	is	was	the	for	you	we	it	too
+week	off	end	I	and	to	is	was	the	for	you	we	it
+weekend	plans	I	and	to	is	was	the	for	you	we	it
+day	off	before	after	I	and	to	is	was	the	for	you	we	it
+time	to	for	I	you	we	the	it	and	is	in	next	with	will	out
+home	now	soon	tonight	from	I	and	to	is	was	the	for	you	we	it
+work	on	at	for	with	and	to	is	out	well	in	today	tomorrow	I	it	hard	that
+people	are	who	have	I	and	to	is	was	the	for	you	we	it
+lot	of	more	to	better	easier	harder	faster	and	is	I	the	a	in	for	you	we
+lots	of	more	to	and	is	I	the	a	in	for	you	we	it	or	that	love
+bit	of	more	to	and	is	I	the	a	in	for	you	we	it	or	that	better	later
+couple	of	more	to	and	is	I	the	a	in	for	you	we	it	or	that	days	hours	minutes
+few	minutes	days	hours	more	weeks	things	of	to	and	is	I	the	a	in	for	years	times	months
+kind	of	and	to	is	I	the	a	in	for	you	we	it	or	that	regards
+sort	of	and	to	is	I	the	a	in	for	you	we	it	or	that	out
+minute	ago	please	I	and	to	is	was	the	for	you	we	it
+life	is	easier	I	and	to	was	the	for	you	we	it

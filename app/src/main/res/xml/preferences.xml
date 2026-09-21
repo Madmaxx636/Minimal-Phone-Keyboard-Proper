@@ -12,9 +12,107 @@
 			android:key="DotSpace"
 			android:defaultValue="true"
 			android:title="Period with double-space"
-			android:summary="Type two spaces in sequence to create a period"
+			android:summary="Type two spaces in a row to get a period and a space. The second space has to come within the Multipress threshold under Timing (750 ms by default), otherwise you just get two spaces."
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Auto-correct">
+		<ListPreference
+			android:key="pref_autocorrect"
+			android:defaultValue="medium"
+			android:title="Fix typos automatically"
+			app:useSimpleSummaryProvider="true"
+			android:dialogTitle="How readily to fix typos"
+			android:entries="@array/autocorrect_entries"
+			android:entryValues="@array/autocorrect_values" />
+		<Preference
+			android:key="pref_test_spellcheck"
+			android:title="Test the spell checker"
+			android:summary="Asks the spell checker about a few misspelled words and shows what it answers and what auto-correct would do. Use it to find out why typos are not being fixed." />
+		<Preference
+			android:summary="A misspelled word is fixed when you type a space or punctuation after it, or press Enter. The best guess is picked from the spell checker chosen in Android's Languages &amp; input settings, the built in common words and the words you use, counting slips of the fingers (a key next to the right one, swapped or doubled letters) and how common each word is. Higher levels dare more. Slang like lol and omg, stretched words like sooo, and names are left alone. Press Backspace straight away to put it back, and it won't be fixed again. Corrections you choose or keep are remembered as habits. Fixing is off in Cyrillic and Korean, and in fields for passwords, addresses and the like."
+			app:selectable="false" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Grammar and punctuation">
+		<ListPreference
+			android:key="pref_grammar"
+			android:defaultValue="full"
+			android:title="Fix grammar and punctuation"
+			app:useSimpleSummaryProvider="true"
+			android:dialogTitle="How much to fix"
+			android:entries="@array/grammar_entries"
+			android:entryValues="@array/grammar_values" />
+		<Preference
+			android:summary="Basic fixes what is always wrong: a lowercase i, a missing apostrophe (dont), a apple, could of, alot and a doubled the, capitals for the first word of a sentence and for days, months, languages and places, caps lock slips (hELLO), and takes the space away from before a comma, full stop, question mark or exclamation mark. Full also chooses between their, there and they're, your and you're, its and it's, to and too, then and than, lose and loose, whose and who's, and fixes he don't, they was, I have went and were going. It looks at the words you have typed, never at what comes after, so it only acts on patterns that are hardly ever right. Press Backspace straight away to undo a fix, and it won't be fixed again."
+			app:selectable="false" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Auto-space and shortcuts">
+		<SwitchPreference
+			android:key="pref_autospace"
+			android:defaultValue="true"
+			android:title="Space after punctuation"
+			android:summary="Put in the space when a full stop, comma, question mark or exclamation mark is typed straight into the next word: hello.world becomes hello. world. Web addresses, file names and abbreviations are left alone."
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<SwitchPreference
+			android:key="pref_split_words"
+			android:defaultValue="true"
+			android:title="Split words that ran together"
+			android:summary="lovehahaha becomes love hahaha and goodmorning becomes good morning. Only for a word that is not a word itself and splits into common ones."
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<SwitchPreference
+			android:key="pref_fix_on_enter"
+			android:defaultValue="true"
+			android:title="Fix the last word when I press Enter"
+			android:summary="Fixes the word before the cursor just before Enter is sent, so the last word of a message is fixed too. When it changes something, Enter is sent again straight after the fix."
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<EditTextPreference
+			android:key="pref_shortcuts"
+			android:title="Shortcuts and my words"
+			android:dialogTitle="Shortcuts and my words"
+			android:dialogMessage="One per line. A shortcut is replaced when you type a space after it: omw = on my way. A word on its own line is never fixed and is suggested as you type it: Kubernetes."
+			android:summary="Shortcuts that turn into longer text, and words that are never fixed" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Toolbar">
+		<SwitchPreference
+			android:key="pref_show_toolbar"
+			android:defaultValue="false"
+			android:title="Show toolbar"
+			android:summary="Show a strip above the keyboard with emoji, clipboard and voice buttons, word suggestions, and the active modifiers"
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<SwitchPreference
+			android:key="pref_suggestions"
+			android:defaultValue="true"
+			android:dependency="pref_show_toolbar"
+			android:title="Word suggestions and spell check"
+			android:summary="Suggest corrections and completions in the toolbar. Corrections come from the spell checker chosen in Android's Languages &amp; input settings. With Emoji held, F, G and H pick the first, second and third suggestion."
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<SwitchPreference
+			android:key="pref_common_words"
+			android:defaultValue="true"
+			android:dependency="pref_suggestions"
+			android:title="Complete with common English words"
+			android:summary="Also suggest words from a built in list of 30,000 common English words, after the ones you use. Turn this off if you mostly type another language."
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<SwitchPreference
+			android:key="pref_learn_words"
+			android:defaultValue="true"
+			android:dependency="pref_suggestions"
+			android:title="Learn words as I type"
+			android:summary="Remember the words you use, which words follow which, how you start sentences, and the corrections you make, to suggest and fix things the way you write. It is only stored on this device, and never from password fields."
+			app:widgetLayout="@layout/settings_widget_switch" />
+		<Preference
+			android:key="pref_manage_learned_words"
+			android:title="Manage learned words"
+			android:summary="See what it has learned and forget the words or corrections you don't want. You can also hold a suggestion in the toolbar to forget it."
+			app:fragment="io.github.rickybrent.minimal_symlayer_keyboard.LearnedWordsFragment" />
+		<Preference
+			android:key="pref_import_text"
+			android:title="Import text to learn from"
+			android:summary="Learn words and which words follow which from a text file (your notes, exported chats, or a book), so suggestions work right away. The file is only read on this device." />
+		<Preference
+			android:key="pref_clear_learned_words"
+			android:title="Clear learned words"
+			android:summary="Forget every word that was learned from typing" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Special Keys" >
 		<Preference
@@ -43,57 +141,56 @@
 			app:holdEntries="@array/emojimeta_hold_entries"
 			app:holdValues="@array/emojimeta_hold_values" />
 	</PreferenceCategory>
-	<PreferenceCategory android:title="Additional characters">
-		<SwitchPreference
-			android:key="UseFirstLevel"
-			android:defaultValue="false"
-			android:title="Enable"
-			android:summary="Enable accented characters by multipressing (mostly) vowels"
-
-			app:widgetLayout="@layout/settings_widget_switch"
+	<PreferenceCategory android:title="Emoji">
+		<ListPreference
+			android:key="pref_emoji_skin_tone"
+			android:defaultValue="default"
+			android:title="Skin tone"
+			app:useSimpleSummaryProvider="true"
+			android:entries="@array/skin_tone_entries"
+			android:entryValues="@array/skin_tone_values" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Clipboard history">
+		<SeekBarPreference
+			android:key="pref_clipboard_size"
+			android:defaultValue="50"
+			android:title="History size"
+			android:summary="The number of copied items to keep. Pinned items are always kept."
+			android:min="10"
+			android:max="200"
+			app:showSeekBarValue="true"
 			/>
 		<ListPreference
-			android:key="FirstLevelTemplate"
-			android:defaultValue="fr-ext"
-			android:title="Template"
-			android:summary="%s"
-			android:entries="@array/first_level_template"
-			android:entryValues="@array/first_level_template_values"
-			/>
+			android:key="pref_clipboard_expire"
+			android:defaultValue="0"
+			android:title="Forget items after"
+			app:useSimpleSummaryProvider="true"
+			android:entries="@array/clipboard_expire_entries"
+			android:entryValues="@array/clipboard_expire_values" />
 		<SwitchPreference
-			android:key="FirstLevelOnlyVowels"
-			android:defaultValue="false"
-			android:title="Only vowels"
-			android:summary="Disable multipress for consonants (like ç or ß)"
-			app:widgetLayout="@layout/settings_widget_switch"
-			/>
-		<SwitchPreference
-			android:key="pref_enable_ligatures"
-			android:title="Enable ligatures"
-			android:summary="Automatically combine characters like 'ae' into 'æ'"
-			android:defaultValue="false"
-			app:widgetLayout="@layout/settings_widget_switch"
-			/>
-		<SwitchPreference
-			android:key="pref_enable_cyrillic_layer"
-			android:title="Enable Cyrillic Layer"
-			android:summary="Long press right-shift to toggle Cyrillic layer"
-			android:defaultValue="false"
-			app:widgetLayout="@layout/settings_widget_switch"
-			/>
-		<SwitchPreference
-			android:key="pref_enable_korean_input"
-			android:title="Enable Korean Input"
-			android:summary="Long press right-shift to toggle Korean Input"
-			android:defaultValue="false"
-			app:widgetLayout="@layout/settings_widget_switch"
-			/>
+			android:key="pref_clipboard_skip_sensitive"
+			android:defaultValue="true"
+			android:title="Skip sensitive items"
+			android:summary="Don't keep what password managers and other apps mark as sensitive (Android 13 and later)"
+			app:widgetLayout="@layout/settings_widget_switch" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Voice input">
+		<ListPreference
+			android:key="pref_voice_engine"
+			android:defaultValue="google"
+			android:title="Voice typing"
+			app:useSimpleSummaryProvider="true"
+			android:entries="@array/voice_engine_entries"
+			android:entryValues="@array/voice_engine_values" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Timing">
+		<Preference
+			android:summary="These decide how the keyboard reads a key press. All are in milliseconds (1000 ms is one second). Change them if a double tap locks Shift when you only meant a tap, or the other way round, or if the double-space period or holding a key for its symbol is unreliable."
+			app:selectable="false" />
 		<SeekBarPreference
 			android:key="MultipressThreshold"
 			android:title="Multipress threshold (ms)"
-			android:summary="The time after which the next press is considered separate (default: 750)"
+			android:summary="How soon after pressing a key a second press of the same key, or holding it down, still counts as part of it. It decides three things. Double-space for a period: the second Space must come within this time. Holding a key for its alternate character (hold a letter for the symbol Alt gives): the key has to start repeating within this time, and pressing it again within this time steps through the next alternate. It also applies to the long press of the Mic/Period and Emoji/0 keys. Lower means quicker taps are needed. Higher is more forgiving. Keep it well above the time your phone waits before a held key starts repeating (about half a second), or holding a key does nothing. Default 750."
 			android:defaultValue="750"
 			android:min="5"
 			android:max="3000"
@@ -103,7 +200,7 @@
 			android:key="ModifierLockThreshold"
 			android:defaultValue="250"
 			android:title="Modifier lock threshold (ms)"
-			android:summary="The maximum time of a double press needed to lock a modifier (default: 250)"
+			android:summary="How close together two taps on Shift or Alt must be to lock it. Tap it twice within this time and it stays on until you press it again, like caps lock. For the Sym key it is the boundary between a tap and a hold: a press shorter than this latches Sym on until you press it again, and holding it longer makes it work only while it is held down. Lower means a faster double tap is needed. Higher is easier to lock but a second tap made just after the first can lock it by accident. Default 250."
 			android:min="50"
 			android:max="1000"
 			app:showSeekBarValue="true"
@@ -111,7 +208,7 @@
 		<SeekBarPreference
 			android:key="ModifierNextThreshold"
 			android:title="Modifier long press threshold (ms)"
-			android:summary="The minimum time of a long press needed to apply the modifier until it is released (default: 350)"
+			android:summary="How long Shift or Alt can be held before it stops counting as a quick tap. Tap it (let go before this time) and it applies to the next key only, so tap Shift and then a letter to get one capital. Hold it longer than this and it works only while it is held down, and is dropped when you let go. Lower means a slower tap already counts as a hold. Higher gives you more time to tap, but a long, slow press can then arm the next key by accident. Default 350."
 			android:defaultValue="350"
 			android:min="50"
 			android:max="1000"
@@ -119,12 +216,6 @@
 			/>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Other">
-		<SwitchPreference
-			android:key="pref_mp01_right_hand_sym"
-			android:defaultValue="false"
-			android:title="Right Handed Navigation Cluster"
-			android:summary="Move the navigation cluster keys to the right side of the keyboard"
-			app:widgetLayout="@layout/settings_widget_switch" />
 		<Preference
 			android:key="Reset"
 			android:title="Reset to defaults"
@@ -132,19 +223,5 @@
 		<Preference
 			android:title="About"
 			app:fragment="io.github.rickybrent.minimal_symlayer_keyboard.SettingsActivity$AboutFragment" />
-		<SwitchPreference
-				android:key="pref_show_toolbar"
-				android:defaultValue="false"
-				android:title="Show Toolbar"
-				android:summary="[Experimental] Show a toolbar with the modifier status."
-				android:visible="false"
-				app:widgetLayout="@layout/settings_widget_switch" />
-		<SwitchPreference
-			android:key="override_alt_keys"
-			android:title="Override Alt Key Map"
-			android:summary="[Experimental] Override the device alt key map. Needed for latest MP01 OTA."
-			android:defaultValue="true"
-			app:widgetLayout="@layout/settings_widget_switch"
-			/>
 	</PreferenceCategory>
 </PreferenceScreen>

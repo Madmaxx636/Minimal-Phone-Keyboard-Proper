@@ -26,6 +26,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
     private var initialPressComplete = false
     private var activeTextWatcher: TextWatcher? = null
     private var currentView: ViewType = ViewType.EMOJI
+    private var skinTone: String = SkinTone.DEFAULT
 
     private var inlineViewContainer: FrameLayout? = null
     private val pickerView: View
@@ -38,6 +39,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
     private lateinit var symButton: ImageButton
     private lateinit var symCloseButton: ImageButton
     private lateinit var clipboardButton: ImageButton
+    private lateinit var clipboardClearButton: ImageButton
     private lateinit var emptyClipboardMessage: TextView
     private lateinit var recyclerView: RecyclerView
 
@@ -47,6 +49,25 @@ class PickerManager(private val context: Context, private val service: InputMeth
 
     init {
         pickerView = View.inflate(service, R.layout.picker_container, null)
+        // Create the clipboard history right away so that it records what is copied from now on,
+        // rather than only after the clipboard view has been opened for the first time.
+        getClipboardAdapter()
+    }
+
+    /**
+     * Apply the emoji and clipboard settings. Cheap to call repeatedly with the same values.
+     */
+    fun applySettings(
+        skinTone: String,
+        clipboardMaxUnpinned: Int,
+        clipboardExpireMillis: Long,
+        clipboardSkipSensitive: Boolean
+    ) {
+        if (this.skinTone != skinTone) {
+            this.skinTone = skinTone
+            emojiAdapter?.setSkinTone(skinTone)
+        }
+        getClipboardAdapter().applySettings(clipboardMaxUnpinned, clipboardExpireMillis, clipboardSkipSensitive)
     }
 
     fun setInlineViewContainer(container: FrameLayout?) {
@@ -118,7 +139,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
 
     private fun getEmojiAdapter(): EmojiAdapter {
         if (emojiAdapter == null) {
-            emojiAdapter = EmojiAdapter(context) { emoji ->
+            emojiAdapter = EmojiAdapter(context, skinTone) { emoji ->
                 service.currentInputConnection?.commitText(emoji.character, 1)
                 hide()
             }
@@ -153,9 +174,20 @@ class PickerManager(private val context: Context, private val service: InputMeth
             clipboardAdapter = ClipboardHistoryAdapter(context) { text ->
                 service.currentInputConnection?.commitText(text, 1)
                 hide()
-            }
+            }.also { it.onHistoryChanged = { updateClipboardEmptyState() } }
         }
         return clipboardAdapter!!
+    }
+
+    /**
+     * Show the empty message instead of the list when there is no clipboard history,
+     * e.g. after the last clipping was removed.
+     */
+    private fun updateClipboardEmptyState() {
+        if (!::recyclerView.isInitialized || currentView != ViewType.CLIPBOARD) return
+        val empty = getClipboardAdapter().getHistory().isEmpty()
+        emptyClipboardMessage.visibility = if (empty) View.VISIBLE else View.GONE
+        recyclerView.visibility = if (empty) View.GONE else View.VISIBLE
     }
 
 
@@ -195,6 +227,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
         symButton = pickerView.findViewById(R.id.sym_button)
         symCloseButton = pickerView.findViewById(R.id.sym_close_button)
         clipboardButton = pickerView.findViewById(R.id.clipboard_button)
+        clipboardClearButton = pickerView.findViewById(R.id.clipboard_clear_button)
         emptyClipboardMessage = pickerView.findViewById(R.id.empty_clipboard_message)
 
         // Create and add the RecyclerView here
@@ -207,6 +240,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
         emojiButton.setOnClickListener { switchToView(ViewType.EMOJI) }
         symButton.setOnClickListener { switchToView(ViewType.SYMBOL) }
         clipboardButton.setOnClickListener { switchToView(ViewType.CLIPBOARD) }
+        clipboardClearButton.setOnClickListener { getClipboardAdapter().clearUnpinned() }
 
         pickerView.isFocusableInTouchMode = false
     }
@@ -227,6 +261,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
         symButton.visibility = View.VISIBLE
         searchBar.visibility = View.VISIBLE
         clipboardButton.visibility = View.VISIBLE
+        clipboardClearButton.visibility = View.GONE
 
         when (viewType) {
             ViewType.EMOJI -> {
@@ -269,16 +304,11 @@ class PickerManager(private val context: Context, private val service: InputMeth
             }
             ViewType.CLIPBOARD -> {
                 clipboardButton.visibility = View.GONE
+                clipboardClearButton.visibility = View.VISIBLE
                 val adapter = getClipboardAdapter()
-                adapter.refresh()
-                val history = adapter.getHistory()
-                if (history.isEmpty()) {
-                    emptyClipboardMessage.visibility = View.VISIBLE
-                } else {
-                    recyclerView.visibility = View.VISIBLE
-                }
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.adapter = adapter
+                adapter.refresh() // Also shows the empty message if there is nothing to show.
                 searchBar.requestFocus()
                 searchBar.hint = "Search clipboard"
                 activeTextWatcher = object : TextWatcher {
@@ -297,16 +327,4 @@ class PickerManager(private val context: Context, private val service: InputMeth
         return inlineViewContainer?.visibility == View.VISIBLE
     }
 
-    fun refreshSymbols() {
-        if (::recyclerView.isInitialized && currentView == ViewType.SYMBOL) {
-            // The adapter pulls display labels dynamically via SymKeyMappings,
-            // so a simple notify is enough to refresh the grid.
-            symbolAdapter?.notifyDataSetChanged()
-            recyclerView.adapter?.notifyDataSetChanged()
-        } else {
-            // If not currently showing symbol view but adapter exists, still refresh in case
-            // it becomes visible shortly.
-            symbolAdapter?.notifyDataSetChanged()
-        }
-    }
 }

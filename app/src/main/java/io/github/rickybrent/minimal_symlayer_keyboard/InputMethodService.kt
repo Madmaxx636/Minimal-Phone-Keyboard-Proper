@@ -11,16 +11,17 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.InputType
 import android.text.TextUtils
-import android.util.Log
 import android.view.InputDevice
 import android.view.KeyCharacterMap
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethod.SHOW_FORCED
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import java.util.Locale
@@ -202,7 +203,7 @@ class InputMethodService : AndroidInputMethodService() {
 	private var pickerManager: PickerManager? = null
 	private var mainInputView: View? = null
 	private var inputViewStrip: View? = null
-	private var stripStatusIcon: ImageView? = null
+	private var stripModifierRow: LinearLayout? = null
 
 	val shift = Modifier()
 	private val alt = Modifier()
@@ -215,6 +216,18 @@ class InputMethodService : AndroidInputMethodService() {
 	private val koreanInput = KoreanInputModifier()
 	private var koreanInputToggleEnabled = false
 
+	private val voiceInput = VoiceInput(this)
+	private val suggestionController = SuggestionController(
+		this,
+		isSuppressed = { koreanInput.isActive() },
+		autoCorrectBlocked = { koreanInput.isActive() || cyrillicLayer.isActive() },
+		onApplied = { vibrate() }
+	)
+	// Set when Enter was sent by us after a fix, so that the real key's release is not passed on as well.
+	private var swallowEnterUp = false
+	private var learnedWordsResetTime = -1L
+	private var learnedWordsReloadTime = -1L
+
 	private var lastShift = false
 	private var lastAlt = false
 	private var lastSym = false
@@ -222,6 +235,7 @@ class InputMethodService : AndroidInputMethodService() {
 	private var lastEmojiMeta = false
 	private var lastCaps = false
 	private var lastCyrillicLayer = false
+	private var lastKoreanInput = false
 
 	private var cyrillicLayerToggleEnabled = false
 
@@ -305,6 +319,7 @@ class InputMethodService : AndroidInputMethodService() {
 
 	override fun onDestroy() {
 		super.onDestroy()
+		suggestionController.onDestroy()
 		pickerManager?.hide()
 		unregisterReceiver(unlockReceiver)
 	}
@@ -316,10 +331,20 @@ class InputMethodService : AndroidInputMethodService() {
 		pickerManager?.setInlineViewContainer(pickerContainer)
 
 		val inputContainer = mainInputView?.findViewById<FrameLayout>(R.id.input_view_container)
-		this.inputViewStrip = layoutInflater.inflate(R.layout.input_view_strip, null)
-		stripStatusIcon = this.inputViewStrip?.findViewById(R.id.modifier_icon)
-		inputContainer?.addView(this.inputViewStrip)
-		this.inputViewStrip?.visibility = if (showToolbar) View.VISIBLE else View.GONE
+		val strip = layoutInflater.inflate(R.layout.input_view_strip, null)
+		this.inputViewStrip = strip
+		stripModifierRow = strip.findViewById(R.id.modifier_row)
+		strip.findViewById<ImageButton>(R.id.toolbar_emoji).setOnClickListener { showEmojiPicker() }
+		strip.findViewById<ImageButton>(R.id.toolbar_clipboard).setOnClickListener { showClipboardHistory() }
+		strip.findViewById<ImageButton>(R.id.toolbar_voice).setOnClickListener { startVoiceInput() }
+		suggestionController.setViews(listOf(
+			strip.findViewById<TextView>(R.id.suggestion_0),
+			strip.findViewById<TextView>(R.id.suggestion_1),
+			strip.findViewById<TextView>(R.id.suggestion_2)
+		))
+		inputContainer?.addView(strip)
+		strip.visibility = if (showToolbar) View.VISIBLE else View.GONE
+		updateToolbarModifiers()
 
 		return mainInputView!!
 	}
@@ -328,6 +353,21 @@ class InputMethodService : AndroidInputMethodService() {
 		super.onStartInputView(info, restarting)
 		isInputViewActive = true
 		updateStatusIconIfNeeded()
+		suggestionController.onStartInputView(info)
+		commitDictatedText()
+	}
+
+	/**
+	 * Type in what was dictated with the speech dialog, which is shown by another activity and
+	 * so can only be typed in once the app being typed into has focus again.
+	 */
+	private fun commitDictatedText() {
+		var text = VoiceInput.takePendingText() ?: return
+		val ic = currentInputConnection ?: return
+		if (ic.getCursorCapsMode(TextUtils.CAP_MODE_SENTENCES) != 0) {
+			text = text.replaceFirstChar { it.uppercase() }
+		}
+		ic.commitText(text, 1)
 	}
 
 	private fun showEmojiPicker() {
@@ -344,6 +384,7 @@ class InputMethodService : AndroidInputMethodService() {
 		super.onStartInput(attribute, restarting)
 
 		updateFromPreferences()
+		suggestionController.onStartInput(attribute)
 
 		// Reset Hangul composer when starting input
 		hangulComposer.reset(currentInputConnection)
@@ -357,6 +398,11 @@ class InputMethodService : AndroidInputMethodService() {
 	 * Reset the shift/caps state when the InputView is closed and update the icons.
 	 * Prevents auto-caps's icon from appearing when no text input is active.
 	 */
+	override fun onFinishInput() {
+		super.onFinishInput()
+		suggestionController.onFinishInput()
+	}
+
 	override fun onFinishInputView(finishingInput: Boolean) {
 		super.onFinishInputView(finishingInput)
 		isInputViewActive = false
@@ -366,6 +412,7 @@ class InputMethodService : AndroidInputMethodService() {
 		hangulComposer.reset(currentInputConnection)
 		updateStatusIconIfNeeded()
 		pickerManager?.hide()
+		suggestionController.onFinishInputView()
 	}
 
 	override fun onUpdateSelection(
@@ -379,6 +426,7 @@ class InputMethodService : AndroidInputMethodService() {
 		if(!sym.get()) {
 			updateAutoCapitalization()
 		}
+		suggestionController.onSelectionUpdate(newSelStart, newSelEnd)
 
 		super.onUpdateSelection(
 			oldSelStart,
@@ -395,7 +443,10 @@ class InputMethodService : AndroidInputMethodService() {
 			pickerManager!!.handleKeyEvent(event) // always eat
 			return true
 		} else if (event.keyCode == KeyEvent.KEYCODE_BACK) {
-			// directly send to the app instead of dismissing our (invisible) keyboard.
+			// While the toolbar is showing, the system gives Back to the keyboard first, and an app that was built
+			// for newer Android ignores Back sent as a key. So hide the toolbar like any keyboard does, which lets
+			// the next Back go to the app, and still pass this one on for the apps that do take it as a key.
+			if (showToolbar && isInputViewShown) requestHideSelf(0)
 			sendDownUpKeyEvents(event.keyCode)
 			return true
 		}
@@ -517,6 +568,11 @@ class InputMethodService : AndroidInputMethodService() {
 		// Handle backspace/delete
 		if(event.keyCode == KeyEvent.KEYCODE_DEL || event.keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
 			multipress.reset()
+			// Backspace right after a typo was fixed puts the word back as it was typed.
+			if (event.keyCode == KeyEvent.KEYCODE_DEL && event.repeatCount == 0 && suggestionController.undoAutoCorrect()) {
+				consumeModifierNext()
+				return true
+			}
 			if (koreanInput.isActive() && event.keyCode == KeyEvent.KEYCODE_DEL) {
 				// Let Hangul composer handle backspace first; if it consumed, stop here
 				if (hangulComposer.backspace(currentInputConnection)) {
@@ -594,6 +650,16 @@ class InputMethodService : AndroidInputMethodService() {
 		}
 
 		if(event.keyCode == KeyEvent.KEYCODE_ENTER) {
+			// The last word of a message is only fixed if it is done before Enter sends the message. The key is
+			// sent again after the fix, in order behind it, as a key press from the physical keyboard, rather than
+			// left to race the fix to the app.
+			if (!shift.get() && !alt.get() && !event.isCtrlPressed && suggestionController.fixBeforeEnter()) {
+				consumeModifierNext()
+				swallowEnterUp = true
+				sendKey(KeyEvent.KEYCODE_ENTER, event, true)
+				sendKey(KeyEvent.KEYCODE_ENTER, event, false)
+				return true
+			}
 			consumeModifierNext()
 		}
 
@@ -658,6 +724,10 @@ class InputMethodService : AndroidInputMethodService() {
 	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
 		if (isInputViewActive && pickerManager?.isShowing() == true) {
 			pickerManager!!.handleKeyEvent(event) // always eat
+			return true
+		}
+		if (event.keyCode == KeyEvent.KEYCODE_ENTER && swallowEnterUp) {
+			swallowEnterUp = false
 			return true
 		}
 
@@ -873,6 +943,11 @@ class InputMethodService : AndroidInputMethodService() {
 				launchApp(Intent.ACTION_MAIN, Intent.CATEGORY_APP_CALENDAR)
 				true
 			}
+			// Pick the first, second or third word suggestion, if there is one. These keys are
+			// otherwise unused, so they fall through to the normal handling when there is nothing to pick.
+			KeyEvent.KEYCODE_F -> suggestionController.applySlot(0)
+			KeyEvent.KEYCODE_G -> suggestionController.applySlot(1)
+			KeyEvent.KEYCODE_H -> suggestionController.applySlot(2)
 			// KeyEvent.KEYCODE_N -> // Notification shade. No standard intent for this.
 			// We may be able to use an accessibility service, but it's not a priority for me.
 			// Menu and Escape will only work for some apps when sent like this as well.
@@ -962,7 +1037,8 @@ class InputMethodService : AndroidInputMethodService() {
 		val capsState = caps.get()
 		val metaState = emojiMeta.get()
 		val cyrillicState = cyrillicLayer.isActive()
-		if(force || symState != lastSym || altState != lastAlt || shiftState != lastShift || capsState != lastCaps || ctrlState != lastDotCtrl || metaState != lastEmojiMeta || cyrillicState != lastCyrillicLayer) {
+		val koreanState = koreanInput.isActive()
+		if(force || symState != lastSym || altState != lastAlt || shiftState != lastShift || capsState != lastCaps || ctrlState != lastDotCtrl || metaState != lastEmojiMeta || cyrillicState != lastCyrillicLayer || koreanState != lastKoreanInput) {
 			if(sym.get()) {
 				if (shift.get()) {
 					showStatusIcon(R.drawable.symshift)
@@ -987,6 +1063,7 @@ class InputMethodService : AndroidInputMethodService() {
 			} else {
 				hideStatusIcon()
 			}
+			updateToolbarModifiers()
 		}
 		lastShift = shiftState
 		lastAlt = altState
@@ -995,18 +1072,36 @@ class InputMethodService : AndroidInputMethodService() {
 		lastCaps = capsState
 		lastEmojiMeta = metaState
 		lastCyrillicLayer = cyrillicState
+		lastKoreanInput = koreanState
 	}
 
-	override fun showStatusIcon(iconResId: Int) {
-		super.showStatusIcon(iconResId)
+	/**
+	 * Show every active modifier in the toolbar, unlike the status bar icon which can only show one.
+	 */
+	private fun updateToolbarModifiers() {
+		val row = stripModifierRow ?: return
+		row.removeAllViews()
 
-		stripStatusIcon?.setImageResource(iconResId)
-		stripStatusIcon?.visibility = View.VISIBLE
-	}
+		fun addIcon(iconResId: Int, description: String) {
+			val icon = layoutInflater.inflate(R.layout.toolbar_modifier_icon, row, false) as ImageView
+			icon.setImageResource(iconResId)
+			icon.contentDescription = description
+			row.addView(icon)
+		}
 
-	override fun hideStatusIcon() {
-		super.hideStatusIcon()
-		stripStatusIcon?.visibility = View.GONE
+		if (koreanInput.isActive()) {
+			val badge = layoutInflater.inflate(R.layout.toolbar_modifier_text, row, false) as TextView
+			badge.text = "한"
+			badge.contentDescription = "Korean input"
+			row.addView(badge)
+		}
+		if (cyrillicLayer.isActive()) addIcon(R.drawable.cyrillic, "Cyrillic layer")
+		if (sym.get()) addIcon(R.drawable.sym, "Sym")
+		if (emojiMeta.get()) addIcon(R.drawable.meta, "Meta")
+		if (dotCtrl.get()) addIcon(if (dotCtrl.isLocked()) R.drawable.ctrllock else R.drawable.ctrl, "Ctrl")
+		if (alt.get()) addIcon(if (alt.isLocked()) R.drawable.altlock else R.drawable.alt, "Alt")
+		if (shift.get()) addIcon(if (shift.isLocked()) R.drawable.shiftlock else R.drawable.shift, "Shift")
+		if (caps.get()) addIcon(if (caps.isLocked()) R.drawable.capslock else R.drawable.caps, "Caps")
 	}
 
 	/**
@@ -1085,6 +1180,37 @@ class InputMethodService : AndroidInputMethodService() {
 		showToolbar = preferences.getBoolean("pref_show_toolbar", false)
 		this.inputViewStrip?.visibility = if (showToolbar) View.VISIBLE else View.GONE
 
+		// Suggestions are shown in the toolbar, so there is nothing to do when it is hidden.
+		suggestionController.enabled = showToolbar && preferences.getBoolean("pref_suggestions", true)
+		suggestionController.learnWords = preferences.getBoolean("pref_learn_words", true)
+		suggestionController.useCommonWords = preferences.getBoolean("pref_common_words", true)
+		suggestionController.autoCorrectLevel = AutoCorrectLevel.fromPreference(preferences.getString("pref_autocorrect", "medium"))
+		suggestionController.grammarLevel = GrammarLevel.fromPreference(preferences.getString("pref_grammar", "full"))
+		suggestionController.autoSpace = preferences.getBoolean("pref_autospace", true)
+		suggestionController.splitWords = preferences.getBoolean("pref_split_words", true)
+		suggestionController.fixOnEnter = preferences.getBoolean("pref_fix_on_enter", true)
+		suggestionController.capitalizeSentences = preferences.getBoolean("AutoCapitalize", true)
+		suggestionController.personal = PersonalDictionary.parse(preferences.getString("pref_shortcuts", ""))
+		val resetTime = preferences.getLong("pref_learned_words_reset", 0L)
+		if (learnedWordsResetTime >= 0 && resetTime > learnedWordsResetTime) {
+			suggestionController.clearLearnedWords()
+		}
+		learnedWordsResetTime = resetTime
+		val reloadTime = preferences.getLong("pref_learned_words_reload", 0L)
+		if (learnedWordsReloadTime >= 0 && reloadTime > learnedWordsReloadTime) {
+			suggestionController.reloadLearnedWords()
+		}
+		learnedWordsReloadTime = reloadTime
+
+		voiceInput.engine = VoiceInput.Engine.fromPreference(preferences.getString("pref_voice_engine", "google"))
+
+		pickerManager?.applySettings(
+			skinTone = preferences.getString("pref_emoji_skin_tone", SkinTone.DEFAULT) ?: SkinTone.DEFAULT,
+			clipboardMaxUnpinned = preferences.getInt("pref_clipboard_size", ClipboardHistoryModel.DEFAULT_MAX_UNPINNED),
+			clipboardExpireMillis = (preferences.getString("pref_clipboard_expire", "0")?.toLongOrNull() ?: 0L) * 60_000L,
+			clipboardSkipSensitive = preferences.getBoolean("pref_clipboard_skip_sensitive", true)
+		)
+
 		autoCapitalize = preferences.getBoolean("AutoCapitalize", true)
 
 		val lockThreshold = preferences.getInt("ModifierLockThreshold", 250)
@@ -1097,20 +1223,15 @@ class InputMethodService : AndroidInputMethodService() {
 		alt.nextThreshold = nextThreshold
 
 		multipress.multipressThreshold = preferences.getInt("MultipressThreshold", 750)
-		multipress.ignoreFirstLevel = !preferences.getBoolean("UseFirstLevel", true)
 		multipress.ignoreDotSpace = !preferences.getBoolean("DotSpace", true)
-		multipress.ignoreConsonantsOnFirstLevel = preferences.getBoolean("FirstLevelOnlyVowels", false)
-		multipress.ligaturesEnabled = preferences.getBoolean("pref_enable_ligatures", false)
-		multipress.overrideAltKeys = preferences.getBoolean("override_alt_keys", true)
-
-		cyrillicLayerToggleEnabled = preferences.getBoolean("pref_enable_cyrillic_layer", false)
-		koreanInputToggleEnabled = preferences.getBoolean("pref_enable_korean_input", false)
-
-		// Enforce mutual exclusivity at settings level: if both enabled, disable Cyrillic layer
-		if (cyrillicLayerToggleEnabled && koreanInputToggleEnabled) {
-			preferences.edit().putBoolean("pref_enable_cyrillic_layer", false).apply()
-			cyrillicLayerToggleEnabled = false
-		}
+		// The settings for accented characters, ligatures and the Cyrillic and Korean layers are not offered, so
+		// those are off whatever an older version saved. The phone's own alt key map is always replaced by ours.
+		multipress.ignoreFirstLevel = true
+		multipress.ignoreConsonantsOnFirstLevel = false
+		multipress.ligaturesEnabled = false
+		multipress.overrideAltKeys = true
+		cyrillicLayerToggleEnabled = false
+		koreanInputToggleEnabled = false
 
 		// If Cyrillic feature disabled, also deactivate runtime layer
 		if (!cyrillicLayerToggleEnabled && cyrillicLayer.isActive()) {
@@ -1122,11 +1243,6 @@ class InputMethodService : AndroidInputMethodService() {
 			hangulComposer.reset(currentInputConnection)
 		}
 
-		val templateId = preferences.getString("FirstLevelTemplate", "fr")
-		if(templates.containsKey(templateId)) {
-			multipress.substitutions[0] = templates[templateId]!!
-		}
-
 		dotCtrl.shortPressKeyCode = preferenceToKeyCode(preferences.getString("pref_dotctrl_tap", "period"))
 		dotCtrl.longPressKeyCode = preferenceToKeyCode(preferences.getString("pref_dotctrl_long_press", "voice"))
 		dotCtrl.modKeyCode = preferenceToKeyCode(preferences.getString("pref_dotctrl_hold", "ctrl"))
@@ -1135,12 +1251,6 @@ class InputMethodService : AndroidInputMethodService() {
 		emojiMeta.longPressKeyCode = preferenceToKeyCode(preferences.getString("pref_emojimeta_long_press", "0"))
 		emojiMeta.modKeyCode = preferenceToKeyCode(preferences.getString("pref_emojimeta_hold", "meta"))
 
-
-		// MP01 right-hand friendly Sym layer toggle (opt-in by default)
-		val rightHandSym = preferences.getBoolean("pref_mp01_right_hand_sym", false)
-		SymKeyMappings.enableRightHandMp01(rightHandSym)
-		// Refresh picker symbols if currently shown to reflect new labels/actions
-		pickerManager?.refreshSymbols()
 
 		// TODO: Separate modifier and special-key logic and add better handling for sym and right shift.
 	}
@@ -1158,29 +1268,7 @@ class InputMethodService : AndroidInputMethodService() {
 	}
 
 	private fun startVoiceInput() {
-		val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		val token = window.window?.attributes?.token ?: return
-
-		val voiceImeId = findVoiceIme()
-		if (voiceImeId != null) {
-			imm.setInputMethod(token, voiceImeId)
-		} else {
-			Log.w(this.packageName,"No voice IME found.")
-			Toast.makeText(this, "No voice IME found.", Toast.LENGTH_SHORT).show()
-		}
-	}
-
-	private fun findVoiceIme(): String? {
-		val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		for (imi in imm.enabledInputMethodList) {
-			for (i in 0 until imi.subtypeCount) {
-				val subtype = imi.getSubtypeAt(i)
-				if (subtype.mode == "voice") {
-					return imi.id
-				}
-			}
-		}
-		return null
+		voiceInput.start()
 	}
 
 	/**

@@ -26,10 +26,15 @@ object RecentsHeaderItem : GridItem()
 
 class EmojiAdapter(
     private val context: Context,
+    skinTone: String,
     private val onEmojiSelected: (Emoji) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private val allEmojis: List<Emoji>
+    private val emojisByKey: Map<String, Emoji>
+    // The emoji matching the preferred skin tone. Searching for a skin tone still looks at allEmojis.
+    private var visibleEmojis: List<Emoji>
+    private var skinTone: String = skinTone
     private var recentEmojis: MutableList<Emoji>
     private var recentEmojisAvailable = false
     private var displayList: List<GridItem> = emptyList()
@@ -57,8 +62,10 @@ class EmojiAdapter(
 
     init {
         allEmojis = loadEmojis(context)
+        emojisByKey = allEmojis.associateBy { EmojiData.key(it.character) }
+        visibleEmojis = SkinTone.filter(allEmojis, skinTone)
         recentEmojis = loadRecents()
-        updateDisplayList(allEmojis, isFiltering = false)
+        updateDisplayList(visibleEmojis, isFiltering = false)
     }
 
     // --- ViewHolder Classes ---
@@ -134,7 +141,15 @@ class EmojiAdapter(
 
     fun refresh() {
         recentEmojis = loadRecents()
-        updateDisplayList(allEmojis, isFiltering = false)
+        updateDisplayList(visibleEmojis, isFiltering = false)
+    }
+
+    /** Show only the emoji that match [skinTone], see [SkinTone.filter]. */
+    fun setSkinTone(skinTone: String) {
+        if (this.skinTone == skinTone) return
+        this.skinTone = skinTone
+        visibleEmojis = SkinTone.filter(allEmojis, skinTone)
+        refresh()
     }
 
     // --- Persistence and Data Handling ---
@@ -147,7 +162,7 @@ class EmojiAdapter(
                 emojis.add(Emoji(parts[0], parts[1], parts[2], parts[3], parts[4].split("|")))
             }
         }
-        return emojis
+        return EmojiData.deduplicate(emojis)
     }
 
     private fun loadRecents(): MutableList<Emoji> =
@@ -156,7 +171,8 @@ class EmojiAdapter(
             (p.getString(PREF_RECENT_EMOJI, "") ?: "")
                 .split(",")
                 .filter { it.isNotEmpty() }
-                .mapNotNull { char -> allEmojis.find { it.character == char } }
+                // Recents saved before duplicates were removed may be in the form that was dropped.
+                .mapNotNull { char -> emojisByKey[EmojiData.key(char)] }
                 .toMutableList()
         } ?: mutableListOf()
 
@@ -203,9 +219,11 @@ class EmojiAdapter(
                 val results = FilterResults()
                 val query = constraint?.toString()?.lowercase()
                 results.values = if (query.isNullOrEmpty()) {
-                    allEmojis
+                    visibleEmojis
                 } else {
-                    allEmojis.filter {
+                    // Someone searching for "skin tone" wants to see the variants that are otherwise hidden.
+                    val pool = if (query.contains("skin")) allEmojis else visibleEmojis
+                    pool.filter {
                         it.name.lowercase().contains(query) || it.tags.any { tag -> tag.lowercase().contains(query) }
                     }
                 }

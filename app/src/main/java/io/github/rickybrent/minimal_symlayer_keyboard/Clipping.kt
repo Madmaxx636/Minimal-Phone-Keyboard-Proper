@@ -2,7 +2,8 @@ package io.github.rickybrent.minimal_symlayer_keyboard
 
 data class Clipping(
     val text: String,
-    var isPinned: Boolean = false
+    var isPinned: Boolean = false,
+    var timestamp: Long = System.currentTimeMillis()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

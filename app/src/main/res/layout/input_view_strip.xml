@@ -11,54 +11,84 @@
         android:layout_height="1dp"
         android:background="?android:attr/textColorTertiary" />
 
-    <!-- Top strip for modifier status icons (TODO) and suggestions -->
-    <RelativeLayout
+    <!-- Quick actions on the left, word suggestions in the middle, modifier state on the right. -->
+    <LinearLayout
         android:id="@+id/suggestion_strip"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:background="@android:color/white">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
 
-        <!-- Modifier State Square on the far right -->
-        <FrameLayout
-            android:id="@+id/modifier_state_square"
-            android:layout_width="48dp"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/toolbar_emoji"
+            android:layout_width="40dp"
             android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true">
+            android:background="@android:color/transparent"
+            android:contentDescription="Emoji picker"
+            android:src="@drawable/ic_toolbar_emoji"
+            app:tint="?android:attr/textColorPrimary" />
 
-            <!-- The icon for the current modifier (e.g., Shift, Alt) -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/modifier_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                app:tint="?android:attr/textColorPrimary"
-                tools:src="@drawable/shift"
-                tools:visibility="visible" />
-        </FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/toolbar_clipboard"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Clipboard history"
+            android:src="@drawable/ic_toolbar_clipboard"
+            app:tint="?android:attr/textColorPrimary" />
 
-        <!-- 1px Vertical Divider -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/toolbar_voice"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Voice typing"
+            android:src="@drawable/ic_toolbar_mic"
+            app:tint="?android:attr/textColorPrimary" />
+
         <View
-            android:id="@+id/vertical_divider"
             android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_toStartOf="@id/modifier_state_square"
-            android:background="?android:attr/textColorTertiary"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="32dp"
+            android:background="?android:attr/textColorTertiary" />
 
-        <!-- Placeholder for where suggestions will appear -->
-        <TextView
-            android:id="@+id/suggestions_view"
+        <!-- Word suggestions (see SuggestionController): typed word, corrections, completions. -->
+        <LinearLayout
+            android:id="@+id/suggestions_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_toStartOf="@id/modifier_state_square"
-            android:gravity="center"
-            android:text=""
-            android:textColor="?android:attr/textColorSecondary"/>
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/suggestion_0"
+                style="@style/ToolbarSuggestion" />
+
+            <TextView
+                android:id="@+id/suggestion_1"
+                style="@style/ToolbarSuggestion" />
+
+            <TextView
+                android:id="@+id/suggestion_2"
+                style="@style/ToolbarSuggestion" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="?android:attr/textColorTertiary" />
+
+        <!-- One icon for each modifier that is active, added by the input method service. -->
+        <LinearLayout
+            android:id="@+id/modifier_row"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="48dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            tools:ignore="RtlSymmetry" />
+    </LinearLayout>
 </LinearLayout>

@@ -5,15 +5,14 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
+        <!-- Words learned from typing are private, so they are not backed up. -->
+        <exclude domain="file" path="learned_words.txt"/>
         <!-- TODO: Use <include> and <exclude> to control what is backed up.
         <include .../>
         <exclude .../>
         -->
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <exclude domain="file" path="learned_words.txt"/>
     </device-transfer>
-    -->
 </data-extraction-rules>

@@ -1,34 +1,4 @@
 <resources>
-	<string-array name="first_level_template">
-		<item>French</item>
-		<item>Spanish</item>
-		<item>German</item>
-		<item>Portuguese</item>
-		<item>Hungarian-German</item>
-		<item>Polish</item>
-		<item>French+ES/DE/PT</item>
-		<item>Danish-Norwegian</item>
-		<item>Swedish-Finnish</item>
-		<item>Romanian</item>
-		<item>Lithuanian</item>
-		<item>áàâäã</item>
-		<item>àáâäã</item>
-	</string-array>
-	<string-array name="first_level_template_values">
-		<item>fr</item>
-		<item>es</item>
-		<item>de</item>
-		<item>pt</item>
-		<item>hu-de</item>
-		<item>pl</item>
-		<item>fr-ext</item>
-		<item>dk-no</item>
-		<item>se-fi</item>
-		<item>rom</item>
-		<item>lt</item>
-		<item>order1</item>
-		<item>order2</item>
-	</string-array>
 	<string-array name="dotctrl_tap_entries">
 		<item>Period</item>
 		<item>Voice to Text</item>
@@ -106,5 +76,73 @@
 	</string-array>
 	<string-array name="shiftright_hold_values">
 		<item>shift</item>
+	</string-array>
+
+	<string-array name="skin_tone_entries">
+		<item>Default (no skin tone)</item>
+		<item>Light</item>
+		<item>Medium-light</item>
+		<item>Medium</item>
+		<item>Medium-dark</item>
+		<item>Dark</item>
+		<item>Show all variants</item>
+	</string-array>
+	<string-array name="skin_tone_values">
+		<item>default</item>
+		<item>light</item>
+		<item>medium-light</item>
+		<item>medium</item>
+		<item>medium-dark</item>
+		<item>dark</item>
+		<item>all</item>
+	</string-array>
+
+	<!-- The values are minutes. -->
+	<string-array name="clipboard_expire_entries">
+		<item>Never</item>
+		<item>1 hour</item>
+		<item>1 day</item>
+		<item>1 week</item>
+	</string-array>
+	<string-array name="clipboard_expire_values">
+		<item>0</item>
+		<item>60</item>
+		<item>1440</item>
+		<item>10080</item>
+	</string-array>
+
+	<string-array name="voice_engine_entries">
+		<item>Google voice typing (or the speech dialog)</item>
+		<item>Any voice keyboard (or the speech dialog)</item>
+		<item>Speech dialog only</item>
+	</string-array>
+	<string-array name="voice_engine_values">
+		<item>google</item>
+		<item>any</item>
+		<item>dialog</item>
+	</string-array>
+
+	<string-array name="autocorrect_entries">
+		<item>Off</item>
+		<item>Low (single slips only)</item>
+		<item>Medium (recommended)</item>
+		<item>High (always take the top suggestion)</item>
+	</string-array>
+	<string-array name="autocorrect_values">
+		<item>off</item>
+		<item>low</item>
+		<item>medium</item>
+		<item>high</item>
+	</string-array>
+
+	<string-array name="grammar_entries">
+		<item>Off</item>
+		<item>Basic (only what is always wrong)</item>
+		<item>Full (also their, there, they are and more)</item>
+	</string-array>
+	<string-array name="grammar_values">
+		<item>off</item>
+		<item>basic</item>
+		<item>full</item>
 	</string-array>
 </resources>

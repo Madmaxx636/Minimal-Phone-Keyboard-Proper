@@ -21,9 +21,15 @@ class ClipboardHistoryAdapter(
     private val onItemSelected: (String) -> Unit
 ) : RecyclerView.Adapter<ClipboardHistoryAdapter.ClipboardViewHolder>(), Filterable {
 
-    private var fullHistory: MutableList<Clipping> = mutableListOf()
+    private val model = ClipboardHistoryModel()
     private var filteredHistory: List<Clipping> = listOf()
+    private var query: CharSequence? = null
+    private var pinnedLoaded = false
+    private var skipSensitive = true
     private var clipboardManager: ClipboardManager? = null
+
+    /** Called whenever the history is added to, removed from, or otherwise changed. */
+    var onHistoryChanged: (() -> Unit)? = null
 
     private var _prefs: SharedPreferences? = null
     private val prefs: SharedPreferences?
@@ -37,18 +43,18 @@ class ClipboardHistoryAdapter(
         }
 
     private val clipboardListener = ClipboardManager.OnPrimaryClipChangedListener {
-        val clip = clipboardManager?.primaryClip
+        // Only the focused app and the current keyboard may read the clipboard.
+        val clip = try {
+            clipboardManager?.primaryClip
+        } catch (e: SecurityException) {
+            null
+        }
         if (clip != null && clip.itemCount > 0) {
+            if (skipSensitive && clip.description?.extras?.getBoolean(EXTRA_IS_SENSITIVE, false) == true) {
+                return@OnPrimaryClipChangedListener
+            }
             val text = clip.getItemAt(0).text?.toString()
-            if (!text.isNullOrEmpty() && fullHistory.none { it.text == text }) {
-                fullHistory.add(0, Clipping(text))
-                // Limit the size of the history, don't remove pinned items
-                if (fullHistory.size > 50) {
-                    val lastUnpinned = fullHistory.lastOrNull { !it.isPinned }
-                    if (lastUnpinned != null) {
-                        fullHistory.remove(lastUnpinned)
-                    }
-                }
+            if (!text.isNullOrEmpty() && model.add(text)) {
                 updateFilteredHistory()
             }
         }
@@ -67,37 +73,61 @@ class ClipboardHistoryAdapter(
         }
     }
 
+    /**
+     * Load the pinned clippings once storage is available. Before the first unlock (direct boot)
+     * storage is not, so this is retried until it works.
+     */
     private fun loadPinnedClippings() {
-        val pinnedItems = prefs?.getStringSet(PREF_PINNED_CLIPPINGS, emptySet()) ?: emptySet()
-        pinnedItems.forEach {
-            if (fullHistory.none { clipping -> clipping.text == it }) {
-                fullHistory.add(Clipping(it, isPinned = true))
-            }
-        }
-        fullHistory.sortByDescending { it.isPinned }
+        if (pinnedLoaded) return
+        val p = prefs ?: return
+        p.getStringSet(PREF_PINNED_CLIPPINGS, emptySet())?.forEach { model.addPinned(it) }
+        pinnedLoaded = true
     }
 
     private fun savePinnedClippings() {
-        prefs?.let {
-            val pinnedItems = fullHistory.filter { it.isPinned }.map { it.text }.toSet()
-            it.edit { putStringSet(PREF_PINNED_CLIPPINGS, pinnedItems) }
+        // Never overwrite what is stored with an empty set before it has been read.
+        if (!pinnedLoaded) return
+        prefs?.edit { putStringSet(PREF_PINNED_CLIPPINGS, model.pinnedTexts()) }
+    }
+
+    /**
+     * Apply the clipboard settings.
+     * @param maxUnpinned The number of unpinned clippings to keep.
+     * @param expireMillis Unpinned clippings older than this are dropped, or 0 to keep them.
+     * @param skipSensitive Don't record clippings that the copying app marked as sensitive.
+     */
+    fun applySettings(maxUnpinned: Int, expireMillis: Long, skipSensitive: Boolean) {
+        if (model.maxUnpinned == maxUnpinned && model.expireMillis == expireMillis && this.skipSensitive == skipSensitive) {
+            return
         }
+        model.maxUnpinned = maxUnpinned
+        model.expireMillis = expireMillis
+        this.skipSensitive = skipSensitive
+        model.trim()
+        updateFilteredHistory()
     }
 
     fun getHistory(): List<Clipping> {
-        return fullHistory
+        return model.items()
     }
 
     private fun togglePin(item: Clipping) {
-        item.isPinned = !item.isPinned
-        fullHistory.sortByDescending { it.isPinned }
+        model.togglePin(item)
         savePinnedClippings()
         updateFilteredHistory()
     }
 
     private fun removeItem(item: Clipping) {
-        fullHistory.remove(item)
+        model.remove(item)
+        savePinnedClippings()
         updateFilteredHistory()
+    }
+
+    /** Remove every clipping that is not pinned. */
+    fun clearUnpinned() {
+        if (model.clearUnpinned()) {
+            updateFilteredHistory()
+        }
     }
 
     fun paste(text: String) {
@@ -111,8 +141,9 @@ class ClipboardHistoryAdapter(
     }
 
     private fun updateFilteredHistory() {
-        filteredHistory = fullHistory
+        filteredHistory = model.search(query)
         notifyDataSetChanged()
+        onHistoryChanged?.invoke()
     }
 
     class ClipboardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -159,26 +190,25 @@ class ClipboardHistoryAdapter(
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val results = FilterResults()
-                val query = constraint?.toString()?.lowercase()
-                results.values = if (query.isNullOrEmpty()) {
-                    fullHistory
-                } else {
-                    fullHistory.filter {
-                        it.text.lowercase().contains(query)
-                    }
-                }
+                results.values = model.search(constraint)
                 return results
             }
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                // Remember the query so that later changes to the history keep the filter applied.
+                query = constraint
                 filteredHistory = results?.values as? List<Clipping> ?: emptyList()
                 notifyDataSetChanged()
+                onHistoryChanged?.invoke()
             }
         }
     }
 
     companion object {
         private const val PREF_PINNED_CLIPPINGS = "pinned_clippings"
+
+        // ClipDescription.EXTRA_IS_SENSITIVE, which is only defined from Android 13.
+        private const val EXTRA_IS_SENSITIVE = "android.content.extra.IS_SENSITIVE"
     }
 }

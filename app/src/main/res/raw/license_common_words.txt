@@ -1,0 +1,18 @@
+Common English words (common_words.txt)
+
+This list of words is derived from the "FrequencyWords" project (en_50k.txt, from the 2018 lists) by Hermit Dave:
+https://github.com/hermitdave/FrequencyWords
+
+That project's lists were made from the OpenSubtitles 2018 corpus, which is distributed by OPUS:
+https://opus.nlpl.eu/
+
+The content is licensed under the Creative Commons Attribution-ShareAlike 4.0 International license (CC BY-SA 4.0):
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Changes made to the list:
+- It was cut down to the 30,000 most common words.
+- Words that are not in a standard English dictionary (names, fragments of contractions, misspellings) were removed, and so were strongly offensive words.
+- Common contractions such as "don't" and "it's" were added by hand, as the source splits them into pieces.
+- The counts were dropped. The words are only listed in order of how common they are.
+
+This file, as changed, is available under the same license.
