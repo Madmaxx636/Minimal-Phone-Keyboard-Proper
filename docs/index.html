@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimal Keyboard Proper</title>
+<meta name="description" content="A keyboard for the Minimal Phone MP01 with a toolbar, word suggestions that learn how you write, auto-correct, grammar fixes, emoji, clipboard history and voice typing.">
+<style>
+:root {
+	--bg: #fbfaf7;
+	--card: #ffffff;
+	--text: #1c1c1a;
+	--muted: #5f5f5a;
+	--line: #dedbd2;
+	--accent: #1c1c1a;
+	--accent-text: #fbfaf7;
+	--code: #efece4;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #141413;
+		--card: #1d1d1b;
+		--text: #eeece6;
+		--muted: #a4a19a;
+		--line: #34332f;
+		--accent: #eeece6;
+		--accent-text: #141413;
+		--code: #262624;
+	}
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: inherit; text-underline-offset: 3px; }
+main { max-width: 760px; margin: 0 auto; padding: 0 16px 64px; }
+header { padding: 56px 0 8px; }
+h1 { font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+h2 { font-size: 1.35rem; margin: 48px 0 12px; letter-spacing: -0.01em; }
+h3 { font-size: 1.02rem; margin: 0 0 4px; }
+p { margin: 0 0 12px; }
+.lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+.button {
+	display: inline-block;
+	background: var(--accent);
+	color: var(--accent-text);
+	padding: 13px 22px;
+	border-radius: 10px;
+	font-weight: 600;
+	text-decoration: none;
+}
+.button:focus-visible, a:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+.meta { color: var(--muted); font-size: 0.92rem; margin-top: 14px; }
+code, .hash {
+	font: 0.85em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	background: var(--code);
+	padding: 2px 6px;
+	border-radius: 5px;
+	word-break: break-all;
+}
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.card p { color: var(--muted); font-size: 0.96rem; margin: 0; }
+ol { padding-left: 1.3em; }
+li { margin-bottom: 6px; }
+figure { margin: 16px 0 0; }
+figure img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+.note { border-left: 3px solid var(--line); padding: 2px 0 2px 14px; color: var(--muted); }
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+	<h1>Minimal Keyboard Proper</h1>
+	<p class="lead">A keyboard for the Minimal Phone (MP01) that types the way you do: a toolbar, word suggestions that learn your habits, auto-correct, grammar fixes, emoji, clipboard history and voice typing.</p>
+	<a class="button" href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest">Download the APK (v0.88)</a>
+	<p class="meta">Android 10 or later &middot; about 10 MB &middot; free software under the GNU GPL v3 &middot; no internet permission</p>
+	<p class="meta">SHA-256 of <code>Minimal-Keyboard-Proper-0.88.apk</code>:<br><span class="hash">2a338dcf98714ad2d8829532b8f00c8e89feee31ab3443ae0a330d518e9b893c</span></p>
+</header>
+
+<h2>Install</h2>
+<ol>
+	<li>Download the APK on your phone from the <a href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest">latest release</a> and open it. Android will ask you to allow installing from that app or browser.</li>
+	<li>Go to <code>Settings</code> &rsaquo; <code>System</code> &rsaquo; <code>Languages &amp; input</code> &rsaquo; <code>Virtual keyboard</code> &rsaquo; <code>Manage keyboards</code> and turn on <em>Minimal Keyboard Proper</em>.</li>
+	<li>Pick it as your input method.</li>
+	<li>Open its settings and turn on <em>Show toolbar</em> to get suggestions, emoji, clipboard and voice buttons.</li>
+</ol>
+<p class="note">It replaces a keyboard for the phone's physical keys, so there is no on-screen keyboard. It is built for the Minimal Phone MP01. The Unihertz Titan Pocket is untested. Later versions install over the top and keep your settings and learned words.</p>
+
+<h2>What it does</h2>
+<div class="grid">
+	<div class="card"><h3>Suggestions that learn</h3><p>Completes the word you are typing, predicts the next one, and starts your sentences the way you do. It learns your words, phrases and habits, and you can forget any of them one by one.</p></div>
+	<div class="card"><h3>Stronger auto-correct</h3><p>Weighs the spell checker, 30,000 common words and your own words by how likely each slip is. Fixes the last word when you press Enter, and Backspace puts your word back.</p></div>
+	<div class="card"><h3>Grammar and punctuation</h3><p>their, there and they're, your and you're, its and it's, to and too, capitals, apostrophes, &ldquo;I have went&rdquo; and more, from rules that only act where a pattern is almost never right.</p></div>
+	<div class="card"><h3>Auto-space</h3><p><code>hello.world</code> becomes <code>hello. world</code>, and <code>lovehahaha</code> becomes <code>love hahaha</code>. Web addresses and file names are left alone.</p></div>
+	<div class="card"><h3>Shortcuts and my words</h3><p>Type <code>omw</code> and get &ldquo;on my way&rdquo;. Add names and jargon so they are never fixed.</p></div>
+	<div class="card"><h3>Emoji and clipboard</h3><p>A keyboard-driven emoji picker with a skin tone setting, and a searchable clipboard history that skips what apps mark as sensitive.</p></div>
+	<div class="card"><h3>Voice typing</h3><p>The Mic key starts Google voice typing, or the system speech dialog if that is not turned on.</p></div>
+	<div class="card"><h3>Sym layer and timings</h3><p>Arrows, page keys and brackets on the Sym layer, and timing settings that are explained in plain words.</p></div>
+</div>
+
+<figure>
+	<img src="sym-layer-mp01.png" alt="Map of the Sym layer on the Minimal Phone keyboard" width="1280" height="791">
+	<figcaption>The Sym layer on the MP01. Image from the original Minimal SymLayer Keyboard project.</figcaption>
+</figure>
+
+<h2>Privacy</h2>
+<p>Everything it learns stays on your phone and is left out of backups. The app has no internet permission at all, so it cannot send anything anywhere. Nothing is learned from password fields or from fields that ask for no personalized learning, and learning can be turned off.</p>
+
+<h2>Credits</h2>
+<p>This is a modified version of other people's work, and full credit goes to them.</p>
+<ul>
+	<li><a href="https://github.com/oin">oin</a>, author of <a href="https://github.com/oin/titanpocketkeyboard">TitanPocketKeyboard</a>, which all of this is based on.</li>
+	<li><a href="https://github.com/rickybrent">rickybrent</a>, author of <a href="https://github.com/rickybrent/minimal-symlayer-keyboard">Minimal SymLayer Keyboard</a>, the Minimal Phone fork that this version modifies. It added the emoji picker, the clipboard history, the Sym layer preview and the handling of the MP01's keys.</li>
+	<li><a href="https://github.com/meldavy">meldavy</a> and <a href="https://github.com/csaba-craft">csaba-craft</a>, who contributed to Minimal SymLayer Keyboard, and Mantas Norvaisa (Lithuanian multipress mapping) and danser (Cyrillic layout layer), whose changes are in its history.</li>
+	<li>The list of common words comes from <a href="https://github.com/hermitdave/FrequencyWords">FrequencyWords</a> by Hermit Dave (CC BY-SA 4.0). The emoji list is from <a href="https://github.com/Mange/emoji-data">Mange/emoji-data</a>. The icons are <a href="https://fonts.google.com/icons">Material Icons</a> by Google (Apache 2.0).</li>
+</ul>
+<p>It has no connection to Lersi's Minimal Phone Keyboard.</p>
+
+<footer>
+	<p>Free software under the <a href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/blob/main/LICENSE">GNU General Public License v3</a>, with no warranty. The <a href="https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper">source code</a> and the full list of changes are on GitHub. Everyone who gets the app is entitled to that source.</p>
+</footer>
+</main>
+</body>
+</html>
