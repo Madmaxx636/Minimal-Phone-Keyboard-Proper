@@ -7,7 +7,9 @@
 
 The project is a fork of the excellent [TitanPocketKeyboard by oin](https://github.com/oin/titanpocketkeyboard), by way of rickybrent's Minimal SymLayer Keyboard, and has no relation to Lersi's [Minimal Phone Keyboard](https://github.com/lersi/minimal_phone_keyboard) or the keyboard that shipped with the Minimal Phone.
 
-This fork adds several new features (a keyboard-focused emoji picker, a clipboard history manager, and additional virtual modifier keys) and special handling for the MP01's unique keys and e-ink display.
+This version adds a toolbar with word suggestions that learn how you write, stronger auto-correct, grammar fixes, auto-space, text shortcuts, an emoji picker, a clipboard history, voice typing, and a map of every key that opens when you tap `Sym`, and it has special handling for the MP01's unique keys and e-ink display.
+
+**Download:** the [latest release](https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest) has two APKs (see [Installation](#installation)), and the [website](https://madmaxx636.github.io/Minimal-Phone-Keyboard-Proper/) has the checksums.
 
 
 ## Key Features of this Fork
@@ -21,7 +23,7 @@ This fork builds upon the original's solid foundation with several new features 
     * Settings for the history size and for forgetting items after an hour, a day or a week.
     * Items that apps mark as sensitive (such as passwords copied from a password manager) are skipped on Android 13 and later.
 * **Emoji Skin Tone**: Pick a skin tone in the settings and the emoji picker shows only that tone instead of listing every variant. Searching for "skin tone" still finds all variants.
-* **Toolbar**: An optional strip above the keyboard (Settings > Show toolbar) with buttons for the emoji picker, clipboard history and voice typing, word suggestions, and an icon for every active modifier (Shift, Alt, Ctrl, Meta, Sym, Caps, and the Cyrillic and Korean layers). While the toolbar is showing, Back hides it first, as with any keyboard, and the next Back goes to the app.
+* **Toolbar**: An optional strip above the keyboard (Settings > Show toolbar) with buttons for the emoji picker, clipboard history and voice typing, word suggestions, and an icon for every active modifier (Shift, Alt, Ctrl, Meta, Sym and Caps, and in the All languages version the Cyrillic and Korean layers). While the toolbar is showing, Back hides it first, as with any keyboard, and the next Back goes to the app.
 * **Word Suggestions, Habits and Auto-correct**: The toolbar always has something to offer, whether or not you are in the middle of a word, and it learns how you write.
     * **While typing a word** it completes it, from the words you use and then from a built-in list of 30,000 common English words (turn that off if you mostly type another language). Once a word is finished it suggests what could follow it.
     * **In an empty field, or after `.` `?` `!` or a new line**, it offers words to start a sentence: the ones you start yours with, then common ones like "I", "The" or "Thanks". **After a space** it predicts the next word from the last two words you typed, then from the last one, then from built-in guesses (see `next_words.txt`), so the slots are never empty.
@@ -38,7 +40,7 @@ This fork builds upon the original's solid foundation with several new features 
     * **To forget something**, hold a suggestion in the toolbar (a word you don't want, or a prediction that keeps coming up), or use `Manage learned words` in the settings to search everything that was learned and forget words and corrections one at a time. The built-in words can't be forgotten that way.
     * To give it a head start, use `Import text to learn from` in the settings with a text file of your own writing (notes, exported chats, emails) or a book. The list of common words is derived from [FrequencyWords](https://github.com/hermitdave/FrequencyWords) by Hermit Dave (CC BY-SA 4.0), see `About` > `Third-Party Licenses`.
 * **Voice Typing**: The Mic/Period key, and the toolbar's microphone button, switch to Google voice typing when it is turned on as a keyboard (`Manage keyboards`). Otherwise the system speech dialog (from the Google app) is shown and what you say is typed in afterwards. The settings can prefer any other voice keyboard, or always use the speech dialog.
-* **Sym-Layer Preview**: A visual preview of the Sym layer mappings, making it easy to discover and learn.
+* **Sym-Layer View**: open the emoji picker and tap its Sym button for a grid of the Sym layer, which you can tap. For a map of every key, see the next item.
 * **Map of the keyboard**: tap `Sym` and a map of the keyboard opens, laid out like the phone with one big symbol on each key and a small letter, in the style of a BlackBerry keyboard. Each further tap of `Sym` turns to the next page, and the tap after the last page closes it. There is a page for what `Alt` types (the numbers are on the keys that type them, so there is no row of numbers), a page for what `Sym` does (arrows, brackets, cut, copy and paste), and then one page for each time you press a key again after holding it ("Press again 1", "Press again 2" and so on, up to 5, which makes seven pages with the first two; the few characters that come after the fifth press are typed as before but not shown), and one for each accent when accents are turned on. A key has only one symbol on a page. The pages are built from the same tables the keys type with, so they can not disagree with the keys. Pressing a key also closes the map, and it can be turned off under `Additional characters` in the settings.
 * **Advanced Key Support for MP01**: Added support for the Minimal Phone's key layout, adding additional functionality over the factory keyboard:
     * **Three-Way Modifier Keys**: The Mic/Period and Emoji/0 keys act as multi-function modifiers:
@@ -64,10 +66,27 @@ There are two versions, from the same source, with the same settings and everyth
 
 1. Download the APK of the version you want from the [latest release](https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest). The site at [madmaxx636.github.io/Minimal-Phone-Keyboard-Proper](https://madmaxx636.github.io/Minimal-Phone-Keyboard-Proper/) has the checksums.
 2. Install the APK on your Minimal Phone MP01. To change version later, install the other APK over it.
-3. Go to `Settings` > `System` > `Languages & input` > `Virtual keyboard` > `Manage keyboards` and enable `Minimal Keyboard Proper`.
-4. Select `Minimal Keyboard Proper` as your default input method.
+3. Go to `Settings` > `System` > `Languages & input` > `Virtual keyboard` > `Manage keyboards` and enable `Minimal Keyboard Proper` (or `Minimal Keyboard Proper (All languages)`).
+4. Select it as your default input method.
+5. Open its settings and turn on `Show toolbar` for suggestions and the emoji, clipboard and voice buttons.
 
 The source of the limited version is the `main` branch, and of the all languages version the `all-languages` branch.
+
+
+## Settings at a glance
+
+Every setting has a description in the settings screen. The groups are:
+
+* **General**: auto-capitalize, and a period with double-space.
+* **Auto-correct**: how readily typos are fixed (Off, Low, Medium, High), and a button that tests the spell checker.
+* **Grammar and punctuation**: Off, Basic or Full.
+* **Auto-space and shortcuts**: a space after punctuation, splitting words that ran together, fixing the last word on Enter, and your shortcuts and words.
+* **Toolbar**: the toolbar, word suggestions, the common words, learning, and managing, importing and clearing what was learned.
+* **Special keys**: what the Mic/Period and Emoji/0 keys do on a tap, a long press and a hold.
+* **Emoji**, **Clipboard history** and **Voice input**.
+* **Additional characters**: the map of the keyboard when `Sym` is tapped, accented characters (with the accents to use, vowels only, and ligatures), and in the All languages version the Cyrillic layer and Korean input.
+* **Timing**, three times in milliseconds that decide how a key press is read. **Multipress threshold** is how soon a second press of the same key, or a hold, still counts: it is the window for the double-space period, for holding a key for its alternate character, and for the long press of Mic/Period and Emoji/0. **Modifier lock threshold** is how close together two taps on Shift or Alt must be to lock it, and for Sym the line between a tap and a hold. **Modifier long press threshold** is how long Shift or Alt can be held and still count as a tap that applies to the next key only.
+* **Other**: reset to defaults, and About.
 
 
 ## Core Features from the original project
@@ -78,7 +97,7 @@ The source of the limited version is the `main` branch, and of the all languages
 * **Keyboard Navigation**: simulate arrow keys and home/end/page up/page down keys, using the `sym` modifier - especially useful with an e-ink screen.
 * Lock modifier keys by double-tapping them, while a single tap will only have effect for the next key press.
 * See modifier key state in the status bar.
-* Auto-capitalization of the first letter of a sentence.x	
+* Auto-capitalization of the first letter of a sentence.
 * Two spaces after a period automatically replaced by a period and a space.
 
 ## `sym` modifier map and `emoji` shortcuts
@@ -94,7 +113,7 @@ The Cut/Copy/Paste actions are only available when no modifier is pressed.
 
 ## Keyboard Layout
 
-The layouts below are from the original project. **Note that the Sym-layer mapping and some long-press characters have been changed in this fork to better suit the Minimal Phone MP01.** The new Sym-layer preview feature is the best way to explore the current layout.
+The layouts below are from the original project. **Note that the Sym-layer mapping and some long-press characters have been changed in this fork to better suit the Minimal Phone MP01.** The map of the keyboard (tap `Sym`) is the best way to explore the current layout.
 
 
 ### Additional Characters (Multipress)
@@ -150,45 +169,43 @@ The accents of other languages (German, Portuguese, Hungarian, Polish, Danish an
 
 ### Additional Characters (after Long Press)
 
+Hold a key and it gives the character that `Alt` and the key type (the second column). Press it again and it gives the next one in the third column, and again for the one after that. The map of the keyboard (tap `Sym`) shows the same, one press to a page, up to the fifth press.
 
-The following table shows the characters that can be accessed with a long press and subsequent multipresses.
-The first column is the character printed on the key 
+| Key | Long press | Then press again |
+| --- | --- | --- |
+| **`q`** | `&` | `°` |
+| **`w`** | `1` | `&`, `↑` |
+| **`e`** | `2` | `€`, `∃` |
+| **`r`** | `3` | `®` |
+| **`t`** | `_` | `[`, `{`, `<`, `≤`, `†`, `™` |
+| **`y`** | `-` | `]`, `}`, `>`, `≥` |
+| **`u`** | `+` | `—`, `–`, `∪` |
+| **`i`** | `!` | `\|` |
+| **`o`** | `#` | `\`, `œ`, `º`, `÷` |
+| **`p`** | `$` | `;`, `¶` |
+| **`a`** | `@` | `æ`, `ª`, `←` |
+| **`s`** | `4` | `ß`, `§`, `↓` |
+| **`d`** | `5` | `∂`, `→`, `⇒` |
+| **`f`** | `6` | `^` |
+| **`g`** | `=` | `•`, `·` |
+| **`h`** | `:` | `²`, `♯` |
+| **`j`** | `;` | `=`, `≠`, `≈`, `±` |
+| **`k`** | `'` | `%`, `‰`, `‱` |
+| **`l`** | `"` | `` ` `` |
+| **`z`** | `7` | `¡`, `‽` |
+| **`x`** | `8` | `×`, `χ` |
+| **`c`** | `9` | `ç`, `©`, `¢`, `⊂`, `⊄`, `⊃`, `⊅` |
+| **`v`** | `*` | `∀`, `√` |
+| **`b`** | `%` | `…`, `ß`, `∫`, `♭` |
+| **`n`** | `?` | `ñ`, `¬`, `∩` |
+| **`m`** | `,` | `$`, `€`, `£`, `¿` |
+| **` ` (space bar)** |  | `⇥` |
 
-| Key | Long press | Following multipresses            |
-| --- |-------------------|-----------------------------------|
-| **`q`** | `&`               | `°` (degree)                      |
-| **`w`** | `1`               | `&`, `↑`                          |
-| **`e`** | `2`               | `€`, `∃`                          |
-| **`r`** | `3`               | `®`                               |
-| **`t`** | `_`               | `[`, `{`, `<`, `≤`, `†`, `™`      |
-| **`y`** | `-`               | `]`, `}`, `>`, `≥`                |
-| **`u`** | `+`               | `–` (em dash), `–` (en dash), `∪` |
-| **`i`** | `!`               | `\|`                              |
-| **`o`** | `#`               | `ó`, `ò`, `ö`, `õ`                |
-| **`p`** | `$`               | `;`, `¶`                          |
-| **`a`** | `@`               | `æ`, `ª`, `←`                     |
-| **`s`** | `4`               | `ß`, `§`, `↓`                     |
-| **`d`** | `5`               | `∂`, `→`, `⇒`                     |
-| **`f`** | `6`               | `^`                               |
-| **`g`** | `=`               | `•`, `·`                          |
-| **`h`** | `:`               | `²`, `♯`                          |
-| **`j`** | `;`               | `=`, `≠`, `≈`, `±`                |
-| **`k`** | `'`               | `%`, `‰`, `‱`                     |
-| **`l`** | `"`               | `` ` ``                           |
-| **`z`** | `7`               | `¡`, `‽`                          |
-| **`x`** | `8`               | `×`, `χ`                          |
-| **`c`** | `9`               | `ç` `©`, `¢`, `⊂`, `⊄`, `⊃`, `⊅`  |
-| **`v`** | `*`               | `∀`, `√`                          |
-| **` ` (space bar)** | ``                | `⇥`     |
-| **`b`** | `%`               | `…`, `ß`, `∫`, `♭`                |
-| **`n`** | `?`               | `ñ`, `¬`, `∩`                     |
-| **`m`** | `,`               | `$`, `€`, `£`, `¿`                |
-
-# Voice Input
+## Voice Input
 
 Toggling voice input will switch to a voice-input IME if one is installed and enabled, e.g. Google Voice Input (added with [Gboard](https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin)) or [Whisper Plus](https://github.com/woheller69/whisperIMEplus).
 
-# Customizing and contributing
+## Customizing and contributing
 
 Feel free to adjust the layout to your needs by modifying the code and building your own version. If you think your changes could be useful to others, please consider contributing them back to this project, the original project, or by making a public fork.
 
