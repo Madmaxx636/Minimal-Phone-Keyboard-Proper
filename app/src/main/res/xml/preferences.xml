@@ -185,6 +185,13 @@
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Additional characters">
 		<SwitchPreference
+			android:key="pref_sym_map"
+			android:defaultValue="true"
+			android:title="Show a map when I press Sym"
+			android:summary="Press Sym and leave it for a moment, and a map of the keyboard appears with the additional characters of every key: hold a key for the first one and press it again for the next ones, and the accents in italics if they are turned on. It goes away when you press a key or let go of Sym."
+			app:widgetLayout="@layout/settings_widget_switch"
+			/>
+		<SwitchPreference
 			android:key="UseFirstLevel"
 			android:defaultValue="false"
 			android:title="Enable accented characters"
