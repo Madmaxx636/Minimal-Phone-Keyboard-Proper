@@ -625,7 +625,9 @@ class InputMethodService : AndroidInputMethodService() {
 	 * Handle a key down event when the SYM modifier is enabled.
 	 */
 	fun onSymKey(event: KeyEvent, pressed: Boolean): Boolean {
-		if (pressed && event.repeatCount == 0) hideSymMap()
+		// A key of the Sym layer takes the map away. Sym itself does not: its own press comes through here too, right
+		// after it scheduled the map, and neither do the other modifier keys.
+		if (pressed && event.repeatCount == 0 && !KeyEvent.isModifierKey(event.keyCode)) hideSymMap()
 		val mapping = SymKeyMappings.getMapping(event.keyCode, deviceType) ?: return if (!event.isPrintingKey) {
 			if (pressed) super.onKeyDown(event.keyCode, event) else super.onKeyUp(event.keyCode, event)
 		} else true

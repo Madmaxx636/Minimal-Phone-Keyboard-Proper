@@ -80,7 +80,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
         characterMap?.let { (it.parent as? ViewGroup)?.removeView(it) }
         characterMap = CharacterMapView(context).also {
             it.visibility = View.GONE
-            inlineViewContainer?.addView(it)
+            inlineViewContainer?.addView(it, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         }
     }
 
