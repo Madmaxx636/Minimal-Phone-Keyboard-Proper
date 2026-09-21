@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.provider.Settings
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -39,8 +37,6 @@ const val MP01_KEYCODE_EMOJI_PICKER = 666;
  */
 const val MP01_KEYCODE_DICTATE = 667;
 
-/** How long Sym is left alone before the map of additional characters appears, in milliseconds. */
-private const val SYM_MAP_DELAY_MS = 350L
 
 // Only for modifier keys we want to force when using sym+keys to navigate.
 val forceModifierPairs = listOf(
@@ -207,10 +203,9 @@ class InputMethodService : AndroidInputMethodService() {
 	private lateinit var vibrator: Vibrator
 	private var pickerManager: PickerManager? = null
 
-	// The map of additional characters that appears when Sym is pressed and left alone for a moment.
+	// The map of the keyboard that appears when Sym is pressed and left alone for a moment.
 	private var symMapEnabled = true
-	private val symMapHandler = Handler(Looper.getMainLooper())
-	private val showSymMapRunnable = Runnable { showSymMap() }
+	private var symTapWasPageTurn = false
 	private var mainInputView: View? = null
 	private var inputViewStrip: View? = null
 	private var stripModifierRow: LinearLayout? = null
@@ -446,6 +441,12 @@ class InputMethodService : AndroidInputMethodService() {
 	}
 
 	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+		// A tap of Sym while the map of the keyboard shows goes on to its next page, and Sym stays as it is. On the last
+		// page the tap is Sym's own again: it lets go of Sym, which takes the map away.
+		if (event.keyCode == KeyEvent.KEYCODE_SYM && event.repeatCount == 0 && !event.isLongPress) {
+			symTapWasPageTurn = pickerManager?.showNextMapPage() == true
+			if (symTapWasPageTurn) return true
+		}
 		if (isInputViewActive && pickerManager?.isShowing() == true) {
 			pickerManager!!.handleKeyEvent(event) // always eat
 			return true
@@ -728,6 +729,11 @@ class InputMethodService : AndroidInputMethodService() {
 	}
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+		if (event.keyCode == KeyEvent.KEYCODE_SYM && symTapWasPageTurn) {
+			// The press that turned the page was not a press of Sym, so its release is not one either.
+			symTapWasPageTurn = false
+			return true
+		}
 		if (isInputViewActive && pickerManager?.isShowing() == true) {
 			pickerManager!!.handleKeyEvent(event) // always eat
 			return true
@@ -769,6 +775,8 @@ class InputMethodService : AndroidInputMethodService() {
 				sym.onKeyUp()
 				onSymPossiblyChanged()
 				updateStatusIconIfNeeded(true)
+				// A tap, which leaves Sym on, opens the map of the keyboard. Holding Sym for a key does not.
+				if (sym.isLocked()) showSymMap()
 			}
 		}
 
@@ -1161,7 +1169,6 @@ class InputMethodService : AndroidInputMethodService() {
 			if(shift.get() && !shift.isHeld()) {
 				shift.reset()
 			}
-			scheduleSymMap()
 		} else if(!sym.get() && lastSym) {
 			hideSymMap()
 			updateAutoCapitalization()
@@ -1169,25 +1176,21 @@ class InputMethodService : AndroidInputMethodService() {
 	}
 
 	/**
-	 * Show the map of additional characters once Sym has been left alone for a moment, so that it does not
-	 * flash up while the keys of the Sym layer are being used.
+	 * Show the map of the keyboard, at its first page. A tap of Sym opens it, and each tap after that goes on to
+	 * the next page (see [onKeyDown]).
 	 */
-	private fun scheduleSymMap() {
-		symMapHandler.removeCallbacks(showSymMapRunnable)
-		if (symMapEnabled && isInputViewActive) symMapHandler.postDelayed(showSymMapRunnable, SYM_MAP_DELAY_MS)
-	}
-
 	private fun showSymMap() {
 		if (!symMapEnabled || !isInputViewActive || !sym.get()) return
-		val accents = if (multipress.ignoreFirstLevel) null else multipress.substitutions[0]
-		val extras = AdditionalCharacters.build(multipress.substitutions[1], accents) { AltKeyMappings.getAltKeyChar(it, false) }
-		val keys = KeyboardMap.build({ AltKeyMappings.getAltKeyChar(it, false) }, { SymKeyMappings.getMapping(it, deviceType) })
-		pickerManager?.showCharacterMap(keys, extras)
+		val keys = KeyboardMap.build(
+			{ AltKeyMappings.getAltKeyChar(it, false) }, { SymKeyMappings.getMapping(it, deviceType) },
+			extras = { AdditionalCharacters.extras(multipress.substitutions[1][it], it) },
+			accents = { if (multipress.ignoreFirstLevel) emptyList() else AdditionalCharacters.accents(multipress.substitutions[0][it], it) }
+		)
+		pickerManager?.showCharacterMap(MapPages.build(keys))
 	}
 
-	/** Cancel the map of additional characters, or hide it if it is showing. */
+	/** Cancel the map of the keyboard, or hide it if it is showing. */
 	private fun hideSymMap() {
-		symMapHandler.removeCallbacks(showSymMapRunnable)
 		pickerManager?.hideCharacterMap()
 	}
 

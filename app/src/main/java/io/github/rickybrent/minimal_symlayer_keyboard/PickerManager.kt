@@ -76,7 +76,7 @@ class PickerManager(private val context: Context, private val service: InputMeth
         // Ensure pickerView is not attached to a different parent
         (pickerView.parent as? ViewGroup)?.removeView(pickerView)
         inlineViewContainer?.addView(pickerView)
-        // The map of additional characters sits in the same place as the pickers, but only when there is no picker.
+        // The map of the keyboard sits in the same place as the pickers, but only when there is no picker.
         characterMap?.let { (it.parent as? ViewGroup)?.removeView(it) }
         characterMap = SymMapView(context).also {
             it.visibility = View.GONE
@@ -85,15 +85,15 @@ class PickerManager(private val context: Context, private val service: InputMeth
     }
 
     /**
-     * Show the map of the keyboard and of the additional characters, in the space of the pickers. Unlike a picker it does
+     * Show the map of the keyboard, in the space of the pickers. Unlike a picker it does
      * not take the key presses: they go on as usual, and it is up to the caller to hide it again.
      * @return false if it can't be shown right now, because a picker is showing or there is nowhere to show it.
      */
-    fun showCharacterMap(keys: List<MapRow>, extras: List<CharacterRow>): Boolean {
+    fun showCharacterMap(pages: List<MapPage>): Boolean {
         val container = inlineViewContainer ?: return false
         val map = characterMap ?: return false
         if (isShowing()) return false
-        map.setContent(keys, extras)
+        map.setPages(pages)
         map.visibility = View.VISIBLE
         pickerView.visibility = View.GONE
         container.layoutParams = container.layoutParams.also { it.height = ViewGroup.LayoutParams.WRAP_CONTENT }
@@ -101,7 +101,10 @@ class PickerManager(private val context: Context, private val service: InputMeth
         return true
     }
 
-    /** Hide the map of additional characters, if it is showing. */
+    /** @return true if the map went on to its next page, false if there is none or it is not showing. */
+    fun showNextMapPage(): Boolean = isCharacterMapShowing() && characterMap?.showNext() == true
+
+    /** Hide the map of the keyboard, if it is showing. */
     fun hideCharacterMap() {
         if (!isCharacterMapShowing()) return
         characterMap?.visibility = View.GONE
