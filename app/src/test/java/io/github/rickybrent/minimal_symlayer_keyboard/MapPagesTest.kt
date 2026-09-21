@@ -110,4 +110,26 @@ class MapPagesTest {
 		assertEquals("Hold a key, then press it again 3 times for this.", pages[4].note)
 		assertEquals("Press the vowel 2 times quickly for this.", pages[5].note)
 	}
+
+	@Test
+	fun pressingAgainIsShownFiveTimesAtMost() {
+		val seven = listOf("a", "b", "c", "d", "e", "f", "g")
+		val pages = MapPages.build(rows(extras = mapOf(KeyEvent.KEYCODE_C to seven)))
+		assertEquals(7, pages.size)
+		assertEquals(listOf("Alt", "Sym", "Press again 1", "Press again 2", "Press again 3", "Press again 4", "Press again 5"), pages.map { it.title })
+		assertEquals("e", key(pages[6], "C").symbol)
+		// The sixth and seventh characters are not on any page.
+		val shown = pages.flatMap { page -> page.rows.flatMap { it.keys } }.map { it.symbol }
+		assertTrue("f" !in shown && "g" !in shown)
+	}
+
+	@Test
+	fun accentPagesAreNotCounted() {
+		val pages = MapPages.build(rows(
+			extras = mapOf(KeyEvent.KEYCODE_C to listOf("a", "b", "c", "d", "e", "f")),
+			accents = mapOf(KeyEvent.KEYCODE_E to listOf("\u00e9", "\u00e8"))
+		))
+		assertEquals(9, pages.size)
+		assertEquals(listOf("Accent 1", "Accent 2"), pages.takeLast(2).map { it.title })
+	}
 }

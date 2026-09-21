@@ -15,10 +15,15 @@ data class MapPage(val title: String, val note: String, val rows: List<PageRow>)
 /**
  * Splits the map of the keyboard into pages with one symbol to a key, so that every symbol can be big and clear.
  * Each tap of the Sym key while the map shows goes to the next page. The pages are: what Alt types, what Sym does,
- * then what pressing a key again after holding it gives, first time, second time and so on, and, if accents are
- * turned on, the accents in the same way. A page that no key has anything for is left out.
+ * then what pressing a key again after holding it gives, first time, second time and so on (up to
+ * [MAX_PRESS_AGAIN] times, so that there are not too many pages to tap through: the few characters that come after
+ * that are still typed by the keys, they are just not on the map), and, if accents are turned on, the accents in the
+ * same way. A page that no key has anything for is left out.
  */
 object MapPages {
+	/** How many times pressing again is shown. With the Alt page and the Sym page that makes seven pages. */
+	const val MAX_PRESS_AGAIN = 5
+
 	fun build(rows: List<MapRow>): List<MapPage> {
 		val pages = ArrayList<MapPage>()
 
@@ -32,7 +37,7 @@ object MapPages {
 		add("Alt", "What Alt and the key type. Holding the key gives the same.") { it.alt }
 		add("Sym", "What Sym and the key do.") { it.sym }
 
-		val extras = rows.maxOfOrNull { row -> row.keys.maxOfOrNull { it.extras.size } ?: 0 } ?: 0
+		val extras = minOf(MAX_PRESS_AGAIN, rows.maxOfOrNull { row -> row.keys.maxOfOrNull { it.extras.size } ?: 0 } ?: 0)
 		for (n in 1..extras) {
 			add("Press again $n", "Hold a key, then press it again ${times(n)} for this.") { it.extras.getOrElse(n - 1) { "" } }
 		}
