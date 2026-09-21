@@ -188,7 +188,7 @@
 			android:key="pref_sym_map"
 			android:defaultValue="true"
 			android:title="Show a map when I press Sym"
-			android:summary="Press Sym and leave it for a moment, and a popup appears with two pages. Symbols has every symbol that Alt and Sym can type, laid out like the symbols page of a touch keyboard, with the key that types each one written under it: tap a symbol to type it. Extras is a map of the keyboard with the additional characters of every key: hold a key for the first one and press it again for the next ones, and the accents in italics if they are turned on. The popup goes away when you press a key or let go of Sym."
+			android:summary="Press Sym and leave it for a moment, and a popup appears with two pages. Keys is a map of the keyboard: the symbol that Alt types is written in the top left corner of every key, like the printed symbols, and what Sym does with the key in the bottom right corner. Extras is a map with the additional characters of every key: hold a key for the first one and press it again for the next ones, and the accents in italics if they are turned on. The popup goes away when you press a key or let go of Sym."
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>
 		<SwitchPreference
