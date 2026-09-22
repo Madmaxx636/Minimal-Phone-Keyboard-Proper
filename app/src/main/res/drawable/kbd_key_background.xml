@@ -10,19 +10,8 @@
   <path
       android:pathData="M203.75,24.18L756.25,24.18A179.56,179.56 0,0 1,935.82 203.75L935.82,756.25A179.56,179.56 0,0 1,756.25 935.82L203.75,935.82A179.56,179.56 0,0 1,24.18 756.25L24.18,203.75A179.56,179.56 0,0 1,203.75 24.18z"
       android:strokeLineJoin="round"
-      android:strokeWidth="48.3662"
+      android:strokeWidth="54.41"
       android:fillColor="#ffffff"
-      android:strokeLineCap="round">
-    <aapt:attr name="android:strokeColor">
-      <gradient 
-          android:startX="123.49"
-          android:startY="123.5"
-          android:endX="836.51"
-          android:endY="836.51"
-          android:type="linear">
-        <item android:offset="0.5" android:color="#FFD5D5D5"/>
-        <item android:offset="0.5" android:color="#FFAEAEAE"/>
-      </gradient>
-    </aapt:attr>
-  </path>
+      android:strokeColor="#000000"
+      android:strokeLineCap="round"/>
 </vector>
