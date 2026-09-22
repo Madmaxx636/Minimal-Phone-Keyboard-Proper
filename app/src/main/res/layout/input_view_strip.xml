@@ -8,8 +8,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/textColorTertiary" />
+        android:layout_height="1.125dp"
+        android:background="?android:attr/textColorPrimary" />
 
     <!-- Quick actions on the left, word suggestions in the middle, modifier state on the right. -->
     <LinearLayout
@@ -49,9 +49,9 @@
             app:tint="?android:attr/textColorPrimary" />
 
         <View
-            android:layout_width="1dp"
+            android:layout_width="1.125dp"
             android:layout_height="32dp"
-            android:background="?android:attr/textColorTertiary" />
+            android:background="?android:attr/textColorPrimary" />
 
         <!-- Word suggestions (see SuggestionController): typed word, corrections, completions. -->
         <LinearLayout
@@ -75,9 +75,9 @@
         </LinearLayout>
 
         <View
-            android:layout_width="1dp"
+            android:layout_width="1.125dp"
             android:layout_height="32dp"
-            android:background="?android:attr/textColorTertiary" />
+            android:background="?android:attr/textColorPrimary" />
 
         <!-- One icon for each modifier that is active, added by the input method service. -->
         <LinearLayout
