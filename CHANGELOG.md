@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.93 - 2026-09-22
+
+### Added
+- A `Dictionary language` setting picks whether the built in common words, and the built in spell checker used when none is turned on in Android's settings, are English, Spanish or French.
+
+### Changed
+- The common word lists grow from 50,000 to 100,000 words each, and there are now separate 100,000-word lists for Spanish and French, not only English.
+
 ## 0.92 - 2026-09-22
 
 ### Changed
