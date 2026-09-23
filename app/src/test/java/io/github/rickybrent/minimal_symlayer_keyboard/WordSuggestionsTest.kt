@@ -154,6 +154,65 @@ class LearnedWordsTest {
 	}
 }
 
+class UnrecognizedWordTest {
+	@Test
+	fun aWordIsLearnedAfterBeingSeenMoreThanTwice() {
+		val w = LearnedWords()
+		assertFalse(w.sawUnrecognized("ubreakifix"))
+		assertFalse(w.isKnown("ubreakifix"))
+		assertFalse(w.sawUnrecognized("ubreakifix"))
+		assertFalse(w.isKnown("ubreakifix"))
+		assertTrue(w.sawUnrecognized("ubreakifix"))
+		assertEquals(0, w.count("ubreakifix"))
+		// The caller learns it once this returns true, the same as tapping its suggestion would.
+		w.learn("ubreakifix", 3)
+		assertTrue(w.isKnown("ubreakifix"))
+	}
+
+	@Test
+	fun countingIsCaseInsensitiveAndIgnoresShortOrInvalidWords() {
+		val w = LearnedWords()
+		w.sawUnrecognized("Ubreakifix")
+		w.sawUnrecognized("UBREAKIFIX")
+		assertTrue(w.sawUnrecognized("ubreakifix"))
+		assertFalse(w.sawUnrecognized("a"))
+		assertFalse(w.sawUnrecognized("two words"))
+	}
+
+	@Test
+	fun onlyTriggersOnceThenStartsOverIfSeenAgain() {
+		val w = LearnedWords()
+		w.sawUnrecognized("zerith")
+		w.sawUnrecognized("zerith")
+		assertTrue(w.sawUnrecognized("zerith"))
+		assertFalse(w.sawUnrecognized("zerith"))
+		assertFalse(w.sawUnrecognized("zerith"))
+		assertTrue(w.sawUnrecognized("zerith"))
+	}
+
+	@Test
+	fun countsSurviveASaveAndLoad() {
+		val w = LearnedWords()
+		w.sawUnrecognized("zerith")
+		val copy = LearnedWords()
+		copy.load(w.serialize())
+		// One more use after the reload is the third time overall, which is enough to learn it.
+		assertFalse(copy.sawUnrecognized("zerith"))
+		assertTrue(copy.sawUnrecognized("zerith"))
+	}
+
+	@Test
+	fun doesNotPileUpForever() {
+		val w = LearnedWords()
+		// A long run of distinct words that are each only seen once should not grow forever or crash.
+		for (i in 0 until LearnedWords.MAX_UNRECOGNIZED + 500) assertFalse(w.sawUnrecognized("word" + i))
+		// A word typed a normal number of times still works as expected afterwards.
+		w.sawUnrecognized("zerith")
+		w.sawUnrecognized("zerith")
+		assertTrue(w.sawUnrecognized("zerith"))
+	}
+}
+
 class LearnTextTest {
 	@Test
 	fun learnsEveryWordWithItsCount() {
@@ -1092,6 +1151,15 @@ class BuiltInSpellTest {
 		// A rare word or a name can't be told from a typo, so it isn't taken for one.
 		assertEquals(SpellResult(false, emptyList()), AutoCorrect.builtInSpell("zyxwv", dictionary, false))
 		assertEquals(SpellResult(false, emptyList()), AutoCorrect.builtInSpell("ab", dictionary, false))
+	}
+
+	@Test
+	fun aWiderMaxDistanceCatchesMoreTypos() {
+		// "wierdd" is two changes from "weird", too far for the default distance of one.
+		assertEquals(SpellResult(false, emptyList()), AutoCorrect.builtInSpell("wierdd", dictionary, false))
+		val result = AutoCorrect.builtInSpell("wierdd", dictionary, false, maxDistance = 2)
+		assertTrue(result.isTypo)
+		assertEquals(listOf("weird"), result.corrections)
 	}
 
 	@Test

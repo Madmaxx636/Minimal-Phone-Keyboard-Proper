@@ -428,7 +428,7 @@ class SuggestionController(
 			val replacement = fixed.text.substring(start) + suffix
 			// A fix before Enter is one that a space would have made, which is how an undone fix is remembered.
 			if (ignoredFixes.contains(original.lowercase() + if (boundaryTyped) "" else " ")) {
-				if (!typo) learnWord(word, text, WordUtils.isSentenceStart(text.substring(0, text.length - word.length)))
+				if (typo) countUnrecognized(word) else learnWord(word, text, WordUtils.isSentenceStart(text.substring(0, text.length - word.length)))
 				return false
 			}
 			if (applyFix(ic, original, replacement, fixed.typo, undoable = boundaryTyped)) {
@@ -441,7 +441,7 @@ class SuggestionController(
 			}
 			return false
 		}
-		if (!typo) learnWord(word, text, WordUtils.isSentenceStart(text.substring(0, text.length - word.length)))
+		if (typo) countUnrecognized(word) else learnWord(word, text, WordUtils.isSentenceStart(text.substring(0, text.length - word.length)))
 		return false
 	}
 
@@ -462,6 +462,17 @@ class SuggestionController(
 		if (previous.isNotEmpty()) learned.learnPair(previous[0], word)
 		if (previous.size > 1) learned.learnTriple(previous[1], previous[0], word)
 		if (startsSentence) learned.learnStarter(word)
+	}
+
+	/**
+	 * Count that [word], which the spell checker does not recognize, was typed again, and learn it on its
+	 * own once it has been typed enough times that it is worth trusting, the same as tapping its suggestion
+	 * chip would (see [Suggestion.Kind.TYPED] in [apply]), so that a name or made up word that keeps getting
+	 * typed stops being flagged even if it is never tapped.
+	 */
+	private fun countUnrecognized(word: String) {
+		if (!learnAllowed()) return
+		if (learned.sawUnrecognized(word)) learned.learn(word, TYPED_WORD_WEIGHT)
 	}
 
 	/**
@@ -678,7 +689,9 @@ class SuggestionController(
 	/** @return What the common words make of [word] when there is no spell checker, or null if they are off. */
 	private fun builtInSpell(word: String): SpellResult? {
 		val dictionary = commonWords() ?: return null
-		return AutoCorrect.builtInSpell(word, dictionary, wasUsed = learned.count(word) > 0)
+		// At least one letter change, even with auto-correct off, so a typo is still flagged and offered.
+		val maxDistance = maxOf(1, autoCorrectLevel.maxDistance)
+		return AutoCorrect.builtInSpell(word, dictionary, wasUsed = learned.count(word) > 0, maxDistance = maxDistance)
 	}
 
 	private var commonWords: BaseDictionary? = null

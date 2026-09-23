@@ -75,7 +75,7 @@ class TextFixer(
 				val spelled = habitFor(settings, currentWord)
 					?: splitFor(settings, currentWord, systemSaysFine, SURE_SPLIT_RANK)
 					?: spellingFor(settings, currentWord, before, spell)
-					?: splitFor(settings, currentWord, systemSaysFine, Int.MAX_VALUE)
+					?: splitFor(settings, currentWord, systemSaysFine, LOOSE_SPLIT_RANK)
 				if (spelled != null) {
 					newWord = spelled
 					if (' ' !in spelled) {
@@ -148,5 +148,13 @@ class TextFixer(
 
 		/** A split into words that are all more common than this is made even when a spelling is close. */
 		private const val SURE_SPLIT_RANK = 6000
+
+		/**
+		 * The last resort split, tried when nothing else fixed the word, allows pieces from anywhere in the
+		 * common word list. It is capped rather than left unlimited so that the rarer words near the end of a
+		 * larger list, which are there to help spelling and completions, don't also make more names and made
+		 * up words look like two words run together.
+		 */
+		private const val LOOSE_SPLIT_RANK = 30000
 	}
 }
