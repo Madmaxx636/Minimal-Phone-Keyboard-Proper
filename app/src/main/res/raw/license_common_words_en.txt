@@ -10,7 +10,8 @@ The content is licensed under the Creative Commons Attribution-ShareAlike 4.0 In
 https://creativecommons.org/licenses/by-sa/4.0/
 
 Changes made to the list:
-- It was cut down to the 100,000 most common words that also appear in a large list of real English words, so that misspellings and foreign text picked up by the source's web crawl are left out.
+- It was cut down to the words that also appear in one of several lists of real English words (word lists from the "Words" and "wordlists" GitHub projects, and a public domain dictionary), so that misspellings and foreign text picked up by the source's web crawl are left out.
+- A further, small list of specific words was excluded by hand: brand names that are meant to keep their own capitalization (iPad, iPhone), and misspellings or word fragments that the word lists above call real words but that this keyboard is specifically meant to catch and fix (its own tests catch this if it happens again).
 - Common contractions such as "don't" and "it's" were added by hand, as the source splits them into pieces.
 - The counts were dropped. The words are only listed in order of how common they are.
 
