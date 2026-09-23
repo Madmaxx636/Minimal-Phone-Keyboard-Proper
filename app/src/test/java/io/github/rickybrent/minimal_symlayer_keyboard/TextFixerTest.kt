@@ -11,7 +11,7 @@ import java.io.File
  * Types text the way the keyboard sees it and checks what the whole chain of fixes makes of it.
  */
 class TextFixerTest {
-	private val dictionary = BaseDictionary.parse(File("src/main/res/raw/common_words.txt").readText())
+	private val dictionary = BaseDictionary.parse(File("src/main/res/raw/common_words_en.txt").readText())
 	private val hints = NextWordHints.parse(File("src/main/res/raw/next_words.txt").readText())
 	private val learned = LearnedWords()
 	private val fixer = TextFixer(learned, dictionary = { dictionary }, hints = { hints })

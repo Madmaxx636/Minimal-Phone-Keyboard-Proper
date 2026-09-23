@@ -1177,7 +1177,7 @@ class BuiltInSpellTest {
 
 	@Test
 	fun theRealCommonWordsFixTheUsualTypos() {
-		val real = BaseDictionary.parse(java.io.File("src/main/res/raw/common_words.txt").readText())
+		val real = BaseDictionary.parse(java.io.File("src/main/res/raw/common_words_en.txt").readText())
 		fun fix(word: String): String? {
 			val spell = AutoCorrect.builtInSpell(word, real, false)
 			return AutoCorrect.choose(word, spell.corrections, AutoCorrectLevel.MEDIUM, true, isKnown = false, isCommon = real.contains(word))

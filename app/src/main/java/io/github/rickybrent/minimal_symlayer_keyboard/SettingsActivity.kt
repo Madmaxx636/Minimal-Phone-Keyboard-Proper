@@ -217,8 +217,9 @@ class SettingsActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPrefere
 			val words = listOf("teh", "recieve", "definately", "wierd", "lovehahaha", "hello")
 			val answers = arrayOfNulls<SpellResult>(words.size)
 			val level = AutoCorrectLevel.fromPreference(preferenceManager.preferenceDataStore?.getString("pref_autocorrect", "medium"))
+			// These test words are English, so the English list is what they are tested against.
 			val dictionary = try {
-				BaseDictionary.parse(context.resources.openRawResource(R.raw.common_words).bufferedReader().use { it.readText() })
+				BaseDictionary.parse(context.resources.openRawResource(R.raw.common_words_en).bufferedReader().use { it.readText() })
 			} catch (e: java.io.IOException) {
 				BaseDictionary(emptyList())
 			}
@@ -450,10 +451,22 @@ class SettingsActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPrefere
 					R.raw.license_unicode
 				),
 				LicenseInfo(
-					"common_words.txt",
+					"common_words_en.txt",
 					"CC BY-SA 4.0",
 					"https://github.com/hermitdave/FrequencyWords".toUri(),
-					R.raw.license_common_words
+					R.raw.license_common_words_en
+				),
+				LicenseInfo(
+					"common_words_es.txt",
+					"CC BY-SA 4.0",
+					"https://github.com/hermitdave/FrequencyWords".toUri(),
+					R.raw.license_common_words_es
+				),
+				LicenseInfo(
+					"common_words_fr.txt",
+					"CC BY-SA 4.0",
+					"https://github.com/hermitdave/FrequencyWords".toUri(),
+					R.raw.license_common_words_fr
 				),
 				LicenseInfo(
 					"Material Symbols Icons",

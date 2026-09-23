@@ -990,6 +990,7 @@ class InputMethodService : AndroidInputMethodService() {
 		suggestionController.enabled = showToolbar && preferences.getBoolean("pref_suggestions", true)
 		suggestionController.learnWords = preferences.getBoolean("pref_learn_words", true)
 		suggestionController.useCommonWords = preferences.getBoolean("pref_common_words", true)
+		suggestionController.dictionaryLanguage = preferences.getString("pref_dictionary_language", "en") ?: "en"
 		suggestionController.autoCorrectLevel = AutoCorrectLevel.fromPreference(preferences.getString("pref_autocorrect", "medium"))
 		suggestionController.grammarLevel = GrammarLevel.fromPreference(preferences.getString("pref_grammar", "full"))
 		suggestionController.autoSpace = preferences.getBoolean("pref_autospace", true)

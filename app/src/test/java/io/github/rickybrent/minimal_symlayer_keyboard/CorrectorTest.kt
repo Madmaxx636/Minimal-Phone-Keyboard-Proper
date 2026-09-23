@@ -9,7 +9,7 @@ import org.junit.Test
 import java.io.File
 
 class CorrectorTest {
-	private val dictionary = BaseDictionary.parse(File("src/main/res/raw/common_words.txt").readText())
+	private val dictionary = BaseDictionary.parse(File("src/main/res/raw/common_words_en.txt").readText())
 	private val hints = NextWordHints.parse(File("src/main/res/raw/next_words.txt").readText())
 
 	private fun choose(
