@@ -9,7 +9,7 @@ import java.io.File
  * fixes do not touch any of it. A fix that changes right text is worse than one that is missed.
  */
 class ProseStressTest {
-	private val dictionary = BaseDictionary.parse(File("src/main/res/raw/common_words.txt").readText())
+	private val dictionary = BaseDictionary.parse(File("src/main/res/raw/common_words_en.txt").readText())
 	private val hints = NextWordHints.parse(File("src/main/res/raw/next_words.txt").readText())
 	private val fixer = TextFixer(LearnedWords(), dictionary = { dictionary }, hints = { hints })
 	private val fine = SpellResult(false, emptyList())

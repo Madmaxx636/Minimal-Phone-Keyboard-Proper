@@ -24,8 +24,8 @@ import java.util.Locale
  * Helps with the word being typed, and with the next one, in the toolbar, and fixes typos as they are made.
  *
  * Corrections come from the spell checker chosen in the system settings. Completions come from the words
- * the user has typed before (see [LearnedWords]) and then from a built in list of common English words
- * (see [BaseDictionary]). Next words come from what the user has typed after the words before, and at the
+ * the user has typed before (see [LearnedWords]) and then from a built in list of common words in
+ * [dictionaryLanguage] (see [BaseDictionary]). Next words come from what the user has typed after the words before, and at the
  * start of a sentence from how the user starts sentences, then from built in guesses (see [NextWordHints]).
  * Typos are fixed when the word is finished, as far as [autoCorrectLevel] allows, and so are the spaces that
  * were left out, words that ran together, shortcuts, capitals and grammar. Everything that is learned is stored
@@ -86,8 +86,11 @@ class SuggestionController(
 	/** Whether words are learned as they are typed. */
 	var learnWords = true
 
-	/** Whether to complete words with the built in list of common English words. */
+	/** Whether to complete words with the built in list of common words. */
 	var useCommonWords = true
+
+	/** Which language the common words, and the built in spell checker, are in: "en", "es" or "fr". */
+	var dictionaryLanguage = "en"
 
 	private val handler = Handler(Looper.getMainLooper())
 	private val learned = LearnedWords()
@@ -699,14 +702,17 @@ class SuggestionController(
 	}
 
 	private var commonWords: BaseDictionary? = null
+	private var commonWordsLanguage: String? = null
 	private var nextWordHints: NextWordHints? = null
+	private var nextWordHintsLanguage: String? = null
 
 	/** @return The built in list of common words, or null if it is turned off. It is read when first needed. */
 	private fun commonWords(): BaseDictionary? {
 		if (!useCommonWords) return null
-		if (commonWords == null) {
+		if (commonWords == null || commonWordsLanguage != dictionaryLanguage) {
+			commonWordsLanguage = dictionaryLanguage
 			commonWords = try {
-				BaseDictionary.parse(service.resources.openRawResource(R.raw.common_words).bufferedReader().use { it.readText() })
+				BaseDictionary.parse(service.resources.openRawResource(commonWordsResource(dictionaryLanguage)).bufferedReader().use { it.readText() })
 			} catch (e: IOException) {
 				Log.w(TAG, "Could not read the common words", e)
 				BaseDictionary(emptyList())
@@ -715,17 +721,31 @@ class SuggestionController(
 		return commonWords
 	}
 
-	/** @return The built in guesses at the next word. It is read when first needed. */
+	/**
+	 * @return The built in guesses at the next word, or empty guesses for a language that has none, so
+	 * that English predictions are not offered while writing in another language. It is read when first needed.
+	 */
 	private fun hints(): NextWordHints? {
-		if (nextWordHints == null) {
-			nextWordHints = try {
-				NextWordHints.parse(service.resources.openRawResource(R.raw.next_words).bufferedReader().use { it.readText() })
-			} catch (e: IOException) {
-				Log.w(TAG, "Could not read the next word hints", e)
+		if (nextWordHints == null || nextWordHintsLanguage != dictionaryLanguage) {
+			nextWordHintsLanguage = dictionaryLanguage
+			nextWordHints = if (dictionaryLanguage != "en") {
 				NextWordHints.parse("")
+			} else {
+				try {
+					NextWordHints.parse(service.resources.openRawResource(R.raw.next_words).bufferedReader().use { it.readText() })
+				} catch (e: IOException) {
+					Log.w(TAG, "Could not read the next word hints", e)
+					NextWordHints.parse("")
+				}
 			}
 		}
 		return nextWordHints
+	}
+
+	private fun commonWordsResource(language: String) = when (language) {
+		"es" -> R.raw.common_words_es
+		"fr" -> R.raw.common_words_fr
+		else -> R.raw.common_words_en
 	}
 
 	// --- Learned words ---

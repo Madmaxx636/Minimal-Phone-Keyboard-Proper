@@ -29,6 +29,16 @@
 		<item>order1</item>
 		<item>order2</item>
 	</string-array>
+	<string-array name="dictionary_language_entries">
+		<item>English</item>
+		<item>Spanish</item>
+		<item>French</item>
+	</string-array>
+	<string-array name="dictionary_language_values">
+		<item>en</item>
+		<item>es</item>
+		<item>fr</item>
+	</string-array>
 	<string-array name="dotctrl_tap_entries">
 		<item>Period</item>
 		<item>Voice to Text</item>

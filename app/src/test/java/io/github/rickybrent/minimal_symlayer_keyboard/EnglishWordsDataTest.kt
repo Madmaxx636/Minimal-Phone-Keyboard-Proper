@@ -6,15 +6,15 @@ import org.junit.Test
 import java.io.File
 
 /**
- * Checks the built in list of common words that ships with the keyboard.
+ * Checks the built in list of common English words that ships with the keyboard.
  */
-class CommonWordsDataTest {
-	private val lines = File("src/main/res/raw/common_words.txt").readLines()
+class EnglishWordsDataTest {
+	private val lines = File("src/main/res/raw/common_words_en.txt").readLines()
 	private val base = BaseDictionary.parse(lines.joinToString("\n"))
 
 	@Test
 	fun hasTheExpectedNumberOfWords() {
-		assertEquals(50000, lines.size)
+		assertEquals(100000, lines.size)
 	}
 
 	@Test

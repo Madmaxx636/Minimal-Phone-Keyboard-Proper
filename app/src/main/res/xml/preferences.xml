@@ -90,9 +90,21 @@
 			android:key="pref_common_words"
 			android:defaultValue="true"
 			android:dependency="pref_suggestions"
-			android:title="Complete with common English words"
-			android:summary="Also suggest words from a built in list of 30,000 common English words, after the ones you use. Turn this off if you mostly type another language."
+			android:title="Complete with common words"
+			android:summary="Also suggest words from a built in list of 100,000 common words in the language chosen below, after the ones you use."
 			app:widgetLayout="@layout/settings_widget_switch" />
+		<ListPreference
+			android:key="pref_dictionary_language"
+			android:defaultValue="en"
+			android:dependency="pref_common_words"
+			android:title="Dictionary language"
+			app:useSimpleSummaryProvider="true"
+			android:entries="@array/dictionary_language_entries"
+			android:entryValues="@array/dictionary_language_values" />
+		<Preference
+			android:dependency="pref_common_words"
+			android:summary="Which language the 100,000 common words are in, and which one the built in spell checker (used when none is turned on in Android's settings) fixes typos towards."
+			app:selectable="false" />
 		<SwitchPreference
 			android:key="pref_learn_words"
 			android:defaultValue="true"
