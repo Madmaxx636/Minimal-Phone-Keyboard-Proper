@@ -14,7 +14,7 @@ class CommonWordsDataTest {
 
 	@Test
 	fun hasTheExpectedNumberOfWords() {
-		assertEquals(30000, lines.size)
+		assertEquals(50000, lines.size)
 	}
 
 	@Test

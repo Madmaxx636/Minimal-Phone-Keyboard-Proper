@@ -157,6 +157,10 @@ class LearnedWords(
 	private class Habit(var fix: String, var count: Int)
 	private val habits = HashMap<String, Habit>()
 
+	// How many times a word that the spell checker does not recognize has been typed, keyed by the
+	// lowercase word, so that it can be learned on its own once that happens enough, see [sawUnrecognized].
+	private val unrecognizedSeen = HashMap<String, Int>()
+
 	// How much has been learned since old counts were last halved, and whether that is being counted.
 	private var events = 0
 	private var bulk = 0
@@ -184,6 +188,27 @@ class LearnedWords(
 		isDirty = true
 		if (entries.size > maxWords) trim()
 		countEvent()
+	}
+
+	/**
+	 * Record that [word], which the spell checker does not recognize, was typed again, so that it can be
+	 * learned on its own once it has been typed enough not to be a one-off slip, without the user having
+	 * to tap it to save it. The count is forgotten once it is learned this way.
+	 * @return true the first time [word] has been typed more than [UNRECOGNIZED_LEARN_AFTER] times.
+	 */
+	fun sawUnrecognized(word: String): Boolean {
+		if (word.length < WordUtils.MIN_WORD_LENGTH || !word.all { WordUtils.isWordChar(it) }) return false
+		val lower = word.lowercase()
+		val count = (unrecognizedSeen[lower] ?: 0) + 1
+		if (count > UNRECOGNIZED_LEARN_AFTER) {
+			unrecognizedSeen.remove(lower)
+			return true
+		}
+		unrecognizedSeen[lower] = count
+		isDirty = true
+		// A lot of one-off typos should not be left to pile up.
+		if (unrecognizedSeen.size > MAX_UNRECOGNIZED) unrecognizedSeen.entries.removeAll { it.value <= 1 }
+		return false
 	}
 
 	/**
@@ -453,10 +478,11 @@ class LearnedWords(
 	}
 
 	fun clear() {
-		if (entries.isNotEmpty() || pairCount > 0 || habits.isNotEmpty()) isDirty = true
+		if (entries.isNotEmpty() || pairCount > 0 || habits.isNotEmpty() || unrecognizedSeen.isNotEmpty()) isDirty = true
 		entries.clear()
 		followers.clear()
 		habits.clear()
+		unrecognizedSeen.clear()
 		pairCount = 0
 	}
 
@@ -490,6 +516,9 @@ class LearnedWords(
 			text.append(HABIT_MARK).append('\t').append(typo).append('\t').append(habit.fix).append('\t')
 				.append(habit.count).append('\n')
 		}
+		for ((word, count) in unrecognizedSeen) {
+			text.append(UNRECOGNIZED_MARK).append('\t').append(word).append('\t').append(count).append('\n')
+		}
 		return text.toString()
 	}
 
@@ -509,6 +538,14 @@ class LearnedWords(
 			if (parts.size == 4 && parts[0] == HABIT_MARK) {
 				val count = parts[3].toIntOrNull() ?: continue
 				if (count > 0 && isPairWord(parts[1]) && isPairWord(parts[2])) habits[parts[1].lowercase()] = Habit(parts[2], count)
+				continue
+			}
+			if (parts.size == 3 && parts[0] == UNRECOGNIZED_MARK) {
+				val count = parts[2].toIntOrNull() ?: continue
+				val word = parts[1]
+				if (count in 1..UNRECOGNIZED_LEARN_AFTER && word.length >= WordUtils.MIN_WORD_LENGTH && isPairWord(word)) {
+					unrecognizedSeen[word.lowercase()] = count
+				}
 				continue
 			}
 			if (parts.size == 5) {
@@ -558,7 +595,14 @@ class LearnedWords(
 		/** The old counts are halved after this much has been learned. */
 		const val AGE_EVERY = 30000
 
+		/** A word not in any dictionary is learned on its own after being typed more than this many times. */
+		const val UNRECOGNIZED_LEARN_AFTER = 2
+
+		/** How many not-yet-recognized words are tracked at once, so a run of one-off typos can't pile up. */
+		const val MAX_UNRECOGNIZED = 2000
+
 		private const val HABIT_MARK = "~"
+		private const val UNRECOGNIZED_MARK = "?"
 	}
 }
 
@@ -876,13 +920,15 @@ object AutoCorrect {
 
 	/**
 	 * A stand-in for the system spell checker, for when there isn't one turned on: a word that is not one of the
-	 * common words and that the user has not used, but is one letter away from one of them, is taken for a typo.
-	 * Anything else is left alone, since a list of common words can't tell a rare word from a typo.
+	 * common words and that the user has not used, but is close to one of them, is taken for a typo. Anything
+	 * else is left alone, since a list of common words can't tell a rare word from a typo.
 	 * @param wasUsed Whether the user has used the word before.
+	 * @param maxDistance How many letter changes away a common word may be and still count as a match, so
+	 * that more typos are caught at the bolder auto-correct levels, see [AutoCorrectLevel.maxDistance].
 	 */
-	fun builtInSpell(word: String, dictionary: BaseDictionary, wasUsed: Boolean): SpellResult {
+	fun builtInSpell(word: String, dictionary: BaseDictionary, wasUsed: Boolean, maxDistance: Int = 1): SpellResult {
 		if (word.length < MIN_WORD_LENGTH || wasUsed || dictionary.contains(word)) return SpellResult(false, emptyList())
-		val near = dictionary.nearest(word, 1, 3).map { WordUtils.matchCase(word, it) }
+		val near = dictionary.nearest(word, maxDistance, 3).map { WordUtils.matchCase(word, it) }
 		return SpellResult(near.isNotEmpty(), near)
 	}
 
