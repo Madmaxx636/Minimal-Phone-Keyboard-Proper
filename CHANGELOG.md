@@ -7,6 +7,7 @@
 
 ### Changed
 - The common word lists grow from 50,000 to 100,000 words each, and there are now separate 100,000-word lists for Spanish and French, not only English.
+- Each dictionary then grows further to as many real words as could be sourced for that language, instead of a round 100,000: English 162,070, Spanish 161,917, French 140,112.
 
 ## 0.92 - 2026-09-22
 
