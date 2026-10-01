@@ -350,6 +350,11 @@ class InputMethodService : AndroidInputMethodService() {
 			symTapWasPageTurn = pickerManager?.showNextMapPage() == true
 			if (symTapWasPageTurn) return true
 		}
+		// A tap of Sym no longer leaves it on, so any other key closes the map on its own and is then typed
+		// normally, instead of going through onSymKey (which only happens while Sym is actually held).
+		if (pickerManager?.isCharacterMapShowing() == true && !KeyEvent.isModifierKey(event.keyCode) && event.repeatCount == 0) {
+			hideSymMap()
+		}
 		if (isInputViewActive && pickerManager?.isShowing() == true) {
 			pickerManager!!.handleKeyEvent(event) // always eat
 			return true
@@ -571,10 +576,16 @@ class InputMethodService : AndroidInputMethodService() {
 			}
 			KeyEvent.KEYCODE_SYM -> {
 				sym.onKeyUp()
+				val wasTap = sym.isLocked()
 				onSymPossiblyChanged()
 				updateStatusIconIfNeeded(true)
-				// A tap, which leaves Sym on, opens the map of the keyboard. Holding Sym for a key does not.
-				if (sym.isLocked()) showSymMap()
+				// A tap only opens the map of the keyboard: it does not leave Sym on for the keys that
+				// follow, the way holding it down does for typing a symbol or using the cursor keys.
+				if (wasTap) {
+					showSymMap()
+					sym.reset()
+					updateStatusIconIfNeeded(true)
+				}
 			}
 		}
 
