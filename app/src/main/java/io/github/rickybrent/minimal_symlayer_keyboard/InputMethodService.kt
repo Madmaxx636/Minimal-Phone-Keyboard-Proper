@@ -354,6 +354,9 @@ class InputMethodService : AndroidInputMethodService() {
 		// normally, instead of going through onSymKey (which only happens while Sym is actually held).
 		if (pickerManager?.isCharacterMapShowing() == true && !KeyEvent.isModifierKey(event.keyCode) && event.repeatCount == 0) {
 			hideSymMap()
+			// Back just closes the map here, the way any other key does: it must not also fall through to
+			// the Back handling below, which would hide the whole keyboard on the same press.
+			if (event.keyCode == KeyEvent.KEYCODE_BACK) return true
 		}
 		if (isInputViewActive && pickerManager?.isShowing() == true) {
 			pickerManager!!.handleKeyEvent(event) // always eat
@@ -582,7 +585,13 @@ class InputMethodService : AndroidInputMethodService() {
 				// A tap only opens the map of the keyboard: it does not leave Sym on for the keys that
 				// follow, the way holding it down does for typing a symbol or using the cursor keys.
 				if (wasTap) {
-					showSymMap()
+					// On the last page, this same tap also falls through from the page-turn check above
+					// (there is no next page to go to), so it means "close" rather than "open again".
+					if (pickerManager?.isCharacterMapShowing() == true) {
+						hideSymMap()
+					} else {
+						showSymMap()
+					}
 					sym.reset()
 					updateStatusIconIfNeeded(true)
 				}
