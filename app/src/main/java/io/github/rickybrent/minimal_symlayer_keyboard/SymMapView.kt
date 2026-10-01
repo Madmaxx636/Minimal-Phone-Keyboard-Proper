@@ -57,15 +57,15 @@ class SymMapView(context: Context) : LinearLayout(context) {
 		val more = index < pages.size - 1
 		addView(TextView(context).apply {
 			text = "${page.title}  ·  ${index + 1} of ${pages.size}  ·  " + if (more) "tap Sym for the next page" else "tap Sym to close"
-			textSize = 12f
+			textSize = 18f
 			setTypeface(null, Typeface.BOLD)
 			setTextColor(ink)
 		})
 		addView(TextView(context).apply {
 			text = page.note
-			textSize = 11f
+			textSize = 17f
 			setTextColor(ink)
-			setPadding(0, 0, 0, dp(2))
+			setPadding(0, 0, 0, dp(3))
 		})
 		for (row in page.rows) addView(rowView(row))
 	}
@@ -77,7 +77,7 @@ class SymMapView(context: Context) : LinearLayout(context) {
 		fun spacer() = view.addView(View(context), LayoutParams(0, 0, row.margin))
 		if (row.margin > 0f) spacer()
 		for (key in row.keys) {
-			view.addView(keyView(key), LayoutParams(0, LayoutParams.MATCH_PARENT, key.weight).apply { setMargins(dp(1), dp(1), dp(1), dp(1)) })
+			view.addView(keyView(key), LayoutParams(0, LayoutParams.MATCH_PARENT, key.weight).apply { setMargins(dp(2), dp(2), dp(2), dp(2)) })
 		}
 		if (row.margin > 0f) spacer()
 		return view
@@ -93,26 +93,26 @@ class SymMapView(context: Context) : LinearLayout(context) {
 	private fun keyView(key: PageKey): View {
 		val view = FrameLayout(context)
 		view.setBackgroundResource(R.drawable.kbd_key_background)
-		view.minimumHeight = dp(50)
+		view.minimumHeight = dp(75)
 		val letter = key.label.length == 1 && key.label[0].isLetter()
 		if (key.symbol.isNotEmpty()) {
 			// One symbol, as big as the key allows. A pair like "€/£" is smaller so that it fits.
 			val single = key.symbol.length == 1
 			view.addView(
-				text(key.symbol, if (single) 26f else 14f, if (single) Typeface.BOLD else Typeface.NORMAL),
+				text(key.symbol, if (single) 39f else 21f, if (single) Typeface.BOLD else Typeface.NORMAL),
 				FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER)
 			)
 			// The letter of the key is small, in the corner.
 			view.addView(
-				text(key.label, 9f),
+				text(key.label, 14f),
 				FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.TOP or Gravity.START).apply {
-					setMargins(dp(3), dp(1), dp(3), dp(1))
+					setMargins(dp(4), dp(2), dp(4), dp(2))
 				}
 			)
 		} else {
 			// A key with nothing on this page is just marked, so that the keys stay where they are.
 			view.addView(
-				text(key.label, if (letter) 10f else if (key.label.length > 1) 12f else 15f),
+				text(key.label, if (letter) 15f else if (key.label.length > 1) 18f else 23f),
 				FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER)
 			)
 		}
