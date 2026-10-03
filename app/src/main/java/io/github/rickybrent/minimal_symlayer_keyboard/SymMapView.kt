@@ -43,12 +43,22 @@ class SymMapView(context: Context) : LinearLayout(context) {
 		render()
 	}
 
+	/** The page that shows, counting from 0. */
+	val pageIndex: Int get() = index
+
 	/** @return true if it went on to the next page, false if it was already on the last one. */
 	fun showNext(): Boolean {
 		if (index >= pages.size - 1) return false
 		index++
 		render()
 		return true
+	}
+
+	/** Go to the other page, and round to the first after the last, like the page key of a BlackBerry keyboard. */
+	fun showOther() {
+		if (pages.isEmpty()) return
+		index = (index + 1) % pages.size
+		render()
 	}
 
 	private fun render() {

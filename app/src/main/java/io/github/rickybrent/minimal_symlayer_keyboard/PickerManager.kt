@@ -104,6 +104,16 @@ class PickerManager(private val context: Context, private val service: InputMeth
     /** @return true if the map went on to its next page, false if there is none or it is not showing. */
     fun showNextMapPage(): Boolean = isCharacterMapShowing() && characterMap?.showNext() == true
 
+    /** @return true if the map turned to its other page, false if it is not showing. */
+    fun flipMapPage(): Boolean {
+        if (!isCharacterMapShowing()) return false
+        characterMap?.showOther()
+        return true
+    }
+
+    /** The page of the map that shows, counting from 0. */
+    fun mapPageIndex(): Int = characterMap?.pageIndex ?: 0
+
     /** Hide the map of the keyboard, if it is showing. */
     fun hideCharacterMap() {
         if (!isCharacterMapShowing()) return
