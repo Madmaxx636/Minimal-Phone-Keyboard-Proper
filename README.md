@@ -7,7 +7,7 @@
 
 The project is a fork of the excellent [TitanPocketKeyboard by oin](https://github.com/oin/titanpocketkeyboard), by way of rickybrent's Minimal SymLayer Keyboard, and has no relation to Lersi's [Minimal Phone Keyboard](https://github.com/lersi/minimal_phone_keyboard) or the keyboard that shipped with the Minimal Phone.
 
-This version adds a toolbar with word suggestions that learn how you write, stronger auto-correct, grammar fixes, auto-space, text shortcuts, an emoji picker, a clipboard history, voice typing, and a map of every key that opens when you tap `Sym`, and it has special handling for the MP01's unique keys and e-ink display.
+This version adds a toolbar with word suggestions that learn how you write, stronger auto-correct, grammar fixes, auto-space, text shortcuts, an emoji picker, a clipboard history, voice typing, and a map of symbols, in the style of a BlackBerry keyboard, that opens when you tap `Sym`, and it has special handling for the MP01's unique keys and e-ink display.
 
 **Download:** the [latest release](https://github.com/Madmaxx636/Minimal-Phone-Keyboard-Proper/releases/latest) has two APKs (see [Installation](#installation)), and the [website](https://madmaxx636.github.io/Minimal-Phone-Keyboard-Proper/) has the checksums.
 
@@ -40,8 +40,8 @@ This fork builds upon the original's solid foundation with several new features 
     * **To forget something**, hold a suggestion in the toolbar (a word you don't want, or a prediction that keeps coming up), or use `Manage learned words` in the settings to search everything that was learned and forget words and corrections one at a time. The built-in words can't be forgotten that way.
     * To give it a head start, use `Import text to learn from` in the settings with a text file of your own writing (notes, exported chats, emails) or a book. The list of common words is derived from [FrequencyWords](https://github.com/hermitdave/FrequencyWords) by Hermit Dave (CC BY-SA 4.0), see `About` > `Third-Party Licenses`.
 * **Voice Typing**: The Mic/Period key, and the toolbar's microphone button, switch to Google voice typing when it is turned on as a keyboard (`Manage keyboards`). Otherwise the system speech dialog (from the Google app) is shown and what you say is typed in afterwards. The settings can prefer any other voice keyboard, or always use the speech dialog.
-* **Sym-Layer View**: open the emoji picker and tap its Sym button for a grid of the Sym layer, which you can tap. For a map of every key, see the next item.
-* **Map of the keyboard**: tap `Sym` and a map of the keyboard opens, laid out like the phone with one big symbol on each key and a small letter, in the style of a BlackBerry keyboard. Each further tap of `Sym` turns to the next page, and the tap after the last page closes it. There is a page for what `Alt` types (the numbers are on the keys that type them, so there is no row of numbers), a page for what `Sym` does (arrows, brackets, cut, copy and paste), and then one page for each time you press a key again after holding it ("Press again 1", "Press again 2" and so on, up to 5, which makes seven pages with the first two; the few characters that come after the fifth press are typed as before but not shown), and one for each accent when accents are turned on. A key has only one symbol on a page. The pages are built from the same tables the keys type with, so they can not disagree with the keys. Pressing a key also closes the map, and it can be turned off under `Additional characters` in the settings.
+* **Sym-Layer View**: open the emoji picker and tap its Sym button for a grid of the Sym layer, which you can tap. For the symbols that a tap of `Sym` types, see the next item.
+* **Map of symbols**: tap `Sym` and a map of the symbols opens, laid out like the phone with one big symbol on each key and a small letter, in the style of the BlackBerry symbol keyboard. There are two pages: numbers and punctuation, then other symbols, with the dollar sign on the key after M on both. Press a key and it types what is on it, and then `Sym` turns off. Tap `Sym` again for the next page, and the tap after the last page closes it, or tap `Alt` to turn to the other page, as the page key of a BlackBerry does. Back closes it too, and so does any key that has nothing on the page. Holding `Sym` instead is the layer of the cursor and editing keys, for as long as it is held. The map shows exactly the symbols the keys type, from the same table, and it can be turned off under `Additional characters` in the settings.
 * **Advanced Key Support for MP01**: Added support for the Minimal Phone's key layout, adding additional functionality over the factory keyboard:
     * **Three-Way Modifier Keys**: The Mic/Period and Emoji/0 keys act as multi-function modifiers:
         * **Mic/Period Key**:
@@ -84,7 +84,7 @@ Every setting has a description in the settings screen. The groups are:
 * **Toolbar**: the toolbar, word suggestions, the common words and which language they are in, learning, and managing, importing and clearing what was learned.
 * **Special keys**: what the Mic/Period and Emoji/0 keys do on a tap, a long press and a hold.
 * **Emoji**, **Clipboard history** and **Voice input**.
-* **Additional characters**: the map of the keyboard when `Sym` is tapped, accented characters (with the accents to use, vowels only, and ligatures), and in the All languages version the Cyrillic layer and Korean input.
+* **Additional characters**: the map of symbols when `Sym` is tapped, accented characters (with the accents to use, vowels only, and ligatures), and in the All languages version the Cyrillic layer and Korean input.
 * **Timing**, three times in milliseconds that decide how a key press is read. **Multipress threshold** is how soon a second press of the same key, or a hold, still counts: it is the window for the double-space period, for holding a key for its alternate character, and for the long press of Mic/Period and Emoji/0. **Modifier lock threshold** is how close together two taps on Shift or Alt must be to lock it, and for Sym the line between a tap and a hold. **Modifier long press threshold** is how long Shift or Alt can be held and still count as a tap that applies to the next key only.
 * **Other**: reset to defaults, and About.
 
@@ -113,7 +113,7 @@ The Cut/Copy/Paste actions are only available when no modifier is pressed.
 
 ## Keyboard Layout
 
-The layouts below are from the original project. **Note that the Sym-layer mapping and some long-press characters have been changed in this fork to better suit the Minimal Phone MP01.** The map of the keyboard (tap `Sym`) is the best way to explore the current layout.
+The layouts below are from the original project. **Note that the Sym-layer mapping and some long-press characters have been changed in this fork to better suit the Minimal Phone MP01.** The map of symbols (tap `Sym`) shows what a tap of `Sym` types, and the Sym-Layer View in the emoji picker shows what holding it does.
 
 
 ### Additional Characters (Multipress)
@@ -169,7 +169,7 @@ The accents of other languages (German, Portuguese, Hungarian, Polish, Danish an
 
 ### Additional Characters (after Long Press)
 
-Hold a key and it gives the character that `Alt` and the key type (the second column). Press it again and it gives the next one in the third column, and again for the one after that. The map of the keyboard (tap `Sym`) shows the same, one press to a page, up to the fifth press.
+Hold a key and it gives the character that `Alt` and the key type (the second column). Press it again and it gives the next one in the third column, and again for the one after that.
 
 | Key | Long press | Then press again |
 | --- | --- | --- |
@@ -238,7 +238,7 @@ Modified in September 2026 from Minimal SymLayer Keyboard. The changes are:
 * A stronger auto-correct that weighs the spell checker's suggestions, the common words and your own words by how likely each slip is and how common each word is, fixes the last word when Enter is pressed, and leaves slang, laughter and stretched words alone.
 * Auto-space: a space after punctuation typed into the next word, and words that ran together split apart (`lovehahaha` → `love hahaha`).
 * Text shortcuts and a personal word list (`omw = on my way`).
-* A map of the keyboard that opens when `Sym` is tapped, with one big symbol on each key: a page for what Alt types, one for what Sym does, and pages for every key's additional characters. Each tap of `Sym` turns the page.
+* A map of symbols that opens when `Sym` is tapped, in the style of the BlackBerry symbol keyboard: a page of numbers and punctuation and a page of other symbols, with one big symbol on each key, which the next key then types. Each tap of `Sym` turns the page, and holding `Sym` is still the layer of the cursor and editing keys.
 * Voice typing through Google voice typing, or the system speech dialog when it is not turned on.
 * Emoji picker: a skin tone setting, and duplicate emoji removed.
 * Clipboard history: records from when the keyboard starts, a clear button, a size limit, expiry, skipping sensitive items, and a fix for removing pinned items.

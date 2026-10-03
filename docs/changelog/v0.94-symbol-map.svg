@@ -1,0 +1,200 @@
+<svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif">
+<rect x="0" y="0" width="900" height="760" fill="#ffffff"/>
+<text x="20" y="32" font-size="18" font-weight="bold" fill="#000000">The map of a tap of Sym, in the style of a BlackBerry symbol keyboard</text>
+<text x="20" y="70" font-size="15" fill="#000000">Page 1 of 2: Numbers. Alt turns to the other page, and Sym turns to the next.</text>
+<rect x="20" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="59.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">#</text>
+<text x="27" y="100" font-size="12" fill="#000000">Q</text>
+<rect x="106" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">1</text>
+<text x="113" y="100" font-size="12" fill="#000000">W</text>
+<rect x="192" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">2</text>
+<text x="199" y="100" font-size="12" fill="#000000">E</text>
+<rect x="278" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="317.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">3</text>
+<text x="285" y="100" font-size="12" fill="#000000">R</text>
+<rect x="364" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="403.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">(</text>
+<text x="371" y="100" font-size="12" fill="#000000">T</text>
+<rect x="450" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="489.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">)</text>
+<text x="457" y="100" font-size="12" fill="#000000">Y</text>
+<rect x="536" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="575.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">_</text>
+<text x="543" y="100" font-size="12" fill="#000000">U</text>
+<rect x="622" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">-</text>
+<text x="629" y="100" font-size="12" fill="#000000">I</text>
+<rect x="708" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">+</text>
+<text x="715" y="100" font-size="12" fill="#000000">O</text>
+<rect x="794" y="84" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="833.0" y="128" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">@</text>
+<text x="801" y="100" font-size="12" fill="#000000">P</text>
+<rect x="20" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="59.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">*</text>
+<text x="27" y="172" font-size="12" fill="#000000">A</text>
+<rect x="106" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">4</text>
+<text x="113" y="172" font-size="12" fill="#000000">S</text>
+<rect x="192" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">5</text>
+<text x="199" y="172" font-size="12" fill="#000000">D</text>
+<rect x="278" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="317.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">6</text>
+<text x="285" y="172" font-size="12" fill="#000000">F</text>
+<rect x="364" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="403.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">/</text>
+<text x="371" y="172" font-size="12" fill="#000000">G</text>
+<rect x="450" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="489.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">:</text>
+<text x="457" y="172" font-size="12" fill="#000000">H</text>
+<rect x="536" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="575.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">;</text>
+<text x="543" y="172" font-size="12" fill="#000000">J</text>
+<rect x="622" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">'</text>
+<text x="629" y="172" font-size="12" fill="#000000">K</text>
+<rect x="708" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="200" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">"</text>
+<text x="715" y="172" font-size="12" fill="#000000">L</text>
+<rect x="794" y="156" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="833.0" y="194" font-size="17" text-anchor="middle" fill="#000000">⌫</text>
+<rect x="20" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="59.0" y="266" font-size="17" text-anchor="middle" fill="#000000">2/2</text>
+<rect x="106" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">7</text>
+<text x="113" y="244" font-size="12" fill="#000000">Z</text>
+<rect x="192" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">8</text>
+<text x="199" y="244" font-size="12" fill="#000000">X</text>
+<rect x="278" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="317.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">9</text>
+<text x="285" y="244" font-size="12" fill="#000000">C</text>
+<rect x="364" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="403.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">?</text>
+<text x="371" y="244" font-size="12" fill="#000000">V</text>
+<rect x="450" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="489.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">!</text>
+<text x="457" y="244" font-size="12" fill="#000000">B</text>
+<rect x="536" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="575.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">,</text>
+<text x="543" y="244" font-size="12" fill="#000000">N</text>
+<rect x="622" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">.</text>
+<text x="629" y="244" font-size="12" fill="#000000">M</text>
+<rect x="708" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="272" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">$</text>
+<text x="715" y="244" font-size="12" fill="#000000">.</text>
+<rect x="794" y="228" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="833.0" y="266" font-size="17" text-anchor="middle" fill="#000000">↵</text>
+<rect x="106" y="300" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="338" font-size="17" text-anchor="middle" fill="#000000">⇧</text>
+<rect x="192" y="300" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="338" font-size="17" text-anchor="middle" fill="#000000">☺</text>
+<rect x="278" y="300" width="336" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="446.0" y="338" font-size="17" text-anchor="middle" fill="#000000">space</text>
+<rect x="622" y="300" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="338" font-size="17" text-anchor="middle" fill="#000000">sym</text>
+<rect x="708" y="300" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="338" font-size="17" text-anchor="middle" fill="#000000">⇧</text>
+<text x="20" y="414" font-size="15" fill="#000000">Page 2 of 2: Symbols. Alt turns to the other page, and Sym turns to the next.</text>
+<rect x="20" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="59.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">~</text>
+<text x="27" y="444" font-size="12" fill="#000000">Q</text>
+<rect x="106" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">`</text>
+<text x="113" y="444" font-size="12" fill="#000000">W</text>
+<rect x="192" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">{</text>
+<text x="199" y="444" font-size="12" fill="#000000">E</text>
+<rect x="278" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="317.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">}</text>
+<text x="285" y="444" font-size="12" fill="#000000">R</text>
+<rect x="364" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="403.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">[</text>
+<text x="371" y="444" font-size="12" fill="#000000">T</text>
+<rect x="450" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="489.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">]</text>
+<text x="457" y="444" font-size="12" fill="#000000">Y</text>
+<rect x="536" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="575.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">&lt;</text>
+<text x="543" y="444" font-size="12" fill="#000000">U</text>
+<rect x="622" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">&gt;</text>
+<text x="629" y="444" font-size="12" fill="#000000">I</text>
+<rect x="708" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">^</text>
+<text x="715" y="444" font-size="12" fill="#000000">O</text>
+<rect x="794" y="428" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="833.0" y="472" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">%</text>
+<text x="801" y="444" font-size="12" fill="#000000">P</text>
+<rect x="20" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="59.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">=</text>
+<text x="27" y="516" font-size="12" fill="#000000">A</text>
+<rect x="106" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">÷</text>
+<text x="113" y="516" font-size="12" fill="#000000">S</text>
+<rect x="192" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">±</text>
+<text x="199" y="516" font-size="12" fill="#000000">D</text>
+<rect x="278" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="317.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">•</text>
+<text x="285" y="516" font-size="12" fill="#000000">F</text>
+<rect x="364" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="403.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">\</text>
+<text x="371" y="516" font-size="12" fill="#000000">G</text>
+<rect x="450" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="489.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">|</text>
+<text x="457" y="516" font-size="12" fill="#000000">H</text>
+<rect x="536" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="575.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">&amp;</text>
+<text x="543" y="516" font-size="12" fill="#000000">J</text>
+<rect x="622" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">“</text>
+<text x="629" y="516" font-size="12" fill="#000000">K</text>
+<rect x="708" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="544" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">”</text>
+<text x="715" y="516" font-size="12" fill="#000000">L</text>
+<rect x="794" y="500" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="833.0" y="538" font-size="17" text-anchor="middle" fill="#000000">⌫</text>
+<rect x="20" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="59.0" y="610" font-size="17" text-anchor="middle" fill="#000000">1/2</text>
+<rect x="106" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">¥</text>
+<text x="113" y="588" font-size="12" fill="#000000">Z</text>
+<rect x="192" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">€</text>
+<text x="199" y="588" font-size="12" fill="#000000">X</text>
+<rect x="278" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="317.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">£</text>
+<text x="285" y="588" font-size="12" fill="#000000">C</text>
+<rect x="364" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="403.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">¿</text>
+<text x="371" y="588" font-size="12" fill="#000000">V</text>
+<rect x="450" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="489.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">¡</text>
+<text x="457" y="588" font-size="12" fill="#000000">B</text>
+<rect x="536" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="575.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">«</text>
+<text x="543" y="588" font-size="12" fill="#000000">N</text>
+<rect x="622" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">»</text>
+<text x="629" y="588" font-size="12" fill="#000000">M</text>
+<rect x="708" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="616" font-size="34" font-weight="bold" text-anchor="middle" fill="#000000">$</text>
+<text x="715" y="588" font-size="12" fill="#000000">.</text>
+<rect x="794" y="572" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="833.0" y="610" font-size="17" text-anchor="middle" fill="#000000">↵</text>
+<rect x="106" y="644" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="145.0" y="682" font-size="17" text-anchor="middle" fill="#000000">⇧</text>
+<rect x="192" y="644" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="231.0" y="682" font-size="17" text-anchor="middle" fill="#000000">☺</text>
+<rect x="278" y="644" width="336" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="446.0" y="682" font-size="17" text-anchor="middle" fill="#000000">space</text>
+<rect x="622" y="644" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="661.0" y="682" font-size="17" text-anchor="middle" fill="#000000">sym</text>
+<rect x="708" y="644" width="78" height="64" rx="9" fill="#ffffff" stroke="#000000" stroke-width="3.4"/>
+<text x="747.0" y="682" font-size="17" text-anchor="middle" fill="#000000">⇧</text>
+</svg>

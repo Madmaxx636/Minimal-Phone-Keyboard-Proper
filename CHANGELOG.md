@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.94 - 2026-10-02
+
+### Changed
+- The map that a tap of `Sym` opens is now laid out like the symbol keyboard of a BlackBerry, in two pages: numbers and punctuation, then other symbols, with the dollar sign on the key after M on both. These are all the symbols it shows. The Alt, press-again and accent pages are gone from the map; those keys still type as before.
+- After a tap of `Sym`, the next key types what is on the page that the map shows, and then Sym turns off. Tap `Sym` again for the next page (the tap after the last page closes it), or tap `Alt` to turn to the other page, like the page key of a BlackBerry. Back closes the map.
+- Holding `Sym` is still the layer of the cursor and editing keys (arrows, home, end, page up and down, tab, cut, copy and paste), for as long as it is held.
+
+![The two pages of the map](docs/changelog/v0.94-symbol-map.svg)
+
+### Fixed
+- After a tap of `Sym`, the next key typed its plain letter instead of its symbol.
+- Holding `Sym`, pressing a key and letting go quickly no longer counts as a tap, so the map does not open afterwards.
+
 ## 0.93 - 2026-10-02
 
 ### Added
