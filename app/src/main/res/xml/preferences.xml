@@ -200,7 +200,7 @@
 			android:key="pref_sym_map"
 			android:defaultValue="true"
 			android:title="Show a map of the keyboard when I tap Sym"
-			android:summary="Tap Sym and a map of the keyboard opens, laid out like the phone with one big symbol on each key. Each tap of Sym turns to the next page, and the tap after the last page closes it. The pages are: what Alt types, what Sym does, then the characters you get by holding a key and pressing it again, first time, second time and so on, and the accents if they are turned on. Pressing a key also closes it."
+			android:summary="Tap Sym and a map of the symbols opens, laid out like the phone with one big symbol on each key: a page of numbers and punctuation, and a page of other symbols. Press a key to type what is on it. Tap Sym again for the next page, and the tap after the last page closes it, or tap Alt to turn to the other page. Back closes it too. Hold Sym instead for the cursor and editing keys."
 			app:widgetLayout="@layout/settings_widget_switch"
 			/>
 		<SwitchPreference

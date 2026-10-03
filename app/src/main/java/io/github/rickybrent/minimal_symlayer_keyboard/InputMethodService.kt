@@ -124,7 +124,10 @@ class InputMethodService : AndroidInputMethodService() {
 	// The map of the keyboard that appears when Sym is pressed and left alone for a moment.
 	private var symMapEnabled = true
 	private var symTapWasPageTurn = false
+	private var altWasPageTurn = false
 	private var symChorded = false
+	// The page of symbols that a tap of Sym left on for the next key: the one the map shows, or the first.
+	private var symPage = 0
 	private var mainInputView: View? = null
 	private var inputViewStrip: View? = null
 	private var stripModifierRow: LinearLayout? = null
@@ -349,7 +352,17 @@ class InputMethodService : AndroidInputMethodService() {
 		// page the tap is Sym's own again: it lets go of Sym, which takes the map away.
 		if (event.keyCode == KeyEvent.KEYCODE_SYM && event.repeatCount == 0 && !event.isLongPress) {
 			symTapWasPageTurn = pickerManager?.showNextMapPage() == true
-			if (symTapWasPageTurn) return true
+			if (symTapWasPageTurn) {
+				symPage = pickerManager?.mapPageIndex() ?: 0
+				return true
+			}
+		}
+		// Alt does what the page key of a BlackBerry symbol keyboard does: it turns to the other page of the map.
+		if ((event.keyCode == KeyEvent.KEYCODE_ALT_LEFT || event.keyCode == KeyEvent.KEYCODE_ALT_RIGHT) &&
+			event.repeatCount == 0 && pickerManager?.flipMapPage() == true) {
+			altWasPageTurn = true
+			symPage = pickerManager?.mapPageIndex() ?: 0
+			return true
 		}
 		// Back while the map shows takes away just the map, and the Sym that the tap left on for the next key. It must
 		// not also fall through to the Back handling below, which would hide the whole keyboard on the same press.
@@ -423,7 +436,8 @@ class InputMethodService : AndroidInputMethodService() {
 		// Use special behavior when the SYM modifier is enabled
 		if(sym.get()) {
 			if (sym.isHeld() && !KeyEvent.isModifierKey(event.keyCode)) symChorded = true
-			return onSymKey(event, true)
+			// Held, Sym is the layer of the cursor and editing keys. After a tap it is the page of symbols.
+			return if (sym.isHeld()) onSymKey(event, true) else onSymbolKey(event, true)
 		}
 
 		// Apply multipress substitution
@@ -557,6 +571,10 @@ class InputMethodService : AndroidInputMethodService() {
 			symTapWasPageTurn = false
 			return true
 		}
+		if ((event.keyCode == KeyEvent.KEYCODE_ALT_LEFT || event.keyCode == KeyEvent.KEYCODE_ALT_RIGHT) && altWasPageTurn) {
+			altWasPageTurn = false
+			return true
+		}
 		if (isInputViewActive && pickerManager?.isShowing() == true) {
 			pickerManager!!.handleKeyEvent(event) // always eat
 			return true
@@ -591,7 +609,10 @@ class InputMethodService : AndroidInputMethodService() {
 				updateStatusIconIfNeeded(true)
 				// A tap opens the map of the keyboard and leaves Sym on for the next key only (see below).
 				// On the last page the tap switches Sym off again, which takes the map away.
-				if (sym.isLocked()) showSymMap()
+				if (sym.isLocked()) {
+					symPage = 0
+					showSymMap()
+				}
 			}
 		}
 
@@ -601,7 +622,7 @@ class InputMethodService : AndroidInputMethodService() {
 		}
 		// Use special behavior when the SYM modifier is enabled
 		if(sym.get()) {
-			val handled = onSymKey(event, false)
+			val handled = if (sym.isHeld()) onSymKey(event, false) else onSymbolKey(event, false)
 			// A tap of Sym is for the next key only. Holding it is for as long as it is held, so nothing here.
 			if (sym.isLocked() && !sym.isHeld() && !KeyEvent.isModifierKey(event.keyCode)) {
 				sym.reset()
@@ -686,6 +707,19 @@ class InputMethodService : AndroidInputMethodService() {
 				}
 			}
 		}
+		return true
+	}
+
+	/**
+	 * Handle a key while a tap of Sym has left it on for the next key: it types what the page of symbols that the map
+	 * shows has on it, and goes on as usual if there is nothing on it. Any key takes the map away.
+	 */
+	private fun onSymbolKey(event: KeyEvent, pressed: Boolean): Boolean {
+		if (pressed && event.repeatCount == 0 && !KeyEvent.isModifierKey(event.keyCode)) hideSymMap()
+		val symbol = SymbolPages.symbol(symPage, event.keyCode) ?: return if (!event.isPrintingKey) {
+			if (pressed) super.onKeyDown(event.keyCode, event) else super.onKeyUp(event.keyCode, event)
+		} else true
+		if (pressed && event.repeatCount == 0 && !event.isLongPress) sendCharacter(symbol)
 		return true
 	}
 
@@ -987,12 +1021,7 @@ class InputMethodService : AndroidInputMethodService() {
 	 */
 	private fun showSymMap() {
 		if (!symMapEnabled || !isInputViewActive || !sym.get()) return
-		val keys = KeyboardMap.build(
-			{ AltKeyMappings.getAltKeyChar(it, false) }, { SymKeyMappings.getMapping(it, deviceType) },
-			extras = { AdditionalCharacters.extras(multipress.substitutions[1][it], it) },
-			accents = { if (multipress.ignoreFirstLevel) emptyList() else AdditionalCharacters.accents(multipress.substitutions[0][it], it) }
-		)
-		pickerManager?.showCharacterMap(MapPages.build(keys))
+		pickerManager?.showCharacterMap(MapPages.build())
 	}
 
 	/** Cancel the map of the keyboard, or hide it if it is showing. */
