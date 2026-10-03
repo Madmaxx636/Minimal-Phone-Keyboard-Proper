@@ -1,19 +1,28 @@
 # Changelog
 
-## 0.94 - 2026-10-02
+## 0.95 - 2026-10-02
 
 ### Changed
 - The map that a tap of `Sym` opens is now laid out like the symbol keyboard of a BlackBerry, in two pages: numbers and punctuation, then other symbols, with the dollar sign on the key after M on both. These are all the symbols it shows. The Alt, press-again and accent pages are gone from the map; those keys still type as before.
 - After a tap of `Sym`, the next key types what is on the page that the map shows, and then Sym turns off. Tap `Sym` again for the next page (the tap after the last page closes it), or tap `Alt` to turn to the other page, like the page key of a BlackBerry. Back closes the map.
 - Holding `Sym` is still the layer of the cursor and editing keys (arrows, home, end, page up and down, tab, cut, copy and paste), for as long as it is held.
 
-![The two pages of the map](docs/changelog/v0.94-symbol-map.svg)
+![The two pages of the map](docs/changelog/v0.95-symbol-map.svg)
 
 ### Fixed
 - After a tap of `Sym`, the next key typed its plain letter instead of its symbol.
 - Holding `Sym`, pressing a key and letting go quickly no longer counts as a tap, so the map does not open afterwards.
 
-## 0.93 - 2026-10-02
+## 0.94 - 2026-10-02
+
+### Changed
+- A tap of `Sym` now only opens, pages through, or closes the map of the keyboard; it no longer leaves Sym on for the keys that follow. Typing a symbol or using the Sym+WASD cursor keys now needs Sym to be held, the same as any other modifier.
+- The map of the keyboard is about 1.5 times bigger, with larger keys and text, to read more easily on the e-ink screen.
+
+### Fixed
+- The map of the keyboard did not close on its last page: the tap meant to close it reopened it instead. Pressing Back while the map was open also hid the whole keyboard instead of just closing the map.
+
+## 0.93 - 2026-09-22
 
 ### Added
 - A `Dictionary language` setting picks whether the built in common words, and the built in spell checker used when none is turned on in Android's settings, are English, Spanish or French.
@@ -21,11 +30,6 @@
 ### Changed
 - The common word lists grow from 50,000 to 100,000 words each, and there are now separate 100,000-word lists for Spanish and French, not only English.
 - Each dictionary then grows further to as many real words as could be sourced for that language, instead of a round 100,000: English 162,070, Spanish 161,917, French 140,112.
-- A tap of `Sym` now only opens, pages through, or closes the map of the keyboard; it no longer leaves Sym on for the keys that follow. Typing a symbol or using the Sym+WASD cursor keys now needs Sym to be held, the same as any other modifier.
-- The map of the keyboard is about 1.5 times bigger, with larger keys and text, to read more easily on the e-ink screen.
-
-### Fixed
-- The map of the keyboard did not close on its last page: the tap meant to close it reopened it instead. Pressing Back while the map was open also hid the whole keyboard instead of just closing the map.
 
 ## 0.92 - 2026-09-22
 
